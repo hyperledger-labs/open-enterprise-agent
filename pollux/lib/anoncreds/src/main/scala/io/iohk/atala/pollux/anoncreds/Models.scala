@@ -3,6 +3,7 @@ package io.iohk.atala.pollux.anoncreds
 import uniffi.anoncreds.{
   Nonce,
   Credential as UniffiCredential,
+  CredentialRequests as UniffiCredentialRequests,
   CredentialDefinition as UniffiCredentialDefinition,
   CredentialDefinitionPrivate as UniffiCredentialDefinitionPrivate,
   CredentialKeyCorrectnessProof as UniffiCredentialKeyCorrectnessProof,
@@ -256,6 +257,47 @@ object Credential {
       Credential(credential.getJson())
   }
 }
+
+// ****************************************************************************
+case class CredentialAndRequestedAttributesPredicates(
+    credential: Credential,
+    requestedAttribute: Seq[String],
+    requestedPredicate: Seq[String],
+)
+
+object CredentialAndRequestedAttributesPredicates {
+  given Conversion[CredentialAndRequestedAttributesPredicates, UniffiCredentialRequests] with {
+    import uniffi.anoncreds.RequestedAttribute
+    import uniffi.anoncreds.RequestedPredicate
+    def apply(credentialRequests: CredentialAndRequestedAttributesPredicates): UniffiCredentialRequests = {
+      val credential = Credential.given_Conversion_Credential_UniffiCredential(credentialRequests.credential)
+      val requestedAttributes = credentialRequests.requestedAttribute.map(a => RequestedAttribute(a, true))
+      val requestedPredicates = credentialRequests.requestedPredicate.map(p => RequestedPredicate(p))
+      UniffiCredentialRequests(credential, requestedAttributes.asJava, requestedPredicates.asJava)
+    }
+  }
+
+  given Conversion[UniffiCredentialRequests, CredentialAndRequestedAttributesPredicates] with {
+    def apply(credentialRequests: UniffiCredentialRequests): CredentialAndRequestedAttributesPredicates = {
+      CredentialAndRequestedAttributesPredicates(
+        Credential.given_Conversion_UniffiCredential_Credential(credentialRequests.getCredential()),
+        credentialRequests
+          .getRequestedAttribute()
+          .asScala
+          .toSeq
+          .filter(e => e.getRevealed())
+          .map(e => e.getReferent()),
+        credentialRequests
+          .getRequestedPredicate()
+          .asScala
+          .toSeq
+          .map(e => e.getReferent())
+      )
+    }
+  }
+}
+
+//UniffiCredentialRequests
 
 // ****************************************************************************
 

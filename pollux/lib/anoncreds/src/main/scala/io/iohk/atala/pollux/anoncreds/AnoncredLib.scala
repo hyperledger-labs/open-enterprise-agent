@@ -138,9 +138,13 @@ object AnoncredLib {
   type SchemaId = String
   type CredentialDefinitionId = String
 
+  // TODO FIX
+  // [info] uniffi.anoncreds.AnoncredsException$CreatePresentationException: Create Presentation: Error: Error: Invalid structure
+  // [info] Caused by: Predicate is not satisfied
+
   def createPresentation(
       presentationRequest: PresentationRequest,
-      credentials: Seq[Credential],
+      credentialRequests: Seq[CredentialAndRequestedAttributesPredicates],
       selfAttested: Map[String, String],
       linkSecret: LinkSecret,
       schemas: Map[SchemaId, SchemaDef],
@@ -150,7 +154,7 @@ object AnoncredLib {
       .Prover()
       .createPresentation(
         presentationRequest,
-        credentials.map(e => e: uniffi.anoncreds.Credential).asJava, // sequence<Credential> credentials,
+        credentialRequests.map(i => i: uniffi.anoncreds.CredentialRequests).asJava, // sequence<Credential> credentials,
         selfAttested.asJava, // record<string, string>? self_attested,
         linkSecret, // LinkSecret link_secret,
         schemas.view.mapValues(i => i: uniffi.anoncreds.Schema).toMap.asJava, // record<SchemaId, Schema> schemas,
@@ -159,6 +163,15 @@ object AnoncredLib {
       )
   }
 
+  // TODO FIX
+  // uniffi.anoncreds.AnoncredsException$ProcessCredentialException: Verify Presentation: Error:
+  // Requested restriction validation failed for "{"sex": Some("M")}" attributes [$and operator validation failed.
+  // [$eq operator validation failed for tag: "attr::sex::value", value: "F" [Proof rejected: "attr::sex::value" values are different: expected: "F", actual: "M"]]]
+
+  // TODO FIX
+  // uniffi.anoncreds.AnoncredsException$ProcessCredentialException: Verify Presentation: Error: Requested restriction validation failed for "{"sex": Some("M")}" attributes [$and operator validation failed. [$eq operator validation failed for tag: "cred_def_id", value: "CRED_DEF_ID" [Proof rejected: "cred_def_id" values are different: expected: "CRED_DEF_ID", actual: "mock:uri3"]]]
+
+  // FIXME its always return false ....
   def verifyPresentation(
       presentation: Presentation,
       presentationRequest: PresentationRequest,

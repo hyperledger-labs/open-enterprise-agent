@@ -58,7 +58,8 @@ class PoCNewLib extends AnyFlatSpec {
     // ##############
     println("*** holder " + ("*" * 100))
 
-    val linkSecret = LinkSecretWithId("ID_of_some_secret_1")
+    val ls1 = LinkSecret("65965334953670062552662719679603258895632947953618378932199361160021795698890")
+    val linkSecret = LinkSecretWithId("ID_of_some_secret_1", ls1)
 
     val credentialRequest = AnoncredLib.createCredentialRequest(linkSecret, credentialDefinition.cd, credentialOffer)
     println("*" * 100)
@@ -88,7 +89,10 @@ class PoCNewLib extends AnyFlatSpec {
         "name":"proof_req_1",
         "version":"0.1",
         "requested_attributes": {
-            "sex":{"name":"sex"}
+            "sex":{"name":"sex", "restrictions":{"attr::sex::value":"M","cred_def_id":"$CRED_DEF_ID"}}
+        },
+        "requested_predicates":{
+          "age":{"name":"age", "p_type":">=", "p_value":18}
         }
        }""".stripMargin
 
@@ -97,8 +101,10 @@ class PoCNewLib extends AnyFlatSpec {
 
     val presentation = AnoncredLib.createPresentation(
       presentationRequest, // : PresentationRequest,
-      Seq(credential), // credentials: Seq[Credential],
-      Map("sex" -> "M"), // selfAttested: Map[String, String],
+      Seq(
+        CredentialAndRequestedAttributesPredicates(credential, Seq("sex"), Seq("age"))
+      ), // credentials: Seq[Credential],
+      Map(), // selfAttested: Map[String, String],
       linkSecret.secret, // linkSecret: LinkSecret,
       Map(credentialOffer.schemaId -> schema), // schemas: Map[SchemaId, SchemaDef],
       Map(
