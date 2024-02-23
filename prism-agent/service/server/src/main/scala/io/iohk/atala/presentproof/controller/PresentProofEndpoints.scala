@@ -43,6 +43,60 @@ object PresentProofEndpoints {
       .out(jsonBody[PresentationStatus])
       .errorOut(basicFailureAndNotFoundAndForbidden)
 
+  val oobRequestPresentation: Endpoint[
+    (ApiKeyCredentials, JwtCredentials),
+    (RequestContext, OOBRequestPresentation),
+    ErrorResponse,
+    OOBPresentation,
+    Any
+  ] =
+    endpoint.post
+      .tag("Present Proof")
+      .name("oobRequestPresentation")
+      .summary("As a Verifier, create a new OOB proof presentation request and send it to the Prover.")
+      .description("Holder presents proof derived from the verifiable credential to verifier.")
+      .securityIn(apiKeyHeader)
+      .securityIn(jwtAuthHeader)
+      .in("present-proof" / "presentations" / "invitation")
+      .in(extractFromRequest[RequestContext](RequestContext.apply))
+      .in(jsonBody[OOBRequestPresentation].description("The present proof creation request."))
+      .out(
+        statusCode(StatusCode.Created).description(
+          "The proof presentation request was created successfully and will be sent asynchronously to the Prover."
+        )
+      )
+      .out(jsonBody[OOBPresentation])
+      .errorOut(basicFailureAndNotFoundAndForbidden)
+
+  val acceptRequestPresentationInvitation: Endpoint[
+    (ApiKeyCredentials, JwtCredentials),
+    (RequestContext, AcceptRequestPresentationInvitationRequest),
+    ErrorResponse,
+    PresentationStatus,
+    Any
+  ] =
+    endpoint.post
+      .tag("Present Proof")
+      .name("acceptRequestPresentationInvitationEndpoint")
+      .summary("As a Prover or Holder, accept OOB  presentation request invitation")
+      .description("""Accept an new presentation request invitation received out-of-band from another peer agent.
+           |The invitation must be compliant with the DIDComm Messaging v2.0 - [Out of Band Messages](https://identity.foundation/didcomm-messaging/spec/v2.0/#out-of-band-messages) specification [section 9.5.4](https://identity.foundation/didcomm-messaging/spec/v2.0/#invitation).
+           |A new Presentation record with state `RequestReceived` will be created in the agent.
+           |The created record will contain a newly generated pairwise Peer DID used for that presentation exchange.
+           |""".stripMargin)
+      .securityIn(apiKeyHeader)
+      .securityIn(jwtAuthHeader)
+      .in("present-proof" / "presentations" / "accept-invitation")
+      .in(extractFromRequest[RequestContext](RequestContext.apply))
+      .in(jsonBody[AcceptRequestPresentationInvitationRequest].description("The present proof creation request."))
+      .out(
+        statusCode(StatusCode.Created).description(
+          "The Presentation record was created successfully with status RequestReceived"
+        )
+      )
+      .out(jsonBody[PresentationStatus])
+      .errorOut(basicFailureAndNotFoundAndForbidden)
+
   val getAllPresentations: Endpoint[
     (ApiKeyCredentials, JwtCredentials),
     (RequestContext, PaginationInput, Option[String]),

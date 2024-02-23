@@ -21,6 +21,13 @@ object MockPresentationService extends Mock[PresentationService] {
         PresentationError,
         PresentationRecord
       ]
+  object CreateOOBPresentationRecord
+      extends Effect[
+        (Option[String], Option[String], DidId, Seq[ProofType], Option[Options], CredentialFormat),
+        PresentationError,
+        PresentationRecord
+      ]
+  object AcceptRequestPresentationInvitation extends Effect[(DidId, String), PresentationError, RequestPresentation]
 
   object MarkRequestPresentationSent extends Effect[DidCommID, PresentationError, PresentationRecord]
 
@@ -68,6 +75,19 @@ object MockPresentationService extends Mock[PresentationService] {
           (pairwiseVerifierDID, pairwiseProverDID, thid, connectionId, proofTypes, options)
         )
 
+      override def createOOBPresentationRecord(
+          goalCode: Option[String],
+          goal: Option[String],
+          pairwiseVerifierDID: DidId,
+          proofTypes: Seq[ProofType],
+          maybeOptions: Option[io.iohk.atala.pollux.core.model.presentation.Options],
+          format: CredentialFormat,
+      ): IO[PresentationError, PresentationRecord] =
+        proxy(
+          CreateOOBPresentationRecord,
+          (goalCode, goal, pairwiseVerifierDID, proofTypes, maybeOptions, format)
+        )
+
       override def acceptRequestPresentation(
           recordId: DidCommID,
           credentialsToUse: Seq[String]
@@ -103,6 +123,12 @@ object MockPresentationService extends Mock[PresentationService] {
 
       override def markPresentationVerificationFailed(recordId: DidCommID): IO[PresentationError, PresentationRecord] =
         proxy(MarkPresentationVerificationFailed, recordId)
+
+      override def getRequestPresentationFromInvitation(
+          pairwiseProverDID: DidId,
+          invitation: String
+      ): IO[PresentationError, RequestPresentation] =
+        proxy(AcceptRequestPresentationInvitation, (pairwiseProverDID, invitation))
 
       override def receiveRequestPresentation(
           connectionId: Option[String],

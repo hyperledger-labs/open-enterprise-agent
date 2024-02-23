@@ -1,6 +1,6 @@
 package io.iohk.atala.mercury.protocol.connection
 
-import io.iohk.atala.mercury.model.DidId
+import io.iohk.atala.mercury.model.{AttachmentDescriptor, DidId}
 import io.iohk.atala.mercury.protocol.invitation.v2.Invitation
 import io.iohk.atala.mercury.protocol.invitation.v2.Invitation.Body
 

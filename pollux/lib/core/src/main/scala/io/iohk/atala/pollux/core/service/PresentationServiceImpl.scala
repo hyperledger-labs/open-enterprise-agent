@@ -6,6 +6,7 @@ import io.circe.*
 import io.circe.parser.*
 import io.circe.syntax.*
 import io.iohk.atala.mercury.model.*
+import io.iohk.atala.mercury.protocol.invitation.v2.Invitation
 import io.iohk.atala.mercury.protocol.presentproof.*
 import io.iohk.atala.pollux.core.model.*
 import io.iohk.atala.pollux.core.model.error.PresentationError
@@ -14,6 +15,7 @@ import io.iohk.atala.pollux.core.model.presentation.*
 import io.iohk.atala.pollux.core.repository.{CredentialRepository, PresentationRepository}
 import io.iohk.atala.pollux.vc.jwt.*
 import io.iohk.atala.shared.models.WalletAccessContext
+import io.iohk.atala.shared.utils.Base64Utils
 import io.iohk.atala.shared.utils.aspects.CustomMetricsAspect
 import zio.*
 
@@ -155,8 +157,8 @@ private class PresentationServiceImpl(
         createDidCommRequestPresentation(
           proofTypes,
           thid,
-          pairwiseVerifierDID,
-          pairwiseProverDID,
+          Some(pairwiseVerifierDID),
+          Some(pairwiseProverDID),
           format match {
             case CredentialFormat.JWT => maybeOptions.map(options => Seq(toJWTAttachment(options))).getOrElse(Seq.empty)
             case CredentialFormat.AnonCreds =>
@@ -178,6 +180,7 @@ private class PresentationServiceImpl(
           subjectId = pairwiseProverDID,
           protocolState = PresentationRecord.ProtocolState.RequestPending,
           credentialFormat = format,
+          invitation = None,
           requestPresentationData = Some(request),
           proposePresentationData = None,
           presentationData = None,
@@ -199,6 +202,110 @@ private class PresentationServiceImpl(
     } yield record
   }
 
+  override def createOOBPresentationRecord(
+      goalCode: Option[String],
+      goal: Option[String],
+      pairwiseVerifierDID: DidId,
+      proofTypes: Seq[ProofType],
+      maybeOptions: Option[io.iohk.atala.pollux.core.model.presentation.Options],
+      format: CredentialFormat,
+  ): ZIO[WalletAccessContext, PresentationError, PresentationRecord] = {
+    for {
+      invitationId <- ZIO.succeed(DidCommID())
+
+      request <- ZIO.succeed(
+        createDidCommRequestPresentation(
+          proofTypes,
+          invitationId,
+          Some(pairwiseVerifierDID),
+          None, // TODO Fix not require in
+          format match {
+            case CredentialFormat.JWT => maybeOptions.map(options => Seq(toJWTAttachment(options))).getOrElse(Seq.empty)
+            case CredentialFormat.AnonCreds =>
+              maybeOptions
+                .map(options => Seq(toAnoncredAttachment(options)))
+                .getOrElse(Seq.empty) // TODO ATL-5945 Create Actual Anoncred Request
+          }
+        )
+      )
+      invitation <- ZIO.succeed(
+        PresentProofInvitation.makeInvitation(pairwiseVerifierDID, goalCode, goal, invitationId.value, request)
+      )
+      record <- ZIO.succeed(
+        PresentationRecord(
+          id = DidCommID(),
+          createdAt = Instant.now,
+          updatedAt = None,
+          thid = invitationId, // Parent thread id since OOB
+          connectionId = None,
+          schemaId = None, // TODO REMOVE from DB
+          role = PresentationRecord.Role.Verifier,
+          subjectId = pairwiseVerifierDID, // Need to make optional as well
+          protocolState = PresentationRecord.ProtocolState.InvitationGenerated,
+          credentialFormat = format,
+          invitation = Some(invitation),
+          requestPresentationData = Some(request),
+          proposePresentationData = None,
+          presentationData = None,
+          credentialsToUse = None,
+          metaRetries = maxRetries,
+          metaNextRetry = Some(Instant.now()),
+          metaLastFailure = None,
+        )
+      )
+      count <- presentationRepository
+        .createPresentationRecord(record)
+        .flatMap {
+          case 1 => ZIO.succeed(())
+          case n => ZIO.fail(UnexpectedException(s"Invalid row count result: $n"))
+        }
+        .mapError(RepositoryError.apply) @@ CustomMetricsAspect.startRecordingTime(
+        s"${record.id}_present_proof_flow_verifier_req_pending_to_sent_ms_gauge"
+      )
+    } yield record
+  }
+  override def getRequestPresentationFromInvitation(
+      pairwiseProverDID: DidId,
+      invitation: String
+  ): ZIO[WalletAccessContext, PresentationError, RequestPresentation] = {
+    for {
+      invitation <- ZIO
+        .fromEither(io.circe.parser.decode[Invitation](Base64Utils.decodeUrlToString(invitation)))
+        .mapError(err => InvitationParsingError(err))
+      _ <- presentationRepository
+        .getPresentationRecordByThreadId(DidCommID(invitation.id))
+        .mapError(RepositoryError.apply)
+        .flatMap {
+          case None    => ZIO.unit
+          case Some(_) => ZIO.fail(InvitationAlreadyReceived(invitation.id))
+        }
+      requestPresentation <- ZIO.fromEither {
+        invitation.attachments
+          .flatMap(
+            _.headOption.map(attachment =>
+              decode[io.iohk.atala.mercury.model.JsonData](attachment.data.asJson.noSpaces)
+                .flatMap { data =>
+                  RequestPresentation.given_Decoder_RequestPresentation
+                    .decodeJson(data.json.asJson)
+                    .map(r => r.copy(to = Some(pairwiseProverDID)))
+                    .leftMap(err =>
+                      PresentationDecodingError(
+                        new Throwable(s"RequestPresentation As Attachment decoding error: $err")
+                      )
+                    )
+                }
+                .leftMap(err =>
+                  PresentationDecodingError(new Throwable(s"Invitation Attachment JsonData decoding error: $err"))
+                )
+            )
+          )
+          .getOrElse(
+            Left(PresentationNotFoundError(new Throwable("Missing Invitation Attachment for RequestPresentation")))
+          )
+      }
+    } yield requestPresentation
+
+  }
   override def getPresentationRecordsByStates(
       ignoreWithZeroRetries: Boolean,
       limit: Int,
@@ -229,7 +336,7 @@ private class PresentationServiceImpl(
   ): ZIO[WalletAccessContext, PresentationError, PresentationRecord] = {
     for {
       format <- request.attachments match {
-        case Seq() => ZIO.fail(PresentationError.MissingCredential)
+        case Seq() => ZIO.fail(PresentationError.MissingCredential) // TODO MissingCredential is not correct here
         case Seq(head) =>
           val jsonF = PresentCredentialRequestFormat.JWT.name // stable identifier
           val anoncredF = PresentCredentialRequestFormat.Anoncred.name // stable identifier
@@ -249,9 +356,10 @@ private class PresentationServiceImpl(
           connectionId = connectionId,
           schemaId = None,
           role = Role.Prover,
-          subjectId = request.to,
+          subjectId = request.to.getOrElse(throw new java.lang.RuntimeException("FIXME")), // FIXME
           protocolState = PresentationRecord.ProtocolState.RequestReceived,
           credentialFormat = format,
+          invitation = None,
           requestPresentationData = Some(request),
           proposePresentationData = None,
           presentationData = None,
@@ -632,8 +740,8 @@ private class PresentationServiceImpl(
   private[this] def createDidCommRequestPresentation(
       proofTypes: Seq[ProofType],
       thid: DidCommID,
-      pairwiseVerifierDID: DidId,
-      pairwiseProverDID: DidId,
+      pairwiseVerifierDID: Option[DidId],
+      pairwiseProverDID: Option[DidId],
       attachments: Seq[AttachmentDescriptor]
   ): RequestPresentation = {
     RequestPresentation(
@@ -657,8 +765,8 @@ private class PresentationServiceImpl(
     RequestPresentation(
       body = body,
       attachments = proposePresentation.attachments,
-      from = proposePresentation.to,
-      to = proposePresentation.from,
+      from = Some(proposePresentation.to),
+      to = Some(proposePresentation.from),
       thid = proposePresentation.thid
     )
   }

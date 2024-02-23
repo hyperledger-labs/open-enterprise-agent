@@ -4,6 +4,7 @@ import io.iohk.atala.mercury.protocol.presentproof.ProposePresentation
 import io.iohk.atala.mercury.protocol.presentproof.RequestPresentation
 import io.iohk.atala.mercury.protocol.presentproof.Presentation
 import io.iohk.atala.mercury.model.DidId
+import io.iohk.atala.mercury.protocol.invitation.v2.Invitation
 
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -19,6 +20,7 @@ final case class PresentationRecord(
     subjectId: DidId,
     protocolState: PresentationRecord.ProtocolState,
     credentialFormat: CredentialFormat,
+    invitation: Option[Invitation],
     requestPresentationData: Option[RequestPresentation],
     proposePresentationData: Option[ProposePresentation],
     presentationData: Option[Presentation],
@@ -51,9 +53,12 @@ object PresentationRecord {
     // Verifier has received a proposal and has rejected (In Verifier DB)
     case ProposalRejected extends ProtocolState // TODO start propose presentation
 
-    // Verifier has created a Presentation request  (in Verfier DB)
+    // Verifier has created a OOB Presentation request  (in Verifier DB)
+    case InvitationGenerated extends ProtocolState
+    // Verifier has created a OOB Presentation request  Expired (in Verifier DB)
+    // case InvitationExpired extends ProtocolState // TODO
     case RequestPending extends ProtocolState
-    // Verifier has sent a request to a an Prover (in Verfier DB)
+    // Verifier has sent a request to a an Prover (in Verifier DB)
     case RequestSent extends ProtocolState
     // Prover has received a request from the Verifier (In Verifier DB)
     case RequestReceived extends ProtocolState

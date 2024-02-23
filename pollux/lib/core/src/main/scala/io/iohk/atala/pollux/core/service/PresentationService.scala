@@ -27,6 +27,20 @@ trait PresentationService {
       format: CredentialFormat,
   ): ZIO[WalletAccessContext, PresentationError, PresentationRecord]
 
+  def createOOBPresentationRecord(
+      goalCode: Option[String],
+      goal: Option[String],
+      pairwiseVerifierDID: DidId,
+      proofTypes: Seq[ProofType],
+      maybeOptions: Option[io.iohk.atala.pollux.core.model.presentation.Options],
+      format: CredentialFormat,
+  ): ZIO[WalletAccessContext, PresentationError, PresentationRecord]
+
+  def getRequestPresentationFromInvitation(
+      pairwiseProverDID: DidId,
+      invitation: String
+  ): ZIO[WalletAccessContext, PresentationError, RequestPresentation]
+
   def getPresentationRecords(
       ignoreWithZeroRetries: Boolean
   ): ZIO[WalletAccessContext, PresentationError, Seq[PresentationRecord]]

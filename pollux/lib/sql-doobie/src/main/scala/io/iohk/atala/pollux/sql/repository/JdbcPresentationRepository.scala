@@ -21,6 +21,7 @@ import zio.*
 import doobie.free.connection
 import java.time.Instant
 import zio.interop.catz.*
+import io.iohk.atala.mercury.protocol.invitation.v2.Invitation
 // TODO: replace with actual implementation
 class JdbcPresentationRepository(
     xa: Transactor[ContextAwareTask],
@@ -94,6 +95,9 @@ class JdbcPresentationRepository(
 
   given inclusionProofGet: Get[MerkleInclusionProof] = Get[String].map(deserializeInclusionProof)
 
+  given invitationGet: Get[Invitation] = Get[String].map(decode[Invitation](_).getOrElse(???))
+  given invitationPut: Put[Invitation] = Put[String].contramap(_.asJson.toString)
+
   override def createPresentationRecord(record: PresentationRecord): RIO[WalletAccessContext, Int] = {
     val cxnIO = sql"""
         | INSERT INTO public.presentation_records(
@@ -107,6 +111,7 @@ class JdbcPresentationRepository(
         |   subject_id,
         |   protocol_state,
         |   credential_format,
+        |   invitation,
         |   request_presentation_data,
         |   credentials_to_use,
         |   meta_retries,
@@ -124,6 +129,7 @@ class JdbcPresentationRepository(
         |   ${record.subjectId},
         |   ${record.protocolState},
         |   ${record.credentialFormat},
+        |   ${record.invitation},
         |   ${record.requestPresentationData},
         |   ${record.credentialsToUse.map(_.toList)},
         |   ${record.metaRetries},
@@ -155,6 +161,7 @@ class JdbcPresentationRepository(
         |   subject_id,
         |   protocol_state,
         |   credential_format,
+        |   invitation,
         |   request_presentation_data,
         |   propose_presentation_data,
         |   presentation_data,
@@ -201,6 +208,7 @@ class JdbcPresentationRepository(
             |   subject_id,
             |   protocol_state,
             |   credential_format,
+            |   invitation,
             |   request_presentation_data,
             |   propose_presentation_data,
             |   presentation_data,
@@ -245,6 +253,7 @@ class JdbcPresentationRepository(
         |   subject_id,
         |   protocol_state,
         |   credential_format,
+        |   invitation,
         |   request_presentation_data,
         |   propose_presentation_data,
         |   presentation_data,
@@ -277,6 +286,7 @@ class JdbcPresentationRepository(
         |   subject_id,
         |   protocol_state,
         |   credential_format,
+        |   invitation,
         |   request_presentation_data,
         |   propose_presentation_data,
         |   presentation_data,

@@ -12,9 +12,16 @@ import io.iohk.atala.presentproof.controller.PresentProofEndpoints.{
   getAllPresentations,
   getPresentation,
   requestPresentation,
+  oobRequestPresentation,
+  acceptRequestPresentationInvitation,
   updatePresentation
 }
-import io.iohk.atala.presentproof.controller.http.{RequestPresentationAction, RequestPresentationInput}
+import io.iohk.atala.presentproof.controller.http.{
+  RequestPresentationAction,
+  RequestPresentationInput,
+  OOBRequestPresentation,
+  AcceptRequestPresentationInvitationRequest
+}
 import io.iohk.atala.shared.models.WalletAccessContext
 import sttp.tapir.ztapir.*
 import zio.*
@@ -37,7 +44,26 @@ class PresentProofServerEndpoints(
             .logTrace(ctx)
         }
       }
-
+  private val oobRequestPresentationEndpoint: ZServerEndpoint[Any, Any] =
+    oobRequestPresentation
+      .zServerSecurityLogic(SecurityLogic.authorizeWalletAccessWith(_)(authenticator, authorizer))
+      .serverLogic { wac =>
+        { case (ctx: RequestContext, request: OOBRequestPresentation) =>
+          presentProofController
+            .createOOBRequestPresentation(request)(ctx)
+            .provideSomeLayer(ZLayer.succeed(wac))
+        }
+      }
+  private val acceptRequestPresentationInvitationEndpoint: ZServerEndpoint[Any, Any] =
+    acceptRequestPresentationInvitation
+      .zServerSecurityLogic(SecurityLogic.authorizeWalletAccessWith(_)(authenticator, authorizer))
+      .serverLogic { wac =>
+        { case (ctx: RequestContext, request: AcceptRequestPresentationInvitationRequest) =>
+          presentProofController
+            .acceptRequestPresentationInvitation(request)(ctx)
+            .provideSomeLayer(ZLayer.succeed(wac))
+        }
+      }
   private val getAllPresentationsEndpoint: ZServerEndpoint[Any, Any] =
     getAllPresentations
       .zServerSecurityLogic(SecurityLogic.authorizeWalletAccessWith(_)(authenticator, authorizer))
@@ -78,7 +104,9 @@ class PresentProofServerEndpoints(
     requestPresentationEndpoint,
     getAllPresentationsEndpoint,
     getPresentationEndpoint,
-    updatePresentationEndpoint
+    updatePresentationEndpoint,
+    oobRequestPresentationEndpoint,
+    acceptRequestPresentationInvitationEndpoint
   )
 }
 

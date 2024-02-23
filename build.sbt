@@ -57,7 +57,7 @@ lazy val V = new {
   val zioMetricsConnector = "2.1.0"
   val zioMock = "1.0.0-RC11"
   val mockito = "3.2.16.0"
-  val monocle =  "3.1.0"
+  val monocle = "3.1.0"
 
   // https://mvnrepository.com/artifact/io.circe/circe-core
   val circe = "0.14.6"
@@ -152,7 +152,7 @@ lazy val D = new {
   val zioTestMagnolia: ModuleID = "dev.zio" %% "zio-test-magnolia" % V.zio % Test
   val zioMock: ModuleID = "dev.zio" %% "zio-mock" % V.zioMock
   val mockito: ModuleID = "org.scalatestplus" %% "mockito-4-11" % V.mockito % Test
-  val monocle: ModuleID =  "dev.optics" %% "monocle-core"  % V.monocle % Test
+  val monocle: ModuleID = "dev.optics" %% "monocle-core" % V.monocle % Test
   val monocleMacro: ModuleID = "dev.optics" %% "monocle-macro" % V.monocle % Test
 
   // LIST of Dependencies
@@ -408,7 +408,12 @@ lazy val D_PrismAgent = new {
   lazy val iamDependencies: Seq[ModuleID] = Seq(keycloakAuthz, D.jwtCirce)
 
   lazy val serverDependencies: Seq[ModuleID] =
-    baseDependencies ++ tapirDependencies ++ postgresDependencies ++ Seq(D.zioMock, D.mockito, D.monocle, D.monocleMacro)
+    baseDependencies ++ tapirDependencies ++ postgresDependencies ++ Seq(
+      D.zioMock,
+      D.mockito,
+      D.monocle,
+      D.monocleMacro
+    )
 }
 
 publish / skip := true
@@ -587,7 +592,7 @@ lazy val protocolPresentProof = project
   .settings(libraryDependencies += D.zio)
   .settings(libraryDependencies ++= Seq(D.circeCore, D.circeGeneric, D.circeParser))
   .settings(libraryDependencies += D.munitZio)
-  .dependsOn(models)
+  .dependsOn(models, protocolInvitation)
 
 lazy val vc = project
   .in(file("mercury/mercury-library/vc"))

@@ -1,6 +1,8 @@
 package io.iohk.atala.presentproof.controller
 
 import io.iohk.atala.agent.server.ControllerHelper
+import io.iohk.atala.agent.server.config.AppConfig
+import io.iohk.atala.agent.walletapi.service.ManagedDIDService
 import io.iohk.atala.api.http.model.PaginationInput
 import io.iohk.atala.api.http.{ErrorResponse, RequestContext}
 import io.iohk.atala.connect.controller.ConnectionController
@@ -21,7 +23,9 @@ import java.util.UUID
 
 class PresentProofControllerImpl(
     presentationService: PresentationService,
-    connectionService: ConnectionService
+    connectionService: ConnectionService,
+    managedDIDService: ManagedDIDService,
+    appConfig: AppConfig
 ) extends PresentProofController
     with ControllerHelper {
   override def requestPresentation(request: RequestPresentationInput)(implicit
@@ -115,9 +119,59 @@ class PresentProofControllerImpl(
       case e: PresentationError => PresentProofController.toHttpError(e)
     }
   }
+
+  override def createOOBRequestPresentation(request: OOBRequestPresentation)(implicit
+      rc: RequestContext
+  ): ZIO[WalletAccessContext, ErrorResponse, OOBPresentation] = {
+    val result: ZIO[WalletAccessContext, PresentationError, OOBPresentation] = for {
+      pairwiseDid <- managedDIDService.createAndStorePeerDID(appConfig.agent.didCommEndpoint.publicEndpointUrl)
+      credentialFormat = request.credentialFormat.map(CredentialFormat.valueOf).getOrElse(CredentialFormat.JWT)
+      record <- presentationService
+        .createOOBPresentationRecord(
+          goalCode = request.goalCode,
+          goal = request.goal,
+          pairwiseVerifierDID = pairwiseDid.did,
+          proofTypes = request.proofs.map { e =>
+            ProofType(
+              schema = e.schemaId, // TODO rename field to schemaId
+              requiredFields = None,
+              trustIssuers = Some(e.trustIssuers.map(DidId(_)))
+            )
+          },
+          maybeOptions = request.options.map(x => Options(x.challenge, x.domain)),
+          format = credentialFormat,
+        )
+    } yield OOBPresentation.fromDomain(record)
+
+    result.mapError { case e: PresentationError =>
+      PresentProofController.toHttpError(e)
+    }
+  }
+
+  override def acceptRequestPresentationInvitation(
+      request: AcceptRequestPresentationInvitationRequest
+  )(implicit
+      rc: RequestContext
+  ): ZIO[WalletAccessContext, ErrorResponse, PresentationStatus] = {
+    val result = for {
+      pairwiseDid <- managedDIDService.createAndStorePeerDID(appConfig.agent.didCommEndpoint.publicEndpointUrl)
+      requestPresentation <- presentationService.getRequestPresentationFromInvitation(
+        pairwiseDid.did,
+        request.invitation
+      )
+      record <- presentationService.receiveRequestPresentation(
+        None, // connectionless hence none
+        requestPresentation
+      ) // TODO Store invitation received in the PresentationRecord
+    } yield PresentationStatus.fromDomain(record)
+
+    result.mapError { case e: PresentationError =>
+      PresentProofController.toHttpError(e)
+    }
+  }
 }
 
 object PresentProofControllerImpl {
-  val layer: URLayer[PresentationService & ConnectionService, PresentProofController] =
-    ZLayer.fromFunction(PresentProofControllerImpl(_, _))
+  val layer: URLayer[PresentationService & ConnectionService & ManagedDIDService & AppConfig, PresentProofController] =
+    ZLayer.fromFunction(PresentProofControllerImpl(_, _, _, _))
 }

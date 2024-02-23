@@ -41,7 +41,17 @@ class PresentationServiceNotifier(
         format: CredentialFormat
       )
     )
-
+  override def createOOBPresentationRecord(
+      goalCode: Option[String],
+      goal: Option[String],
+      pairwiseVerifierDID: DidId,
+      proofTypes: Seq[ProofType],
+      maybeOptions: Option[io.iohk.atala.pollux.core.model.presentation.Options],
+      format: CredentialFormat,
+  ): ZIO[WalletAccessContext, PresentationError, PresentationRecord] =
+    notifyOnSuccess(
+      svc.createOOBPresentationRecord(goalCode, goal, pairwiseVerifierDID, proofTypes, maybeOptions, format)
+    )
   override def markRequestPresentationSent(
       recordId: DidCommID
   ): ZIO[WalletAccessContext, PresentationError, PresentationRecord] =
@@ -188,6 +198,12 @@ class PresentationServiceNotifier(
       recordId: DidCommID,
       failReason: Option[_root_.java.lang.String]
   ): ZIO[WalletAccessContext, PresentationError, Unit] = svc.reportProcessingFailure(recordId, failReason)
+
+  override def getRequestPresentationFromInvitation(
+      pairwiseProverDID: DidId,
+      invitation: _root_.java.lang.String
+  ): ZIO[WalletAccessContext, PresentationError, RequestPresentation] =
+    svc.getRequestPresentationFromInvitation(pairwiseProverDID, invitation)
 }
 
 object PresentationServiceNotifier {
