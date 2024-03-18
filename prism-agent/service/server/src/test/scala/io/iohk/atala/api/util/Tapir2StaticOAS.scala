@@ -7,6 +7,7 @@ import io.iohk.atala.connect.controller.ConnectionController
 import io.iohk.atala.event.controller.EventController
 import io.iohk.atala.iam.authentication.DefaultAuthenticator
 import io.iohk.atala.iam.entity.http.controller.EntityController
+import io.iohk.atala.iam.oidc.controller.CredentialIssuerController
 import io.iohk.atala.iam.wallet.http.controller.WalletManagementController
 import io.iohk.atala.issue.controller.IssueController
 import io.iohk.atala.pollux.credentialdefinition.controller.CredentialDefinitionController
@@ -48,7 +49,8 @@ object Tapir2StaticOAS extends ZIOAppDefault {
         ZLayer.succeed(mock[EntityController]) ++
         ZLayer.succeed(mock[WalletManagementController]) ++
         ZLayer.succeed(mock[DefaultAuthenticator]) ++
-        ZLayer.succeed(mock[EventController])
+        ZLayer.succeed(mock[EventController]) ++
+        ZLayer.succeed(mock[CredentialIssuerController])
     )
   }
 

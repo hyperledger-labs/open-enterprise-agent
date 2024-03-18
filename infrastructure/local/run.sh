@@ -125,5 +125,6 @@ fi
 
 PORT=${PORT} NETWORK=${NETWORK} DOCKERHOST=${DOCKERHOST} docker compose \
 	-p ${NAME} \
+	${DEBUG} \
 	-f ${SCRIPT_DIR}/../shared/docker-compose.yml \
 	--env-file ${ENV_FILE} ${DEBUG} up ${BACKGROUND} ${WAIT}

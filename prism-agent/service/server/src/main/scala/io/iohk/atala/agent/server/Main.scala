@@ -25,6 +25,8 @@ import io.iohk.atala.iam.authentication.apikey.JdbcAuthenticationRepository
 import io.iohk.atala.iam.authorization.DefaultPermissionManagementService
 import io.iohk.atala.iam.authorization.core.EntityPermissionManagementService
 import io.iohk.atala.iam.entity.http.controller.{EntityController, EntityControllerImpl}
+import io.iohk.atala.iam.oidc.controller.CredentialIssuerControllerImpl
+import io.iohk.atala.iam.oidc.domain.{OIDCCredentialIssuerService, OIDCCredentialIssuerServiceImpl}
 import io.iohk.atala.iam.wallet.http.controller.WalletManagementControllerImpl
 import io.iohk.atala.issue.controller.IssueControllerImpl
 import io.iohk.atala.mercury.*
@@ -185,6 +187,8 @@ object MainApp extends ZIOAppDefault {
           RepoModule.polluxContextAwareTransactorLayer ++ RepoModule.polluxTransactorLayer >>> JdbcCredentialDefinitionRepository.layer,
           RepoModule.polluxContextAwareTransactorLayer ++ RepoModule.polluxTransactorLayer >>> JdbcPresentationRepository.layer,
           RepoModule.polluxContextAwareTransactorLayer >>> JdbcVerificationPolicyRepository.layer,
+          // oidc
+          DIDServiceImpl.layer ++ OIDCCredentialIssuerServiceImpl.layer >>> CredentialIssuerControllerImpl.layer,
           // event notification service
           ZLayer.succeed(500) >>> EventNotificationServiceImpl.layer,
           // HTTP client

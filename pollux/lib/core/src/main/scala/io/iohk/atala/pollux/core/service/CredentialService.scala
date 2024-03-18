@@ -2,12 +2,13 @@ package io.iohk.atala.pollux.core.service
 
 import io.circe.syntax.*
 import io.circe.{Json, JsonObject}
-import io.iohk.atala.castor.core.model.did.CanonicalPrismDID
+import io.iohk.atala.castor.core.model.did.{CanonicalPrismDID, PrismDID, VerificationRelationship}
 import io.iohk.atala.mercury.model.DidId
 import io.iohk.atala.mercury.protocol.issuecredential.{Attribute, IssueCredential, OfferCredential, RequestCredential}
 import io.iohk.atala.pollux.core.model.*
 import io.iohk.atala.pollux.core.model.error.CredentialServiceError
 import io.iohk.atala.pollux.core.model.error.CredentialServiceError.*
+import io.iohk.atala.pollux.vc.jwt.Issuer
 import io.iohk.atala.shared.models.WalletAccessContext
 import zio.{IO, ZIO}
 
@@ -113,6 +114,11 @@ trait CredentialService {
       recordId: DidCommID,
       failReason: Option[String]
   ): ZIO[WalletAccessContext, CredentialServiceError, Unit]
+
+  def createJwtIssuer(
+      jwtIssuerDID: PrismDID,
+      verificationRelationship: VerificationRelationship
+  ): ZIO[WalletAccessContext, CredentialServiceError, Issuer]
 
 }
 

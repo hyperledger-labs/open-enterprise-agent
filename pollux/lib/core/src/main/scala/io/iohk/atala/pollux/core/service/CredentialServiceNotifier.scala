@@ -1,14 +1,15 @@
 package io.iohk.atala.pollux.core.service
 
 import io.circe.Json
-import io.iohk.atala.castor.core.model.did.CanonicalPrismDID
+import io.iohk.atala.castor.core.model.did.{CanonicalPrismDID, PrismDID, VerificationRelationship}
 import io.iohk.atala.event.notification.*
 import io.iohk.atala.mercury.model.DidId
 import io.iohk.atala.mercury.protocol.issuecredential.{IssueCredential, OfferCredential, RequestCredential}
 import io.iohk.atala.pollux.core.model.error.CredentialServiceError
 import io.iohk.atala.pollux.core.model.{DidCommID, IssueCredentialRecord}
+import io.iohk.atala.pollux.vc.jwt.Issuer
 import io.iohk.atala.shared.models.WalletAccessContext
-import zio.{URLayer, ZIO, ZLayer, IO}
+import zio.{IO, URLayer, ZIO, ZLayer}
 
 import java.util.UUID
 
@@ -178,6 +179,12 @@ class CredentialServiceNotifier(
       states: IssueCredentialRecord.ProtocolState*
   ): IO[CredentialServiceError, Seq[IssueCredentialRecord]] =
     svc.getIssueCredentialRecordsByStatesForAllWallets(ignoreWithZeroRetries, limit, states: _*)
+
+  override def createJwtIssuer(
+      jwtIssuerDID: PrismDID,
+      verificationRelationship: VerificationRelationship
+  ): ZIO[WalletAccessContext, CredentialServiceError, Issuer] =
+    svc.createJwtIssuer(jwtIssuerDID, verificationRelationship)
 }
 
 object CredentialServiceNotifier {

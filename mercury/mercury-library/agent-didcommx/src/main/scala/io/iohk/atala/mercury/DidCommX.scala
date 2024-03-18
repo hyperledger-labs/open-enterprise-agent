@@ -55,26 +55,3 @@ class DidCommX() extends DidOps /* with DidAgent with DIDResolver */ {
   } yield (ret)
 
 }
-
-// object AgentService {
-//   val alice = ZLayer.succeed(
-//     AgentService[Agent.Alice.type](
-//       new DIDComm(UniversalDidResolver, AliceSecretResolver.secretResolver),
-//       Agent.Alice
-//     )
-//   )
-//   val bob = ZLayer.succeed(
-//     AgentService[Agent.Bob.type](
-//       new DIDComm(UniversalDidResolver, BobSecretResolver.secretResolver),
-//       Agent.Bob
-//     )
-//   )
-
-//   // val charlie = ZLayer.succeed(
-//   //   AgentService[Agent.Charlie.type](
-//   //     new DIDComm(UniversalDidResolver, CharlieSecretResolver.secretResolver),
-//   //     Agent.Charlie
-//   //   )
-//   // )
-
-// }

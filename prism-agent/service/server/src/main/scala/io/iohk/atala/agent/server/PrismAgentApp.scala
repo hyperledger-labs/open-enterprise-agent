@@ -20,6 +20,7 @@ import io.iohk.atala.event.controller.EventServerEndpoints
 import io.iohk.atala.event.notification.EventNotificationConfig
 import io.iohk.atala.iam.authentication.apikey.ApiKeyAuthenticator
 import io.iohk.atala.iam.entity.http.EntityServerEndpoints
+import io.iohk.atala.iam.oidc.CredentialIssuerServerEndpoints
 import io.iohk.atala.iam.wallet.http.WalletManagementServerEndpoints
 import io.iohk.atala.issue.controller.IssueServerEndpoints
 import io.iohk.atala.mercury.{DidOps, HttpClient}
@@ -123,6 +124,7 @@ object AgentHttpServer {
     allEntityEndpoints <- EntityServerEndpoints.all
     allWalletManagementEndpoints <- WalletManagementServerEndpoints.all
     allEventEndpoints <- EventServerEndpoints.all
+    allOIDCEndpoints <- CredentialIssuerServerEndpoints.all
   } yield allCredentialDefinitionRegistryEndpoints ++
     allSchemaRegistryEndpoints ++
     allVerificationPolicyEndpoints ++
@@ -134,7 +136,8 @@ object AgentHttpServer {
     allSystemEndpoints ++
     allEntityEndpoints ++
     allWalletManagementEndpoints ++
-    allEventEndpoints
+    allEventEndpoints ++
+    allOIDCEndpoints
   def run =
     for {
       allEndpoints <- agentRESTServiceEndpoints

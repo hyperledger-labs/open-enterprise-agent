@@ -3,9 +3,10 @@ import sttp.model.StatusCode
 import sttp.tapir.json.zio.jsonBody
 import sttp.tapir.{oneOfVariantValueMatcher, *}
 import sttp.tapir.EndpointOutput.OneOfVariant
+import zio.json.JsonEncoder
 
 object EndpointOutputs {
-  private def statusCodeMatcher(
+  def statusCodeMatcher(
       statusCode: StatusCode
   ): PartialFunction[Any, Boolean] = {
     case ErrorResponse(status, _, _, _, _) if status == statusCode.code => true

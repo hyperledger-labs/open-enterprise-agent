@@ -9,12 +9,20 @@ package object error {
     final case class ValidationError(cause: OperationValidationError) extends DIDOperationError
   }
 
-  sealed trait DIDResolutionError
+  sealed trait DIDResolutionError {
+    def message: String
+  }
 
   object DIDResolutionError {
-    final case class DLTProxyError(cause: Throwable) extends DIDResolutionError
-    final case class UnexpectedDLTResult(msg: String) extends DIDResolutionError
-    final case class ValidationError(cause: OperationValidationError) extends DIDResolutionError
+    final case class DLTProxyError(cause: Throwable) extends DIDResolutionError {
+      override def message: String = cause.getMessage
+    }
+    final case class UnexpectedDLTResult(msg: String) extends DIDResolutionError {
+      override def message: String = msg
+    }
+    final case class ValidationError(cause: OperationValidationError) extends DIDResolutionError {
+      override def message: String = cause.toString
+    }
   }
 
   sealed trait OperationValidationError

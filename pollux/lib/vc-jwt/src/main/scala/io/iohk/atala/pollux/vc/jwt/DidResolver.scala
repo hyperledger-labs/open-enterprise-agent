@@ -177,3 +177,7 @@ class PrismDidResolver(didService: DIDService) extends DidResolver {
   }
 
 }
+
+object PrismDidResolver {
+  val layer: URLayer[DIDService, DidResolver] = ZLayer.fromFunction(PrismDidResolver(_))
+}

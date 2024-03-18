@@ -49,7 +49,7 @@ object CredentialServiceImpl {
   private val VC_JSON_SCHEMA_TYPE = "CredentialSchema2022"
 }
 
-private class CredentialServiceImpl(
+class CredentialServiceImpl(
     credentialRepository: CredentialRepository,
     didResolver: DidResolver,
     uriDereferencer: URIDereferencer,
@@ -403,7 +403,7 @@ private class CredentialServiceImpl(
     }
   }
 
-  private[this] def getLongForm(
+  def getLongForm(
       did: PrismDID,
       allowUnpublishedIssuingDID: Boolean = false
   ) = {
@@ -420,17 +420,19 @@ private class CredentialServiceImpl(
     } yield longFormPrismDID
   }
 
-  private[this] def createJwtIssuer(
+  def createJwtIssuer(
       jwtIssuerDID: PrismDID,
       verificationRelationship: VerificationRelationship
-  ) = {
+  ): ZIO[WalletAccessContext, CredentialServiceError, JwtIssuer] = {
     for {
       // Automatically infer keyId to use by resolving DID and choose the corresponding VerificationRelationship
       issuingKeyId <- didService
         .resolveDID(jwtIssuerDID)
-        .mapError(e => UnexpectedError(s"Error occured while resolving Issuing DID during VC creation: ${e.toString}"))
+        .mapError(e => UnexpectedError(s"Error occurred while resolving Issuing DID during VC creation: ${e.toString}"))
         .someOrFail(UnexpectedError(s"Issuing DID resolution result is not found"))
-        .map { case (_, didData) => didData.publicKeys.find(_.purpose == verificationRelationship).map(_.id) }
+        .map { case (_, didData) =>
+          didData.publicKeys.find(_.purpose == verificationRelationship).map(_.id)
+        }
         .someOrFail(
           UnexpectedError(s"Issuing DID doesn't have a key in ${verificationRelationship.name} to use: $jwtIssuerDID")
         )

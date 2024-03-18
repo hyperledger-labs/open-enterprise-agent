@@ -402,6 +402,20 @@ class JdbcDIDNonSecretStorage(xa: Transactor[ContextAwareTask], xb: Transactor[T
     cnxIO.transact(xb)
   }
 
+  override def getPrismDidWalletId(prismDid: PrismDID): Task[Option[WalletId]] = {
+    val cnxIO = sql"""
+           | SELECT
+           |  wallet_id
+           | FROM public.prism_did_wallet_state
+           | WHERE
+           |  did = ${prismDid.toString}
+            """.stripMargin
+      .query[WalletId]
+      .option
+
+    cnxIO.transact(xb)
+  }
+
 }
 
 object JdbcDIDNonSecretStorage {
