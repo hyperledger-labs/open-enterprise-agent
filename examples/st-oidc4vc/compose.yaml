@@ -1,0 +1,149 @@
+configs:
+  caddyfile_issuer:
+    content: |-
+      :8080 {
+        handle_path /didcomm* {
+          reverse_proxy agent-issuer:8090
+        }
+        handle_path /prism-agent* {
+          reverse_proxy agent-issuer:8085
+        }
+        handle_path /keycloak* {
+          reverse_proxy keycloak-issuer:8080
+        }
+        handle_path /vault* {
+          reverse_proxy vault-issuer:8200
+        }
+      }
+services:
+  agent-issuer:
+    depends_on:
+      node:
+        condition: service_started
+    environment:
+      ADMIN_TOKEN: admin
+      AGENT_DB_HOST: db-issuer
+      AGENT_DB_NAME: agent
+      AGENT_DB_PASSWORD: postgres
+      AGENT_DB_PORT: '5432'
+      AGENT_DB_USER: postgres
+      API_KEY_ENABLED: 'false'
+      CONNECT_DB_HOST: db-issuer
+      CONNECT_DB_NAME: connect
+      CONNECT_DB_PASSWORD: postgres
+      CONNECT_DB_PORT: '5432'
+      CONNECT_DB_USER: postgres
+      DIDCOMM_SERVICE_URL: http://caddy-issuer:8080/didcomm
+      POLLUX_DB_HOST: db-issuer
+      POLLUX_DB_NAME: pollux
+      POLLUX_DB_PASSWORD: postgres
+      POLLUX_DB_PORT: '5432'
+      POLLUX_DB_USER: postgres
+      PRISM_NODE_HOST: node
+      PRISM_NODE_PORT: '50053'
+      REST_SERVICE_URL: http://caddy-issuer:8080/prism-agent
+      SECRET_STORAGE_BACKEND: postgres
+    image: ghcr.io/input-output-hk/prism-agent:1.30.1-SNAPSHOT
+    restart: always
+  caddy-issuer:
+    configs:
+    - source: caddyfile_issuer
+      target: /etc/caddy/Caddyfile
+    image: caddy:2.7.6-alpine
+    ports:
+    - 8080:8080
+    restart: always
+  db-issuer:
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: pollux,connect,agent
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      interval: 10s
+      retries: 5
+      test:
+      - CMD
+      - pg_isready
+      - -U
+      - postgres
+      - -d
+      - postgres
+      timeout: 5s
+    image: postgres:13
+    restart: always
+    volumes:
+    - pg_data_issuer:/var/lib/postgresql/data
+    - ../.shared/postgres/init-script.sh:/docker-entrypoint-initdb.d/init-script.sh
+    - ../.shared/postgres/max_conns.sql:/docker-entrypoint-initdb.d/max_conns.sql
+  external-keycloak-init-issuer:
+    command:
+    - --glob
+    - /hurl/*.hurl
+    - --test
+    environment:
+      HURL_alice_password: '1234'
+      HURL_alice_username: alice
+      HURL_alice_wallet_client_id: alice-wallet
+      HURL_keycloak_admin_password: admin
+      HURL_keycloak_admin_user: admin
+      HURL_keycloak_base_url: http://external-keycloak-issuer:8080
+      HURL_keycloak_realm: students
+    image: ghcr.io/orange-opensource/hurl:4.2.0
+    volumes:
+    - ./bootstrap:/hurl
+  external-keycloak-issuer:
+    build: ../../extensions/keycloak-oidc4vc
+    command:
+    - start-dev
+    - --features=preview
+    - --health-enabled=true
+    - --hostname-url=http://localhost:9980
+    - --hostname-admin-url=http://localhost:9980
+    environment:
+      IDENTUS_URL: http://caddy-issuer:8080/prism-agent
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+    - 9980:8080
+    restart: always
+  mockserver:
+    image: mockserver/mockserver:5.15.0
+    ports:
+    - 5000:1080
+  node:
+    depends_on:
+      node-db:
+        condition: service_healthy
+    environment:
+      NODE_PSQL_DATABASE: node_db
+      NODE_PSQL_HOST: node-db:5432
+      NODE_PSQL_PASSWORD: postgres
+      NODE_PSQL_USERNAME: postgres
+    image: ghcr.io/input-output-hk/prism-node:2.2.1
+    restart: always
+  node-db:
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: node_db
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      interval: 10s
+      retries: 5
+      test:
+      - CMD
+      - pg_isready
+      - -U
+      - postgres
+      - -d
+      - postgres
+      timeout: 5s
+    image: postgres:13
+    restart: always
+    volumes:
+    - pg_data_node:/var/lib/postgresql/data
+    - ../.shared/postgres/init-script.sh:/docker-entrypoint-initdb.d/init-script.sh
+    - ../.shared/postgres/max_conns.sql:/docker-entrypoint-initdb.d/max_conns.sql
+version: '3'
+volumes:
+  pg_data_issuer: {}
+  pg_data_node: {}

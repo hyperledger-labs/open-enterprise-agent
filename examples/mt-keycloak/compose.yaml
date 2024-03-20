@@ -1,0 +1,148 @@
+configs:
+  caddyfile_default:
+    content: |-
+      :8080 {
+        handle_path /didcomm* {
+          reverse_proxy agent-default:8090
+        }
+        handle_path /prism-agent* {
+          reverse_proxy agent-default:8085
+        }
+        handle_path /keycloak* {
+          reverse_proxy keycloak-default:8080
+        }
+        handle_path /vault* {
+          reverse_proxy vault-default:8200
+        }
+      }
+services:
+  agent-default:
+    depends_on:
+      keycloak-init-default:
+        condition: service_completed_successfully
+      node:
+        condition: service_started
+    environment:
+      ADMIN_TOKEN: admin
+      AGENT_DB_HOST: db-default
+      AGENT_DB_NAME: agent
+      AGENT_DB_PASSWORD: postgres
+      AGENT_DB_PORT: '5432'
+      AGENT_DB_USER: postgres
+      API_KEY_ENABLED: 'false'
+      CONNECT_DB_HOST: db-default
+      CONNECT_DB_NAME: connect
+      CONNECT_DB_PASSWORD: postgres
+      CONNECT_DB_PORT: '5432'
+      CONNECT_DB_USER: postgres
+      DIDCOMM_SERVICE_URL: http://caddy-default:8080/didcomm
+      KEYCLOAK_CLIENT_ID: agent
+      KEYCLOAK_CLIENT_SECRET: agent-secret
+      KEYCLOAK_ENABLED: 'true'
+      KEYCLOAK_REALM: identus
+      KEYCLOAK_URL: http://keycloak-default:8080
+      POLLUX_DB_HOST: db-default
+      POLLUX_DB_NAME: pollux
+      POLLUX_DB_PASSWORD: postgres
+      POLLUX_DB_PORT: '5432'
+      POLLUX_DB_USER: postgres
+      PRISM_NODE_HOST: node
+      PRISM_NODE_PORT: '50053'
+      REST_SERVICE_URL: http://caddy-default:8080/prism-agent
+      SECRET_STORAGE_BACKEND: postgres
+    image: ghcr.io/input-output-hk/prism-agent:1.30.1-SNAPSHOT
+    restart: always
+  caddy-default:
+    configs:
+    - source: caddyfile_default
+      target: /etc/caddy/Caddyfile
+    image: caddy:2.7.6-alpine
+    ports:
+    - 8080:8080
+    restart: always
+  db-default:
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: pollux,connect,agent
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      interval: 10s
+      retries: 5
+      test:
+      - CMD
+      - pg_isready
+      - -U
+      - postgres
+      - -d
+      - postgres
+      timeout: 5s
+    image: postgres:13
+    restart: always
+    volumes:
+    - pg_data_default:/var/lib/postgresql/data
+    - ../.shared/postgres/init-script.sh:/docker-entrypoint-initdb.d/init-script.sh
+    - ../.shared/postgres/max_conns.sql:/docker-entrypoint-initdb.d/max_conns.sql
+  keycloak-default:
+    command:
+    - start-dev
+    - --features=preview
+    - --health-enabled=true
+    - --hostname-url=http://localhost:8080/keycloak
+    - --hostname-admin-url=http://localhost:8080/keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    image: quay.io/keycloak/keycloak:23.0.7
+    restart: always
+  keycloak-init-default:
+    command:
+    - --glob
+    - /hurl/*.hurl
+    - --test
+    environment:
+      HURL_keycloak_admin_password: admin
+      HURL_keycloak_admin_user: admin
+      HURL_keycloak_base_url: http://keycloak-default:8080
+      HURL_keycloak_client_id: agent
+      HURL_keycloak_client_secret: agent-secret
+      HURL_keycloak_realm: identus
+    image: ghcr.io/orange-opensource/hurl:4.2.0
+    volumes:
+    - ../.shared/hurl/simple_realm:/hurl
+  node:
+    depends_on:
+      node-db:
+        condition: service_healthy
+    environment:
+      NODE_PSQL_DATABASE: node_db
+      NODE_PSQL_HOST: node-db:5432
+      NODE_PSQL_PASSWORD: postgres
+      NODE_PSQL_USERNAME: postgres
+    image: ghcr.io/input-output-hk/prism-node:2.2.1
+    restart: always
+  node-db:
+    environment:
+      POSTGRES_MULTIPLE_DATABASES: node_db
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    healthcheck:
+      interval: 10s
+      retries: 5
+      test:
+      - CMD
+      - pg_isready
+      - -U
+      - postgres
+      - -d
+      - postgres
+      timeout: 5s
+    image: postgres:13
+    restart: always
+    volumes:
+    - pg_data_node:/var/lib/postgresql/data
+    - ../.shared/postgres/init-script.sh:/docker-entrypoint-initdb.d/init-script.sh
+    - ../.shared/postgres/max_conns.sql:/docker-entrypoint-initdb.d/max_conns.sql
+version: '3'
+volumes:
+  pg_data_default: {}
+  pg_data_node: {}
