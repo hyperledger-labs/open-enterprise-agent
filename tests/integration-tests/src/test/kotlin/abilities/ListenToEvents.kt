@@ -41,9 +41,7 @@ open class ListenToEvents(
                     TestConstants.EVENT_TYPE_CONNECTION_UPDATED -> connectionEvents.add(gson.fromJson(eventString, ConnectionEvent::class.java))
                     TestConstants.EVENT_TYPE_ISSUE_CREDENTIAL_RECORD_UPDATED -> credentialEvents.add(gson.fromJson(eventString, CredentialEvent::class.java))
                     TestConstants.EVENT_TYPE_PRESENTATION_UPDATED -> presentationEvents.add(gson.fromJson(eventString, PresentationEvent::class.java))
-                    TestConstants.EVENT_TYPE_DID_STATUS_UPDATED -> {
-                        didEvents.add(gson.fromJson(eventString, DidEvent::class.java))
-                    }
+                    TestConstants.EVENT_TYPE_DID_STATUS_UPDATED -> didEvents.add(gson.fromJson(eventString, DidEvent::class.java))
                     else -> {
                         throw IllegalArgumentException("ERROR: unknown event type ${event.type}")
                     }
@@ -58,7 +56,7 @@ open class ListenToEvents(
             return ListenToEvents(url, webhookPort)
         }
 
-        fun `as`(actor: Actor): ListenToEvents {
+        fun with(actor: Actor): ListenToEvents {
             return actor.abilityTo(ListenToEvents::class.java)
         }
     }

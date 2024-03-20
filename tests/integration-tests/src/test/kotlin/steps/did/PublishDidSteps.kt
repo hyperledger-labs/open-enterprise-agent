@@ -104,7 +104,7 @@ class PublishDidSteps {
         wait(
             {
                 val didEvent =
-                    ListenToEvents.`as`(actor).didEvents.lastOrNull {
+                    ListenToEvents.with(actor).didEvents.lastOrNull {
                         it.data.did == actor.recall<String>("shortFormDid")
                     }
                 didEvent != null && didEvent.data.status == "PUBLISHED"

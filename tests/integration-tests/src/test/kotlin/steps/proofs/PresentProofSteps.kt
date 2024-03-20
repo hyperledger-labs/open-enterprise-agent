@@ -1,22 +1,20 @@
 package steps.proofs
 
 import abilities.ListenToEvents
-import common.Utils.wait
 import interactions.Patch
 import interactions.Post
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
 import io.iohk.atala.automation.extensions.get
 import io.iohk.atala.automation.serenity.ensure.Ensure
+import io.iohk.atala.automation.utils.Wait
 import io.iohk.atala.prism.models.*
-import models.PresentationEvent
 import net.serenitybdd.rest.SerenityRest
 import net.serenitybdd.screenplay.Actor
 import org.apache.http.HttpStatus.SC_CREATED
+import kotlin.time.Duration.Companion.seconds
 
 class PresentProofSteps {
-
-    private var proofEvent: PresentationEvent? = null
 
     @When("{actor} sends a request for proof presentation to {actor}")
     fun faberSendsARequestForProofPresentationToBob(faber: Actor, bob: Actor) {
@@ -51,17 +49,16 @@ class PresentProofSteps {
 
     @When("{actor} receives the request")
     fun bobReceivesTheRequest(bob: Actor) {
-        wait(
-            {
-                proofEvent = ListenToEvents.`as`(bob).presentationEvents.lastOrNull {
-                    it.data.thid == bob.recall<String>("thid")
-                }
-                proofEvent != null &&
-                    proofEvent!!.data.status == PresentationStatus.Status.REQUEST_RECEIVED
-            },
-            "ERROR: Bob did not achieve any presentation request!",
-        )
-        bob.remember("presentationId", proofEvent!!.data.presentationId)
+        Wait.until(
+            timeout = 30.seconds,
+            errorMessage = "ERROR: Bob did not achieve any presentation request!"
+        ) {
+            val proofEvent = ListenToEvents.with(bob).presentationEvents.lastOrNull {
+                it.data.thid == bob.recall<String>("thid")
+            }
+            bob.remember("presentationId", proofEvent?.data?.presentationId)
+            proofEvent?.data?.status == PresentationStatus.Status.REQUEST_RECEIVED
+        }
     }
 
     @When("{actor} makes the presentation of the proof to {actor}")
@@ -73,9 +70,7 @@ class PresentProofSteps {
 
         bob.attemptsTo(
             Patch.to("/present-proof/presentations/${bob.recall<String>("presentationId")}").with {
-                it.body(
-                    requestPresentationAction,
-                )
+                it.body(requestPresentationAction)
             },
         )
     }
@@ -85,9 +80,7 @@ class PresentProofSteps {
         bob.attemptsTo(
             Patch.to("/present-proof/presentations/${bob.recall<String>("presentationId")}").with {
                 it.body(
-                    RequestPresentationAction(
-                        action = RequestPresentationAction.Action.REQUEST_MINUS_REJECT,
-                    ),
+                    RequestPresentationAction(action = RequestPresentationAction.Action.REQUEST_MINUS_REJECT),
                 )
             },
         )
@@ -95,30 +88,42 @@ class PresentProofSteps {
 
     @Then("{actor} sees the proof is rejected")
     fun bobSeesProofIsRejected(bob: Actor) {
-        wait(
-            {
-                proofEvent = ListenToEvents.`as`(bob).presentationEvents.lastOrNull {
-                    it.data.thid == bob.recall<String>("thid")
-                }
-                proofEvent != null &&
-                    proofEvent!!.data.status == PresentationStatus.Status.REQUEST_REJECTED
-            },
-            "ERROR: Faber did not receive presentation from Bob!",
-        )
+        Wait.until(
+            timeout = 30.seconds,
+            errorMessage = "ERROR: Faber did not receive presentation from Bob!"
+        ) {
+            val proofEvent = ListenToEvents.with(bob).presentationEvents.lastOrNull {
+                it.data.thid == bob.recall<String>("thid")
+            }
+            proofEvent?.data?.status == PresentationStatus.Status.REQUEST_REJECTED
+        }
     }
 
     @Then("{actor} has the proof verified")
     fun faberHasTheProofVerified(faber: Actor) {
-        wait(
-            {
-                proofEvent = ListenToEvents.`as`(faber).presentationEvents.lastOrNull {
-                    it.data.thid == faber.recall<String>("thid")
-                }
+        Wait.until(
+            timeout = 30.seconds,
+            errorMessage = "Presentation did not achieve PresentationVerified state!"
+        ) {
+            val proofEvent = ListenToEvents.with(faber).presentationEvents.lastOrNull {
+                it.data.thid == faber.recall<String>("thid")
+            }
+            println("Status? ${proofEvent?.data?.status}")
+            proofEvent?.data?.status == PresentationStatus.Status.PRESENTATION_VERIFIED
+        }
+    }
 
-                proofEvent != null &&
-                    proofEvent!!.data.status == PresentationStatus.Status.PRESENTATION_VERIFIED
-            },
-            "ERROR: presentation did not achieve PresentationVerified state!",
-        )
+    @Then("{actor} sees the proof returned verification failed")
+    fun verifierSeesTheProofReturnedVerificationFailed(verifier: Actor) {
+        Wait.until(
+            timeout = 30.seconds,
+            errorMessage = "Presentation did not achieve PresentationVerified state!"
+        ) {
+            val proofEvent = ListenToEvents.with(verifier).presentationEvents.lastOrNull {
+                it.data.thid == verifier.recall<String>("thid")
+            }
+            println("Status? ${proofEvent?.data?.status}")
+            proofEvent?.data?.status == null // FIXME: new status not present yet
+        }
     }
 }

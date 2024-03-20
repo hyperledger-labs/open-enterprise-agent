@@ -14,11 +14,9 @@ class JwtCredential(base64: String) {
         payload = JsonPath.parse(String(Base64.getUrlDecoder().decode(parts[1])))
     }
 
-    fun getList() {
-        println(payload.jsonString())
+    fun statusListId(): String {
+        val listUrl = payload.read<String>("$.vc.credentialStatus.statusListCredential")
+        return listUrl.split("/credential-status/")[1]
     }
 
-    fun statusListCredential(): String {
-        return payload.read("$.vc.credentialStatus.statusListCredential")
-    }
 }

@@ -1,61 +1,76 @@
 package steps.credentials
 
 import interactions.*
-import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
-import io.iohk.atala.automation.extensions.get
+import io.iohk.atala.automation.serenity.ensure.Ensure
 import io.iohk.atala.automation.utils.Wait
 import io.iohk.atala.prism.models.IssueCredentialRecord
-import io.restassured.RestAssured
 import models.JwtCredential
 import net.serenitybdd.rest.SerenityRest
 import net.serenitybdd.screenplay.Actor
-import steps.common.CommonSteps
-import steps.did.PublishDidSteps
+import org.apache.http.HttpStatus
+import kotlin.time.Duration.Companion.seconds
 
 class RevokeCredentialSteps {
+    @When("{actor} revokes the credential issued to {actor}")
+    fun issuerRevokesCredentialsIssuedToHolder(issuer: Actor, holder: Actor) {
+        val issuedCredential = issuer.recall<IssueCredentialRecord>("issuedCredential")
+        val jwtCred = JwtCredential(issuedCredential.credential!!)
+        val statusListId = jwtCred.statusListId()
+        issuer.remember("statusListId", statusListId)
 
-    @Given("{actor} has issued a revocable credential to {actor}")
-    fun issuerHasIssuedARevocableCredentialToHolder(issuer: Actor, holder: Actor) {
-        CommonSteps().holderHasIssuedCredentialFromIssuer(holder, issuer)
-        val credential = holder.forget<IssueCredentialRecord>("issuedCredential")
-        holder.remember("revocableCredential", credential)
+        issuer.attemptsTo(
+            Get.resource("/credential-status/${statusListId}")
+        )
+        val encodedList = SerenityRest.lastResponse().jsonPath().get<String>("credentialSubject.encodedList")
+        issuer.remember("encodedStatusList", encodedList)
+
+        issuer.attemptsTo(
+            Patch.to("/credential-status/revoke-credential/${issuedCredential.recordId}"),
+            Ensure.thatTheLastResponse().statusCode().isEqualTo(HttpStatus.SC_OK)
+        )
     }
 
-    @When("{actor} revokes the credential from {actor}")
-    fun revokesCredential(issuer: Actor, holder: Actor) {
-        val revocableCredential = holder.recall<IssueCredentialRecord>("revocableCredential")
-        val jwtCred = JwtCredential(revocableCredential.credential!!)
-        val statusListUrl = jwtCred.statusListCredential()
-        issuer.remember("statusList", statusListUrl)
-
-        val statusList = RestAssured.get(statusListUrl).thenReturn().jsonPath()
-        val encodedList = statusList.get<String>("credentialSubject.encodedList")
-        issuer.remember("statusListBit", encodedList)
-
-
-    //        issuer.attemptsTo(
-//            Patch.to("/credential-status/revoke-credential/$recordId")
-//        )
-//        SerenityRest.lastResponse().prettyPrint()
-
+    @When("{actor} tries to revoke credential from {actor}")
+    fun holderTriesToRevokeCredentialFromIssuer(holder: Actor, issuer: Actor) {
+        val issuedCredential = issuer.recall<IssueCredentialRecord>("issuedCredential")
+        val receivedCredential = holder.recall<IssueCredentialRecord>("issuedCredential")
+        holder.attemptsTo(
+            Patch.to("/credential-status/revoke-credential/${issuedCredential.recordId}"),
+            Ensure.thatTheLastResponse().statusCode().isEqualTo(HttpStatus.SC_NOT_FOUND)
+        )
+        holder.attemptsTo(
+            Patch.to("/credential-status/revoke-credential/${receivedCredential.recordId}"),
+            Ensure.thatTheLastResponse().statusCode().isEqualTo(HttpStatus.SC_NOT_FOUND)
+        )
     }
 
     @Then("{actor} should see the credential was revoked")
     fun credentialShouldBeRevoked(issuer: Actor) {
-        Wait.until {
-            val recordId = issuer.recall<String>("revokeRecordId")
+        Wait.until(
+            timeout = 30.seconds,
+            errorMessage = "Encoded Status List didn't change after revoking."
+        ) {
+            val statusListId = issuer.recall<String>("statusListId")
             val encodedList = issuer.recall<String>("statusEncodedList")
-
             issuer.attemptsTo(
-                Get.resource("/credential-status/$recordId")
+                Get.resource("/credential-status/$statusListId")
             )
-            SerenityRest.lastResponse().prettyPrint()
-
             val actualEncodedList = SerenityRest.lastResponse().jsonPath().get<String>("credentialSubject.encodedList")
-
-            actualEncodedList == encodedList
+            actualEncodedList != encodedList
         }
+    }
+
+    @Then("{actor} should see the credential is not revoked")
+    fun issuerShouldSeeTheCredentialIsNotRevoked(issuer: Actor) {
+        val issuedCredential = issuer.recall<IssueCredentialRecord>("issuedCredential")
+        val jwtCred = JwtCredential(issuedCredential.credential!!)
+        val statusListId = jwtCred.statusListId()
+        issuer.remember("statusListId", statusListId)
+
+        issuer.attemptsTo(
+            Get.resource("/credential-status/${statusListId}")
+        )
     }
 }

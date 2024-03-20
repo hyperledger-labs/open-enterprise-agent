@@ -79,7 +79,7 @@ class ConnectionSteps {
     fun inviterReceivesTheConnectionRequest(inviter: Actor) {
         wait(
             {
-                val lastEvent = ListenToEvents.`as`(inviter).connectionEvents.lastOrNull {
+                val lastEvent = ListenToEvents.with(inviter).connectionEvents.lastOrNull {
                     it.data.thid == inviter.recall<Connection>("connection").thid
                 }
                 lastEvent != null &&
@@ -94,7 +94,7 @@ class ConnectionSteps {
         // Bob (Holder) receives final connection response
         wait(
             {
-                val lastEvent = ListenToEvents.`as`(invitee).connectionEvents.lastOrNull {
+                val lastEvent = ListenToEvents.with(invitee).connectionEvents.lastOrNull {
                     it.data.thid == invitee.recall<Connection>("connection").thid
                 }
                 lastEvent != null &&
