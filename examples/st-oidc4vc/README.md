@@ -1,5 +1,13 @@
 # How to run issuance flow
 
+## Prerequisites
+
+- Docker installed
+- Python 3 with the following packages installed
+  - [requests](https://pypi.org/project/requests/)
+  - [pyjwt](https://pyjwt.readthedocs.io/en/stable/)
+  - [cryptography](https://cryptography.io/en/latest/)
+
 ### 1. Spin up the agent stack with pre-configured Keycloak
 
 ```bash

@@ -1,14 +1,14 @@
 package io.iohk.atala.iam.oidc.storage
 
 import io.iohk.atala.iam.oidc.domain.IssuanceSession
-import io.iohk.atala.iam.oidc.http.IssuableCredential
-import zio.{IO, Task, ULayer, ZIO, ZLayer}
+import zio.{IO, ULayer, ZIO, ZLayer}
 
 import scala.collection.concurrent.TrieMap
 
 trait IssuanceSessionStorage {
   def start(issuanceSession: IssuanceSession): IO[IssuanceSessionStorage.Error, IssuanceSession]
-  def get(nonce: String): IO[IssuanceSessionStorage.Error, Option[IssuanceSession]]
+  def getByNonce(nonce: String): IO[IssuanceSessionStorage.Error, Option[IssuanceSession]]
+  def getByIssuerState(issuerState: String): IO[IssuanceSessionStorage.Error, Option[IssuanceSession]]
 }
 
 object IssuanceSessionStorage {
@@ -42,8 +42,15 @@ case class InMemoryIssuanceSessionService() extends IssuanceSessionStorage {
       )
   }
 
-  override def get(nonce: String): IO[IssuanceSessionStorage.Error, Option[IssuanceSession]] = {
+  override def getByNonce(nonce: String): IO[IssuanceSessionStorage.Error, Option[IssuanceSession]] = {
     issuanceSessions.get(nonce) match {
+      case Some(issuanceSession) => ZIO.succeed(Some(issuanceSession))
+      case None                  => ZIO.succeed(None)
+    }
+  }
+
+  override def getByIssuerState(issuerState: String): IO[IssuanceSessionStorage.Error, Option[IssuanceSession]] = {
+    issuanceSessions.values.find(_.issuerState == issuerState) match {
       case Some(issuanceSession) => ZIO.succeed(Some(issuanceSession))
       case None                  => ZIO.succeed(None)
     }

@@ -38,9 +38,6 @@ object CredentialIssuerEndpoints {
     .securityIn(apiKeyHeader)
     .securityIn(jwtAuthHeader)
 
-  private val baseHolderFacingEndpoint = baseEndpoint
-    .securityIn(jwtAuthHeader)
-
   val credentialEndpointErrorOutput = oneOf[Either[ErrorResponse, CredentialErrorResponse]](
     oneOfVariantValueMatcher(StatusCode.BadRequest, jsonBody[Either[ErrorResponse, CredentialErrorResponse]]) {
       case Right(CredentialErrorResponse(code, _, _, _)) if code.toHttpStatusCode == StatusCode.BadRequest => true
@@ -62,9 +59,10 @@ object CredentialIssuerEndpoints {
     ExtendedErrorResponse,
     CredentialResponse,
     Any
-  ] = baseHolderFacingEndpoint.post
+  ] = baseEndpoint.post
     .in("credentials")
     .in(jsonBody[CredentialRequest])
+    .securityIn(jwtAuthHeader)
     .out(
       statusCode(StatusCode.Ok).description("Credential issued successfully"),
     )
@@ -112,23 +110,19 @@ object CredentialIssuerEndpoints {
       """The endpoint that returns a `nonce` value for the [Token Endpoint](https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html#name-nonce-endpoint)""".stripMargin
     )
 
-  val issuanceSessionEndpoint: Endpoint[
-    (ApiKeyCredentials, JwtCredentials),
-    (RequestContext, String, IssuanceSessionRequest),
-    ExtendedErrorResponse,
+  val issuerMetadataEndpoint: Endpoint[
     Unit,
+    (RequestContext, String),
+    ErrorResponse,
+    IssuerMetadata,
     Any
-  ] =
-    baseIssuerFacingEndpoint.post
-      .in("issuance-session")
-      .in(jsonBody[IssuanceSessionRequest])
-      .out(
-        statusCode(StatusCode.Created).description("Issuance session created successfully"),
-      )
-      .errorOut(credentialEndpointErrorOutput)
-      .name("createIssuanceSession")
-      .summary("Create Issuance Session")
-      .description(
-        """The endpoint that creates an issuance session for the OIDC VC endpoints""".stripMargin
-      )
+  ] = baseEndpoint.get
+    .in(".well-known" / "openid-credential-issuer")
+    .out(
+      statusCode(StatusCode.Ok).description("Issuer Metadata successfully retrieved")
+    )
+    .out(jsonBody[IssuerMetadata])
+    .errorOut(EndpointOutputs.basicFailuresAndNotFound)
+    .name("getIssuerMetadata") // TODO: add endpoint documentation
+
 }

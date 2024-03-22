@@ -2,6 +2,7 @@ package io.iohk.atala.iam.oidc.service
 
 import io.circe.Json
 import io.iohk.atala.agent.walletapi.storage.DIDNonSecretStorage
+import io.iohk.atala.castor.core.model.did.CanonicalPrismDID
 import io.iohk.atala.castor.core.model.did.{PrismDID, VerificationRelationship}
 import io.iohk.atala.castor.core.service.DIDService
 import io.iohk.atala.iam.oidc.domain.IssuanceSession
@@ -10,10 +11,9 @@ import io.iohk.atala.iam.oidc.storage.IssuanceSessionStorage
 import io.iohk.atala.pollux.core.service.CredentialService
 import io.iohk.atala.pollux.vc.jwt.{DID, Issuer, JWT, JwtCredential, W3cCredentialPayload}
 import io.iohk.atala.shared.models.{WalletAccessContext, WalletId}
-import zio.{IO, URLayer, ZIO, ZLayer}
+import zio.*
 
 import java.time.Instant
-import java.util.UUID
 import scala.util.Try
 
 // OIDC prefix is added to the service name to avoid name conflicts with a similar service CredentialIssuerService
@@ -36,13 +36,11 @@ trait OIDCCredentialIssuerService {
   ): IO[Error, JWT]
 
   def createCredentialOffer(
-      prismDID: PrismDID,
+      issuerDID: PrismDID,
       claims: zio.json.ast.Json
   ): ZIO[WalletAccessContext, Error, CredentialOffer]
 
-  def getIssuanceSessionNonce(issuerState: String): ZIO[WalletAccessContext, Error, UUID]
-
-  def createIssuanceSession(issuanceSession: IssuanceSession): IO[Error, IssuanceSession]
+  def getIssuanceSessionNonce(issuerState: String): ZIO[WalletAccessContext, Error, String]
 }
 
 object OIDCCredentialIssuerService {
@@ -147,34 +145,53 @@ case class OIDCCredentialIssuerServiceImpl(
       .mapError(e => ServiceError(s"Failed to issue JWT: ${e.getMessage}"))
   }
 
-  override def createIssuanceSession(issuanceSession: IssuanceSession): IO[Error, IssuanceSession] = {
-    issuanceSessionStorage
-      .start(issuanceSession)
-      .mapError(e => ServiceError(s"Failed to start issuance session: ${e.message}"))
-  }
-
   override def getIssuanceSessionNonce(
       issuerState: String
-  ): ZIO[WalletAccessContext, OIDCCredentialIssuerService.Error, UUID] =
-    ZIO.random.flatMap(_.nextUUID) // TODO: attach to the IssuanceSession
+  ): ZIO[WalletAccessContext, OIDCCredentialIssuerService.Error, String] =
+    issuanceSessionStorage
+      .getByIssuerState(issuerState)
+      .mapBoth(e => ServiceError(s"Failed to start issuance session: ${e.message}"), _.map(_.nonce))
+      .someOrFail(ServiceError(s"The IssuanceSession with the issuerState $issuerState does not exist"))
 
   override def createCredentialOffer(
-      prismDID: PrismDID,
+      issuingDid: PrismDID,
       claims: zio.json.ast.Json
   ): ZIO[WalletAccessContext, OIDCCredentialIssuerService.Error, CredentialOffer] =
+    val canonicalIssuingDid = issuingDid.asCanonical
     for {
-      issuerState <- ZIO.random.flatMap(_.nextUUID) // TODO: attach issuerState and claims to the IssuanceSession
+      session <- buildNewIssuanceSession(canonicalIssuingDid, claims)
+      _ <- issuanceSessionStorage
+        .start(session)
+        .mapError(e => ServiceError(s"Failed to start issuance session: ${e.message}"))
     } yield CredentialOffer(
       credential_issuer =
-        s"http://localhost:8080/prism-agent/${prismDID.toString}", // TODO: add issuer metadata endpoint
+        s"http://localhost:8080/prism-agent/${canonicalIssuingDid.toString}", // TODO: add issuer metadata endpoint
       credential_configuration_ids = Seq("UniversityDegreeCredential"), // TODO: allow credential configuration CRUD
       grants = Some(
         CredentialOfferGrant(
-          authorization_code = CredentialOfferAuthorizationGrant(issuer_state = Some(issuerState.toString()))
+          authorization_code = CredentialOfferAuthorizationGrant(issuer_state = Some(session.issuerState))
         )
       )
     )
 
+  private def buildNewIssuanceSession(
+      issuerDid: CanonicalPrismDID,
+      claims: zio.json.ast.Json
+  ): UIO[IssuanceSession] = {
+    for {
+      id <- ZIO.random.flatMap(_.nextUUID)
+      nonce <- ZIO.random.flatMap(_.nextUUID)
+      issuerState <- ZIO.random.flatMap(_.nextUUID)
+    } yield IssuanceSession(
+      id = id,
+      nonce = nonce.toString,
+      issuerState = issuerState.toString,
+      claims = claims,
+      schemaId = None, // FIXME: populate correct value
+      subjectDid = None, // FIXME: populate correct value
+      issuingDid = issuerDid,
+    )
+  }
 }
 
 object OIDCCredentialIssuerServiceImpl {

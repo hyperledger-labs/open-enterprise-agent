@@ -1,8 +1,11 @@
 import json
+import jwt
 import requests
 import threading
 import time
 import urllib
+
+from cryptography.hazmat.primitives.asymmetric import ec
 
 
 MOCKSERVER_URL = "http://localhost:5000"
@@ -57,7 +60,9 @@ def prepare_issuer():
 
         # publish if not pending
         if issuer_did["status"] == "CREATED":
-            requests.post(f"{AGENT_URL}/did-registrar/dids/{canonical_did}/publications")
+            requests.post(
+                f"{AGENT_URL}/did-registrar/dids/{canonical_did}/publications"
+            )
 
     global CREDENTIAL_ISSUER
     canonical_did = issuer_did["did"]
@@ -171,6 +176,24 @@ def holder_get_credential(credential_endpoint: str, token_response):
     access_token = token_response["access_token"]
     c_nonce = token_response["c_nonce"]
     c_nonce_expires_in = token_response["c_nonce_expires_in"]
+
+    # generate proof
+    private_key = ec.generate_private_key(ec.SECP256K1())
+    jwt_proof = jwt.encode(
+        headers={
+            "typ": "openid4vci-proof+jwt",
+            "kid": "did:prism:0000000000000000000000000000000000000000000000000000000000000000#key-1",  # TODO: use actual DID
+        },
+        payload={
+            "iss": ALICE_CLIENT_ID,
+            "aud": CREDENTIAL_ISSUER,
+            "iat": int(time.time()),
+            "nonce": c_nonce,
+        },
+        key=private_key,
+        algorithm="ES256K",  # TODO: switch to EdDSA alg (Ed25519)
+    )
+
     response = requests.post(
         credential_endpoint,
         headers={"Authorization": f"Bearer {access_token}"},
@@ -180,10 +203,7 @@ def holder_get_credential(credential_endpoint: str, token_response):
                 "type": ["VerifiableCredential", CREDENTIAL_CONFIGURATION_ID],
                 "credentialSubject": {},
             },
-            "proof": {
-                "proof_type": "jwt",
-                "jwt": f"jwt:{c_nonce}",  # TODO: use actual JWT
-            },
+            "proof": {"proof_type": "jwt", "jwt": jwt_proof},
         },
     )
     return response.json()

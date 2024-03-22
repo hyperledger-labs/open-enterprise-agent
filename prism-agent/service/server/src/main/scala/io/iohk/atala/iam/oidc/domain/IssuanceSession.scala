@@ -1,13 +1,16 @@
 package io.iohk.atala.iam.oidc.domain
 
 import io.iohk.atala.castor.core.model.did.CanonicalPrismDID
-import io.iohk.atala.iam.oidc.http.IssuableCredential
+import io.iohk.atala.castor.core.model.did.DID
+
+import java.util.UUID
 
 case class IssuanceSession(
+    id: UUID,
     nonce: String,
-    issuableCredentials: Seq[IssuableCredential],
-    isPreAuthorized: Boolean,
-    did: Option[String],
-    issuerDid: CanonicalPrismDID,
-    userPin: Option[String]
+    issuerState: String,
+    schemaId: Option[String],
+    claims: zio.json.ast.Json,
+    subjectDid: Option[DID],
+    issuingDid: CanonicalPrismDID,
 )

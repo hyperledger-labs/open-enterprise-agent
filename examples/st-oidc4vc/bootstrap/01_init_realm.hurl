@@ -11,6 +11,8 @@ grant_type: password
 client_id: admin-cli
 username: {{ keycloak_admin_user }}
 password: {{ keycloak_admin_password }}
+[Options]
+retry: 30
 HTTP 200
 [Captures]
 admin_access_token: jsonpath "$.access_token"
