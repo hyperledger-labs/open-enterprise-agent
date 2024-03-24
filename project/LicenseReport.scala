@@ -48,8 +48,7 @@ class LicenseReportCustomDependencyResolution(ivyConfiguration: IvyConfiguration
       log.warn(":::::::::::::::::::::::::::::::::::::::::::::::::::")
       log.warn("::     LicenseReport Unresolved Dependencies     ::")
       log.warn(":::::::::::::::::::::::::::::::::::::::::::::::::::")
-      resolveException
-        .failed
+      resolveException.failed
         .map(_.toString())
         .distinct
         .sorted
