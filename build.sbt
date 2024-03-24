@@ -298,7 +298,7 @@ lazy val D_Pollux = new {
 
 lazy val D_Pollux_VC_JWT = new {
 
-  private lazy val circeJsonSchema = ("net.reactivecore" %% "circe-json-schema" % "0.3.0")
+  private lazy val circeJsonSchema = ("net.reactivecore" %% "circe-json-schema" % "0.4.1")
     .cross(CrossVersion.for3Use2_13)
     .exclude("io.circe", "circe-core_2.13")
     .exclude("io.circe", "circe-generic_2.13")
