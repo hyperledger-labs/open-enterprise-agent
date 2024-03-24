@@ -70,7 +70,7 @@ lazy val V = new {
   val testContainersJavaKeycloak = "3.2.0" // scala-steward:off
 
   val doobie = "1.0.0-RC2"
-  val quill = "4.7.3"
+  val quill = "4.8.3"
   val flyway = "9.8.3"
   val postgresDriver = "42.2.27"
   val logback = "1.4.14"
