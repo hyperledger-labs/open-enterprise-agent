@@ -55,7 +55,7 @@ lazy val V = new {
   val zioHttp = "3.0.0-RC5"
   val zioCatsInterop = "23.1.0.1"
   val zioMetricsConnector = "2.3.1"
-  val zioMock = "1.0.0-RC11"
+  val zioMock = "1.0.0-RC12"
   val mockito = "3.2.16.0"
   val monocle = "3.2.0"
 
