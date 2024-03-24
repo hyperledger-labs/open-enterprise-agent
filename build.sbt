@@ -344,7 +344,7 @@ lazy val D_PrismAgent = new {
   // Added here to make prism-crypto works.
   // Once migrated to apollo, re-evaluate if this should be removed.
   val bouncyBcpkix = "org.bouncycastle" % "bcpkix-jdk18on" % V.bouncyCastle
-  val bouncyBcprov = "org.bouncycastle" % "bcprov-jdk15on" % V.bouncyCastle
+  val bouncyBcprov = "org.bouncycastle" % "bcprov-jdk18on" % V.bouncyCastle
 
   val logback = "ch.qos.logback" % "logback-classic" % V.logback
 
