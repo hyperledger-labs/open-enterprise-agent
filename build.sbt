@@ -6,7 +6,7 @@ import sbtbuildinfo.BuildInfoPlugin.autoImport.*
 inThisBuild(
   Seq(
     organization := "io.iohk.atala",
-    scalaVersion := "3.3.1",
+    scalaVersion := "3.3.3",
     fork := true,
     run / connectInput := true,
     releaseUseGlobalVersion := false,
