@@ -66,7 +66,7 @@ lazy val V = new {
 
   val typesafeConfig = "1.4.2"
   val protobuf = "3.1.9"
-  val testContainersScala = "0.41.0"
+  val testContainersScala = "0.41.3"
   val testContainersJavaKeycloak = "3.2.0" // scala-steward:off
 
   val doobie = "1.0.0-RC2"
