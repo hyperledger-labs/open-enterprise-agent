@@ -79,7 +79,7 @@ lazy val V = new {
   val prismSdk = "1.4.1" // scala-steward:off
   val scalaUri = "4.0.3"
 
-  val jwtCirceVersion = "9.1.2"
+  val jwtCirceVersion = "9.4.6"
   val zioPreludeVersion = "1.0.0-RC16"
 
   val bouncyCastle = "1.70"
