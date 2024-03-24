@@ -353,7 +353,7 @@ lazy val D_PrismAgent = new {
 
   val tapirZioHttpServer = "com.softwaremill.sttp.tapir" %% "tapir-zio-http-server" % V.tapir
   val tapirHttp4sServerZio = "com.softwaremill.sttp.tapir" %% "tapir-http4s-server-zio" % V.tapir
-  val http4sBlazeServer = "org.http4s" %% "http4s-blaze-server" % "0.23.12"
+  val http4sBlazeServer = "org.http4s" %% "http4s-blaze-server" % "0.23.16"
 
   val tapirRedocBundle = "com.softwaremill.sttp.tapir" %% "tapir-redoc-bundle" % V.tapir
 
