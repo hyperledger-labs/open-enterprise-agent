@@ -62,7 +62,7 @@ lazy val V = new {
   // https://mvnrepository.com/artifact/io.circe/circe-core
   val circe = "0.14.6"
 
-  val tapir = "1.6.4"
+  val tapir = "1.10.0"
 
   val typesafeConfig = "1.4.2"
   val protobuf = "3.1.9"
