@@ -48,7 +48,7 @@ lazy val V = new {
   val munitZio = "0.2.0"
 
   // https://mvnrepository.com/artifact/dev.zio/zio
-  val zio = "2.0.18"
+  val zio = "2.0.21"
   val zioConfig = "3.0.7"
   val zioLogging = "2.1.16"
   val zioJson = "0.3.0"
