@@ -14,6 +14,7 @@ configs:
         handle_path /vault* {
           reverse_proxy vault-holder:8200
         }
+        respond 404
       }
   caddyfile_issuer:
     content: |-
@@ -30,6 +31,7 @@ configs:
         handle_path /vault* {
           reverse_proxy vault-issuer:8200
         }
+        respond 404
       }
   caddyfile_verifier:
     content: |-
@@ -46,6 +48,7 @@ configs:
         handle_path /vault* {
           reverse_proxy vault-verifier:8200
         }
+        respond 404
       }
 services:
   agent-holder:

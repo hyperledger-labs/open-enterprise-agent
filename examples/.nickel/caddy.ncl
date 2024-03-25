@@ -33,6 +33,7 @@ in
                 handle_path /vault* {
                   reverse_proxy %{args.vault.host}:%{std.to_string args.vault.port}
                 }
+                respond 404
               }
             "%
         }
