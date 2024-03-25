@@ -108,7 +108,6 @@ class PresentProofSteps {
             val proofEvent = ListenToEvents.with(faber).presentationEvents.lastOrNull {
                 it.data.thid == faber.recall<String>("thid")
             }
-            println("Status? ${proofEvent?.data?.status}")
             proofEvent?.data?.status == PresentationStatus.Status.PRESENTATION_VERIFIED
         }
     }
@@ -123,7 +122,7 @@ class PresentProofSteps {
                 it.data.thid == verifier.recall<String>("thid")
             }
             println("Status? ${proofEvent?.data?.status}")
-            proofEvent?.data?.status == null // FIXME: new status not present yet
+            proofEvent?.data?.status == null // FIXME: change the comparison to PresentationStatus.Status.PRESENTATION_VERIFICATION_FAILED
         }
     }
 }
