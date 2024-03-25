@@ -49,7 +49,7 @@ Authorization: Bearer {{ admin_access_token }}
   "id": "{{ alice_wallet_client_id }}",
   "publicClient": true,
   "consentRequired": true,
-  "redirectUris": [ "http://localhost:5000/*" ]
+  "redirectUris": [ "http://localhost:7777/*" ]
 }
 HTTP 201
 

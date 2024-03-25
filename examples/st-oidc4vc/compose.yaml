@@ -1,3 +1,5 @@
+---
+
 configs:
   caddyfile_issuer:
     content: |-
@@ -15,6 +17,7 @@ configs:
           reverse_proxy vault-issuer:8200
         }
       }
+
 services:
   agent-issuer:
     depends_on:
@@ -109,7 +112,7 @@ services:
   mockserver:
     image: mockserver/mockserver:5.15.0
     ports:
-    - 5000:1080
+    - 7777:1080
   node:
     depends_on:
       node-db:

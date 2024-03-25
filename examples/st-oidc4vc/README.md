@@ -2,11 +2,25 @@
 
 ## Prerequisites
 
-- Docker installed
+- Docker installed v2.24.0 or later
 - Python 3 with the following packages installed
   - [requests](https://pypi.org/project/requests/)
   - [pyjwt](https://pyjwt.readthedocs.io/en/stable/)
   - [cryptography](https://cryptography.io/en/latest/)
+- Virtual environment (optional)
+
+Example of the script to install the required packages in a virtual environment:
+```shell
+python -m venv {path-to-the-project-dir}/open-enterprise-agent/examples/st-oidc4vc/python-env
+source {path-to-the-project-dir}/open-enterprise-agent/examples/st-oidc4vc/python-env/bin/activate
+pip install requests pyjwt cryptography
+```
+
+- the latest Cloud Agent image is built and available in the local Docker registry
+
+```shell
+sbt docker:publishLocal
+```
 
 ### 1. Spin up the agent stack with pre-configured Keycloak
 

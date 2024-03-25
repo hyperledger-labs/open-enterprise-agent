@@ -8,8 +8,8 @@ import urllib
 from cryptography.hazmat.primitives.asymmetric import ec
 
 
-MOCKSERVER_URL = "http://localhost:5000"
-LOGIN_REDIRECT_URL = "http://localhost:5000/cb"
+MOCKSERVER_URL = "http://localhost:7777"
+LOGIN_REDIRECT_URL = "http://localhost:7777/cb"
 
 AGENT_URL = "http://localhost:8080/prism-agent"
 CREDENTIAL_ISSUER = None
