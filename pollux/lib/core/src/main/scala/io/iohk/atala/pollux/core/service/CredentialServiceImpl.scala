@@ -1111,7 +1111,7 @@ private class CredentialServiceImpl(
       statusListRegistryUrl: String,
       jwtIssuer: JwtIssuer
   ): ZIO[WalletAccessContext, CredentialServiceError, CredentialStatus] = {
-    for {
+    val effect = for {
       lastStatusList <- credentialStatusListRepository.getLatestOfTheWallet.mapError(RepositoryError.apply)
       currentStatusList <- lastStatusList
         .fold(credentialStatusListRepository.createNewForTheWallet(jwtIssuer, statusListRegistryUrl))(
@@ -1120,24 +1120,19 @@ private class CredentialServiceImpl(
         .mapError(RepositoryError.apply)
       size = currentStatusList.size
       lastUsedIndex = currentStatusList.lastUsedIndex
-      statusListToBeUsed <- issueCredentialSem.withPermit {
-        for {
-          statusListToBeUsed <-
-            if lastUsedIndex < size then ZIO.succeed(currentStatusList)
-            else
-              credentialStatusListRepository
-                .createNewForTheWallet(jwtIssuer, statusListRegistryUrl)
-                .mapError(RepositoryError.apply)
-
-          _ <- credentialStatusListRepository
-            .allocateSpaceForCredential(
-              issueCredentialRecordId = record.id,
-              credentialStatusListId = statusListToBeUsed.id,
-              statusListIndex = statusListToBeUsed.lastUsedIndex + 1
-            )
+      statusListToBeUsed <-
+        if lastUsedIndex < size then ZIO.succeed(currentStatusList)
+        else
+          credentialStatusListRepository
+            .createNewForTheWallet(jwtIssuer, statusListRegistryUrl)
             .mapError(RepositoryError.apply)
-        } yield statusListToBeUsed
-      }
+      _ <- credentialStatusListRepository
+        .allocateSpaceForCredential(
+          issueCredentialRecordId = record.id,
+          credentialStatusListId = statusListToBeUsed.id,
+          statusListIndex = statusListToBeUsed.lastUsedIndex + 1
+        )
+        .mapError(RepositoryError.apply)
     } yield CredentialStatus(
       id = s"$statusListRegistryUrl/credential-status/${statusListToBeUsed.id}#${statusListToBeUsed.lastUsedIndex + 1}",
       `type` = "StatusList2021Entry",
@@ -1145,6 +1140,7 @@ private class CredentialServiceImpl(
       statusListIndex = lastUsedIndex + 1,
       statusListCredential = s"$statusListRegistryUrl/credential-status/${statusListToBeUsed.id}"
     )
+    issueCredentialSem.withPermit(effect)
   }
 
   override def generateAnonCredsCredential(

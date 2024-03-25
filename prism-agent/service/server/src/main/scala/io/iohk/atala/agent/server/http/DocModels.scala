@@ -65,10 +65,7 @@ object DocModels {
               |Key features include connection management, credential issuance and verification, and secure, privacy-preserving communication between entities.
               |Additional information and the full list of capabilities can be found in the [Open Enterprise Agent documentation](https://docs.atalaprism.io/docs/category/prism-cloud-agent)
               |""".stripMargin),
-          termsOfService = Some("""
-              |Users of the Open Enterprise Agent API must adhere to the terms and conditions outlined in [Link to Terms of Service](/).
-              |This includes compliance with relevant data protection regulations, responsible usage policies, and adherence to the principles of decentralized identity management.
-              |""".stripMargin),
+          termsOfService = None,
           contact = None,
           license = Some(
             License(

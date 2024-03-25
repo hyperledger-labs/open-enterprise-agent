@@ -5,16 +5,15 @@ CREATE TYPE public.enum_credential_status_list_purpose AS ENUM (
 
 CREATE TABLE public.credential_status_lists
 (
-    id                     UUID PRIMARY KEY                                    default gen_random_uuid(),
-    wallet_id              UUID                                       NOT NULL,
-    issuer                 VARCHAR                                    NOT NULL,
-    issued                 TIMESTAMP WITH TIME ZONE                   NOT NULL,
-    purpose                public.enum_credential_status_list_purpose NOT NULL,
-    status_list_credential JSON                                       NOT NULL,
-    size                   INTEGER                                    NOT NULL DEFAULT 131072,
-    last_used_index        INTEGER                                    NOT NULL DEFAULT 0,
-    created_at             TIMESTAMP WITH TIME ZONE                   NOT NULL default now(),
-    updated_at             TIMESTAMP WITH TIME ZONE                   NOT NULL default now()
+    id           UUID PRIMARY KEY                                    default gen_random_uuid(),
+    wallet_id    UUID                                       NOT NULL,
+    issuer       VARCHAR                                    NOT NULL,
+    issued       TIMESTAMP WITH TIME ZONE                   NOT NULL,
+    purpose      public.enum_credential_status_list_purpose NOT NULL,
+    encoded_list TEXT                                       NOT NULL,
+    proof        JSON                                       NOT NULL,
+    created_at   TIMESTAMP WITH TIME ZONE                   NOT NULL default now(),
+    updated_at   TIMESTAMP WITH TIME ZONE                   NOT NULL default now()
 );
 
 CREATE INDEX credential_status_lists_wallet_id_index ON public.credential_status_lists (wallet_id);
@@ -28,7 +27,6 @@ CREATE TABLE public.credentials_in_status_list
     status_list_index          INTEGER                  NOT NULL,
 --  is revoked or suspended
     is_canceled                BOOLEAN                  NOT NULL default false,
-    is_processed               BOOLEAN                  NOT NULL default false,
     created_at                 TIMESTAMP WITH TIME ZONE NOT NULL default now(),
     updated_at                 TIMESTAMP WITH TIME ZONE NOT NULL default now(),
 

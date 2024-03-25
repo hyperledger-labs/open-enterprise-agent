@@ -74,7 +74,7 @@ class IssueCredentialsSteps {
                                 name = "StudentCredential",
                                 version = "1.0",
                                 issuerId = issuer.recall("shortFormDid"),
-                                attrNames = listOf("name", "age"),
+                                attrNames = listOf("name", "age", "sex"),
                             ),
                             tags = listOf("school", "students"),
                             version = "1.0.0",
@@ -124,6 +124,7 @@ class IssueCredentialsSteps {
             claims = linkedMapOf(
                 "name" to "Bob",
                 "age" to "21",
+                "sex" to "M",
             ),
             issuingDID = issuer.recall("shortFormDid"),
             connectionId = issuer.recall<Connection>("connection-with-${holder.name}").connectionId,

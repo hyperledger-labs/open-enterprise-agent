@@ -9,3 +9,5 @@ src/main/kotlin/io/iohk/atala/prism/models/UpdateManagedDIDServiceActionType.kt
 src/main/kotlin/io/iohk/atala/prism/models/Service.kt
 src/main/kotlin/io/iohk/atala/prism/models/ServiceType.kt
 
+src/main/kotlin/io/iohk/atala/prism/models/StatusPurpose.kt
+src/main/kotlin/io/iohk/atala/prism/models/CredentialSubject.kt

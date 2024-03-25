@@ -1,3 +1,21 @@
+# [1.31.0](https://github.com/hyperledger-labs/open-enterprise-agent/compare/prism-agent-v1.30.1...prism-agent-v1.31.0) (2024-03-20)
+
+
+### Bug Fixes
+
+* add Anoncreds Integration Test ([#923](https://github.com/hyperledger-labs/open-enterprise-agent/issues/923)) ([27a157f](https://github.com/hyperledger-labs/open-enterprise-agent/commit/27a157fb5a83a33704230b35eca80f297eec9a85))
+* align keycloak version ([#936](https://github.com/hyperledger-labs/open-enterprise-agent/issues/936)) ([c920fd6](https://github.com/hyperledger-labs/open-enterprise-agent/commit/c920fd661d31b56466497e462fd0139755290b33))
+* anoncred test ([#940](https://github.com/hyperledger-labs/open-enterprise-agent/issues/940)) ([bb5ead1](https://github.com/hyperledger-labs/open-enterprise-agent/commit/bb5ead1de3b6d2c3fae0019d50a5310b37a2eab3))
+* **pollux:** function that allocates status list credential does not work correctly in multi threaded environment  ([#941](https://github.com/hyperledger-labs/open-enterprise-agent/issues/941)) ([ecc3c01](https://github.com/hyperledger-labs/open-enterprise-agent/commit/ecc3c019749a6b370771bcf62f89ea2599a521ac))
+* **pollux:** Undo edit migration for revocation status lists ([#937](https://github.com/hyperledger-labs/open-enterprise-agent/issues/937)) ([7f7585f](https://github.com/hyperledger-labs/open-enterprise-agent/commit/7f7585f47ee197db162c75f7d118a87b99cc7d06))
+* **prism-agent:** add validation for endpoint url ([#919](https://github.com/hyperledger-labs/open-enterprise-agent/issues/919)) ([0402a87](https://github.com/hyperledger-labs/open-enterprise-agent/commit/0402a8778eda839521c55a127934fba41c7b79ad))
+
+
+### Features
+
+* add revocation for JWT credentials ([#934](https://github.com/hyperledger-labs/open-enterprise-agent/issues/934)) ([88b7fa5](https://github.com/hyperledger-labs/open-enterprise-agent/commit/88b7fa5c6cd92002ef355311eec6e30b63ab1dd6))
+* Fix Update Schema and CredentialDef on Receive Credential ([#920](https://github.com/hyperledger-labs/open-enterprise-agent/issues/920)) ([acbba3c](https://github.com/hyperledger-labs/open-enterprise-agent/commit/acbba3ce92ee9e16893b4978c4a9ec4ce0757d53))
+
 ## [1.30.1](https://github.com/hyperledger-labs/open-enterprise-agent/compare/prism-agent-v1.30.0...prism-agent-v1.30.1) (2024-03-06)
 
 

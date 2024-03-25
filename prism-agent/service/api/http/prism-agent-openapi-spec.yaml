@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Open Enterprise Agent API Reference
-  version: 1.30.1
+  version: 1.31.0
   description: |2
 
     The Open Enterprise Agent API facilitates the integration and management of self-sovereign identity capabilities within applications.
@@ -1801,6 +1801,85 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
         '403':
           description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - apiKeyAuth: []
+      - jwtAuth: []
+  /credential-status/{id}:
+    get:
+      tags:
+      - Credential status list
+      summary: Fetch credential status list by its ID
+      description: Fetch credential status list by its ID
+      operationId: getCredentialStatusListEndpoint
+      parameters:
+      - name: id
+        in: path
+        description: Globally unique identifier of the credential status list
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Status List credential with embedded proof found by ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusListCredential'
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Resource could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /credential-status/revoke-credential/{id}:
+    patch:
+      tags:
+      - Credential status list
+      summary: Revoke a credential by its ID
+      description: Marks credential to be ready for revocation, it will be revoked
+        automatically
+      operationId: patchCredential-statusRevoke-credentialId
+      parameters:
+      - name: id
+        in: path
+        description: Revoke a credential by its ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+        '400':
+          description: Invalid request parameters
           content:
             application/json:
               schema:
@@ -3785,6 +3864,29 @@ components:
             page of results. If the API response is the first page of results, this
             field should be set to None.
           example: /prism-agent/schema-registry/schemas?skip=0&limit=10
+    CredentialSubject:
+      required:
+      - id
+      - type
+      - statusPurpose
+      - encodedList
+      type: object
+      properties:
+        id:
+          type: string
+          description: Url to resolve this particular status list credential
+          example: http://issuer-agent.com/credential-status/060a2bec-6d6f-4c1f-9414-d3c9dbd3ccc9
+        type:
+          type: string
+          description: Always equals to constnat value - StatusList2021
+          example: StatusList2021
+        statusPurpose:
+          $ref: '#/components/schemas/StatusPurpose'
+        encodedList:
+          type: string
+          description: base64 url encoded bitstring of credential statuses
+          example: H4sIAAAAAAAA_-3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAIC3AYbSVKsAQAAA
+      description: Object containing claims specific to status list credential
     DIDDocument:
       required:
       - id
@@ -4119,7 +4221,7 @@ components:
           type: string
           description: The date and time when the issue credential record was created.
           format: date-time
-          example: '2024-03-06T04:43:17.213830704Z'
+          example: '2024-03-20T18:35:17.903237532Z'
         updatedAt:
           type: string
           description: The date and time when the issue credential record was last
@@ -4644,6 +4746,8 @@ components:
           type: string
           description: The credential format (default to 'JWT')
           example: JWT
+    Revocation:
+      type: object
     Service:
       required:
       - id
@@ -4671,6 +4775,63 @@ components:
         serviceEndpoint:
           $ref: '#/components/schemas/Json'
       description: A service that should appear in the DID document. https://www.w3.org/TR/did-core/#services
+    StatusListCredential:
+      required:
+      - issuer
+      - id
+      - issuanceDate
+      - credentialSubject
+      - proof
+      type: object
+      properties:
+        '@context':
+          type: array
+          items:
+            type: string
+          description: List of JSON-LD contexts
+          example:
+          - https://www.w3.org/2018/credentials/v1
+          - https://w3id.org/vc/status-list/2021/v1
+        type:
+          type: array
+          items:
+            type: string
+          description: List of credential types
+          example:
+          - VerifiableCredential
+          - StatusList2021Credential
+        issuer:
+          type: string
+          description: DID of the issuer of status list credential
+          example: did:prism:462c4811bf61d7de25b3baf86c5d2f0609b4debe53792d297bf612269bf8593a
+        id:
+          type: string
+          description: Unique identifier of status list credential
+          example: http://issuer-agent.com/credential-status/060a2bec-6d6f-4c1f-9414-d3c9dbd3ccc9
+        issuanceDate:
+          type: string
+          description: Issuance timestamp of status list credential
+          format: date-time
+          example: '2024-03-20T18:35:17.949576647Z'
+        credentialSubject:
+          $ref: '#/components/schemas/CredentialSubject'
+        proof:
+          description: Embedded proof to verify data integrity of status list credential,
+            includes "type" property which defines an algorithm to be used for proof
+            verification
+          example:
+            type: DataIntegrityProof
+            proofPurpose: assertionMethod
+            verificationMethod: data:application/json;base64,eyJAY29udGV4dCI6WyJodHRwczovL3czaWQub3JnL3NlY3VyaXR5L211bHRpa2V5L3YxIl0sInR5cGUiOiJNdWx0aWtleSIsInB1YmxpY0tleU11bHRpYmFzZSI6InVNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUVRUENjM1M0X0xHVXRIM25DRjZ2dUw3ekdEMS13UmVrMHRHbnB0UnZUakhIMUdvTnk1UFBIZ0FmNTZlSzNOd3B0LWNGcmhrT2pRQk1rcFRKOHNaS1pCZz09In0=
+            created: '2024-01-22T22:40:34.560891Z'
+            proofValue: zAN1rKq8npnByRqPRxhjHEkivhN8AhA8V6MqDJga1zcCUEvPDUoqJB5Rj6ZJHTCnBZ98VXTEVd1rprX2wvP1MAaTEi7Pm241qm
+            cryptoSuite: eddsa-jcs-2022
+    StatusPurpose:
+      description: type of status list credential, either revocation or suspension
+      example: Revocation
+      oneOf:
+      - $ref: '#/components/schemas/Revocation'
+      - $ref: '#/components/schemas/Suspension'
     Str:
       required:
       - value
@@ -4678,6 +4839,8 @@ components:
       properties:
         value:
           type: string
+    Suspension:
+      type: object
     UpdateEntityNameRequest:
       required:
       - name

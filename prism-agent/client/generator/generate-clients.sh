@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-# open api cli generator is not compatible with 3.1.0
-yq e -i '.openapi = "3.0.3"' ../../service/api/http/prism-agent-openapi-spec.yaml
-
 # generate kotlin models
 yarn openapi-generator-cli generate \
     -g kotlin \
