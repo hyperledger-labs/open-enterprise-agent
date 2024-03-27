@@ -2,9 +2,11 @@ package steps.schemas
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import common.TestConstants
+import common.CredentialSchema
+import common.CredentialSchema.STUDENT_SCHEMA
 import interactions.Get
 import interactions.Post
+import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.cucumber.java.en.When
 import io.iohk.atala.automation.extensions.get
@@ -19,15 +21,24 @@ import java.util.UUID
 
 class CredentialSchemasSteps {
 
-    @When("{actor} creates a new credential schema")
-    fun acmeCreatesANewCredentialSchema(actor: Actor) {
+    @Given("{actor} has published {} schema")
+    fun agentHasAPublishedSchema(agent: Actor, schema: CredentialSchema) {
+        if (agent.recallAll().containsKey(schema.name)) {
+            return
+        }
+        agentCreatesANewCredentialSchema(agent, schema)
+    }
+
+    @When("{actor} creates a new credential {} schema")
+    fun agentCreatesANewCredentialSchema(actor: Actor, schema: CredentialSchema) {
         actor.attemptsTo(
             Post.to("/schema-registry/schemas").with {
                 it.body(
-                    TestConstants.STUDENT_SCHEMA.copy(author = actor.recall("shortFormDid")),
+                    schema.credentialSchema.copy(author = actor.recall("shortFormDid")),
                 )
             },
         )
+        actor.remember(schema.name, SerenityRest.lastResponse().get<String>("guid"))
     }
 
     @When("{actor} creates a schema containing '{}' issue")
@@ -51,13 +62,13 @@ class CredentialSchemasSteps {
             Ensure.that(credentialSchema.longId!!).isNotNull(),
             Ensure.that(credentialSchema.authored).isNotNull(),
             Ensure.that(credentialSchema.kind).isEqualTo("CredentialSchema"),
-            Ensure.that(credentialSchema.name).contains(TestConstants.STUDENT_SCHEMA.name),
-            Ensure.that(credentialSchema.description).contains(TestConstants.STUDENT_SCHEMA.description!!),
-            Ensure.that(credentialSchema.version).contains(TestConstants.STUDENT_SCHEMA.version),
-            Ensure.that(credentialSchema.type).isEqualTo(TestConstants.CREDENTIAL_SCHEMA_TYPE),
+            Ensure.that(credentialSchema.name).contains(STUDENT_SCHEMA.credentialSchema.name),
+            Ensure.that(credentialSchema.description).contains(STUDENT_SCHEMA.credentialSchema.description!!),
+            Ensure.that(credentialSchema.version).contains(STUDENT_SCHEMA.credentialSchema.version),
+            Ensure.that(credentialSchema.type).isEqualTo(STUDENT_SCHEMA.credentialSchemaType),
             Ensure.that(credentialSchema.tags!!)
-                .containsExactlyInAnyOrderElementsFrom(TestConstants.STUDENT_SCHEMA.tags!!),
-            Ensure.that(jsonSchema.toString()).isEqualTo(TestConstants.jsonSchema.toString()),
+                .containsExactlyInAnyOrderElementsFrom(STUDENT_SCHEMA.credentialSchema.tags!!),
+            Ensure.that(jsonSchema.toString()).isEqualTo(STUDENT_SCHEMA.schema.toString()),
         )
     }
 
@@ -72,8 +83,8 @@ class CredentialSchemasSteps {
                             author = actor.recall("shortFormDid"),
                             name = "${UUID.randomUUID()} $i",
                             description = "Simple student credentials schema",
-                            type = TestConstants.CREDENTIAL_SCHEMA_TYPE,
-                            schema = TestConstants.jsonSchema,
+                            type = STUDENT_SCHEMA.credentialSchemaType,
+                            schema = STUDENT_SCHEMA.schema,
                             tags = listOf("school", "students"),
                             version = "1.0.0",
                         ),
@@ -175,7 +186,7 @@ enum class SchemaErrorTemplate {
     }
 
     private fun getJson(actor: Actor): JsonObject {
-        val jsonString = Gson().toJson(TestConstants.STUDENT_SCHEMA.copy(author = actor.recall("shortFormDid")))
+        val jsonString = Gson().toJson(STUDENT_SCHEMA.credentialSchema.copy(author = actor.recall("shortFormDid")))
         return Gson().fromJson(jsonString, JsonObject::class.java)
     }
 }

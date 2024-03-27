@@ -5,7 +5,7 @@ Feature: Credential schemas
     When Issuer creates unpublished DID
 
   Scenario: Successful schema creation
-    When Issuer creates a new credential schema
+    When Issuer creates a new credential STUDENT_SCHEMA schema
     Then He sees new credential schema is available
 
   Scenario Outline: Multiple schema creation

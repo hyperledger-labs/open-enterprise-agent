@@ -116,6 +116,7 @@ object Setup {
                     registerWebhook(actor, role.webhook.url.toExternalForm())
                 }
             }
+            actor.remember("baseUrl", role.url.toExternalForm())
         }
         OnStage.setTheStage(cast)
     }

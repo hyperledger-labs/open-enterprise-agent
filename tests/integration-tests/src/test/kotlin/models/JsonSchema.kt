@@ -15,6 +15,9 @@ data class JsonSchema(
     @SerializedName("type")
     var type: String = "",
 
+    @SerializedName("required")
+    var required: List<String> = emptyList(),
+
     @SerializedName("properties")
     val properties: MutableMap<String, JsonSchemaProperty> = mutableMapOf(),
 )

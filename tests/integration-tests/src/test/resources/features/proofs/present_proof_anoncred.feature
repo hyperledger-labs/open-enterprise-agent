@@ -3,9 +3,8 @@ Feature: Present Proof Protocol
 Scenario: Holder presents anoncreds credential proof to verifier
   Given Issuer and Holder have an existing connection
   And Verifier and Holder have an existing connection
-  And Issuer creates unpublished DID
-  And He publishes DID to ledger
-  And Holder creates unpublished DID
+  And Issuer has a published DID
+  And Holder has an unpublished DID
   And Issuer creates anoncred schema
   And Issuer creates anoncred credential definition
   And Issuer offers anoncred to Holder

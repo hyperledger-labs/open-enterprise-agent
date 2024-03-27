@@ -48,6 +48,7 @@ serenity {
 }
 
 tasks.register<Delete>("cleanTarget") {
+    group = "verification"
     delete("target")
 }
 
