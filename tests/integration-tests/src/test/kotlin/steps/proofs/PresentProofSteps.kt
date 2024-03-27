@@ -9,6 +9,7 @@ import io.iohk.atala.automation.extensions.get
 import io.iohk.atala.automation.serenity.ensure.Ensure
 import io.iohk.atala.automation.utils.Wait
 import io.iohk.atala.prism.models.*
+import models.PresentationStatusAdapter
 import net.serenitybdd.rest.SerenityRest
 import net.serenitybdd.screenplay.Actor
 import org.apache.http.HttpStatus.SC_CREATED
@@ -57,7 +58,7 @@ class PresentProofSteps {
                 it.data.thid == bob.recall<String>("thid")
             }
             bob.remember("presentationId", proofEvent?.data?.presentationId)
-            proofEvent?.data?.status == PresentationStatus.Status.REQUEST_RECEIVED
+            proofEvent?.data?.status == PresentationStatusAdapter.Status.REQUEST_RECEIVED
         }
     }
 
@@ -95,7 +96,7 @@ class PresentProofSteps {
             val proofEvent = ListenToEvents.with(bob).presentationEvents.lastOrNull {
                 it.data.thid == bob.recall<String>("thid")
             }
-            proofEvent?.data?.status == PresentationStatus.Status.REQUEST_REJECTED
+            proofEvent?.data?.status == PresentationStatusAdapter.Status.REQUEST_REJECTED
         }
     }
 
@@ -108,7 +109,7 @@ class PresentProofSteps {
             val proofEvent = ListenToEvents.with(faber).presentationEvents.lastOrNull {
                 it.data.thid == faber.recall<String>("thid")
             }
-            proofEvent?.data?.status == PresentationStatus.Status.PRESENTATION_VERIFIED
+            proofEvent?.data?.status == PresentationStatusAdapter.Status.PRESENTATION_VERIFIED
         }
     }
 
@@ -122,7 +123,7 @@ class PresentProofSteps {
                 it.data.thid == verifier.recall<String>("thid")
             }
             println("Status? ${proofEvent?.data?.status}")
-            proofEvent?.data?.status == null // FIXME: change the comparison to PresentationStatus.Status.PRESENTATION_VERIFICATION_FAILED
+            proofEvent?.data?.status == PresentationStatusAdapter.Status.PRESENTATION_VERIFICATION_FAILED
         }
     }
 }

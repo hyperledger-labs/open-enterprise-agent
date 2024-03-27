@@ -18,4 +18,3 @@ Feature: Credential revocation - JWT
     And Holder receives the request
     And Holder makes the presentation of the proof to Issuer
     Then Issuer has the proof verified
-
