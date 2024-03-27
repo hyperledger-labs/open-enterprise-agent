@@ -468,7 +468,6 @@ lazy val shared = (project in file("shared"))
     crossPaths := false,
     libraryDependencies ++= D_Shared.dependencies
   )
-  .enablePlugins(BuildInfoPlugin)
 
 lazy val sharedTest = (project in file("shared-test"))
   .settings(commonSetttings)
@@ -481,7 +480,6 @@ lazy val sharedTest = (project in file("shared-test"))
     libraryDependencies ++= D_SharedTest.dependencies
   )
   .dependsOn(shared)
-  .enablePlugins(BuildInfoPlugin)
 
 // #########################
 // ### Models & Services ###
@@ -752,8 +750,6 @@ lazy val polluxDoobie = project
 
 lazy val polluxAnoncreds = project
   .in(file("pollux/lib/anoncreds"))
-  .enablePlugins(BuildInfoPlugin)
-  .enablePlugins(JavaAppPackaging)
   .settings(
     name := "pollux-anoncreds",
     Compile / unmanagedJars += baseDirectory.value / "anoncreds-jvm-1.0-SNAPSHOT.jar",
