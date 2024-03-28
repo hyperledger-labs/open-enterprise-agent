@@ -2,7 +2,6 @@ package io.iohk.atala.connect.core.repository
 
 import io.iohk.atala.connect.core.model.ConnectionRecord
 import io.iohk.atala.connect.core.model.ConnectionRecord.ProtocolState
-import io.iohk.atala.connect.core.model.error.ConnectionRepositoryError.*
 import io.iohk.atala.mercury.protocol.connection.ConnectionRequest
 import io.iohk.atala.mercury.protocol.connection.ConnectionResponse
 import io.iohk.atala.shared.models.WalletAccessContext

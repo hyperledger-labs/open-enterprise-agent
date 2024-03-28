@@ -2,7 +2,6 @@ package io.iohk.atala.connect.core.repository
 
 import io.iohk.atala.connect.core.model.ConnectionRecord
 import io.iohk.atala.connect.core.model.ConnectionRecord.*
-import io.iohk.atala.connect.core.model.error.ConnectionRepositoryError.*
 import io.iohk.atala.mercury.model.DidId
 import io.iohk.atala.mercury.protocol.connection.{ConnectionRequest, ConnectionResponse}
 import io.iohk.atala.mercury.protocol.invitation.v2.Invitation

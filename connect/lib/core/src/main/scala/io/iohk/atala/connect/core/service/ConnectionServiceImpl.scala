@@ -146,7 +146,7 @@ private class ConnectionServiceImpl(
         )
       maybeRecord <- connectionRepository
         .findById(record.id)
-      record <- ZIO.getOrFailWith(new RecordIdNotFound(recordId))(maybeRecord)
+      record <- ZIO.getOrFailWith(RecordIdNotFound(recordId))(maybeRecord)
     } yield record
 
   override def markConnectionRequestSent(
