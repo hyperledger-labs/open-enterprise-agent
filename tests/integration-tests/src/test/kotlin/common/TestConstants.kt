@@ -4,7 +4,7 @@ import io.iohk.atala.prism.models.*
 import models.JsonSchema
 import models.JsonSchemaProperty
 import java.time.Duration
-import java.util.*
+import java.util.UUID
 
 object TestConstants {
     val TESTS_CONFIG = System.getProperty("TESTS_CONFIG") ?: "/configs/basic.conf"
@@ -20,28 +20,6 @@ object TestConstants {
                 ),
             ),
         ),
-    )
-    val CREDENTIAL_SCHEMA_TYPE = "https://w3c-ccg.github.io/vc-json-schemas/schema/2.0/schema.json"
-    val SCHEMA_TYPE_JSON = "https://json-schema.org/draft/2020-12/schema"
-    val jsonSchema = JsonSchema(
-        id = "https://example.com/student-schema-1.0",
-        schema = SCHEMA_TYPE_JSON,
-        description = "Student schema",
-        type = "object",
-        properties = mutableMapOf(
-            "name" to JsonSchemaProperty(type = "string"),
-            "age" to JsonSchemaProperty(type = "integer"),
-        ),
-    )
-
-    val STUDENT_SCHEMA = CredentialSchemaInput(
-        author = "did:prism:agent",
-        name = UUID.randomUUID().toString(),
-        description = "Simple student credentials schema",
-        type = CREDENTIAL_SCHEMA_TYPE,
-        schema = jsonSchema,
-        tags = listOf("school", "students"),
-        version = "1.0.0",
     )
 
     val DID_UPDATE_PUBLISH_MAX_WAIT_5_MIN = Duration.ofSeconds(60L)

@@ -33,7 +33,7 @@ dependencies {
     testImplementation("io.ktor:ktor-server-netty:2.3.0")
     testImplementation("io.ktor:ktor-client-apache:2.3.0")
     // RestAPI client
-    testImplementation("io.iohk.atala.prism:prism-kotlin-client:1.30.0")
+    testImplementation("io.iohk.atala.prism:prism-kotlin-client:1.31.0")
     // Test helpers library
     testImplementation("io.iohk.atala:atala-automation:0.3.2")
     // Hoplite for configuration
@@ -48,6 +48,7 @@ serenity {
 }
 
 tasks.register<Delete>("cleanTarget") {
+    group = "verification"
     delete("target")
 }
 

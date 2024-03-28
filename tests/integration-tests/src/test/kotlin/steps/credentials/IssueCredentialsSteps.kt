@@ -1,6 +1,7 @@
 package steps.credentials
 
 import abilities.ListenToEvents
+import common.CredentialSchema
 import common.Utils.wait
 import interactions.Post
 import io.cucumber.java.en.Then
@@ -13,28 +14,36 @@ import models.CredentialEvent
 import net.serenitybdd.rest.SerenityRest
 import net.serenitybdd.screenplay.Actor
 import net.serenitybdd.screenplay.rest.abilities.CallAnApi
-import org.apache.http.HttpStatus.SC_CREATED
-import org.apache.http.HttpStatus.SC_OK
-import java.util.*
+import org.apache.http.HttpStatus.*
+import java.util.UUID
 
 class IssueCredentialsSteps {
 
-    var credentialEvent: CredentialEvent? = null
+    private var credentialEvent: CredentialEvent? = null
 
-    @When("{actor} offers a credential to {actor} with {string} form DID")
-    fun acmeOffersACredential(issuer: Actor, holder: Actor, didForm: String) {
+    private fun sendCredentialOffer(
+        issuer: Actor,
+        holder: Actor,
+        didForm: String,
+        schemaGuid: String?,
+        claims: Map<String, Any>
+    ) {
         val did: String = if (didForm == "short") {
             issuer.recall("shortFormDid")
         } else {
             issuer.recall("longFormDid")
         }
 
+        val schemaId: String? = if (schemaGuid != null) {
+            val baseUrl = issuer.recall<String>("baseUrl")
+            "$baseUrl/schema-registry/schemas/$schemaGuid"
+        } else {
+            null
+        }
+
         val credentialOfferRequest = CreateIssueCredentialRecordRequest(
-            schemaId = null,
-            claims = linkedMapOf(
-                "firstName" to "FirstName",
-                "lastName" to "LastName",
-            ),
+            schemaId = schemaId,
+            claims = claims,
             issuingDID = did,
             connectionId = issuer.recall<Connection>("connection-with-${holder.name}").connectionId,
             validityPeriod = 3600.0,
@@ -48,7 +57,9 @@ class IssueCredentialsSteps {
                     it.body(credentialOfferRequest)
                 },
         )
+    }
 
+    private fun saveCredentialOffer(issuer: Actor, holder: Actor) {
         val credentialRecord = SerenityRest.lastResponse().get<IssueCredentialRecord>()
 
         issuer.attemptsTo(
@@ -57,6 +68,47 @@ class IssueCredentialsSteps {
 
         issuer.remember("thid", credentialRecord.thid)
         holder.remember("thid", credentialRecord.thid)
+    }
+
+    @When("{actor} offers a credential to {actor} with {string} form DID")
+    fun issuerOffersACredential(issuer: Actor, holder: Actor, format: String) {
+        val claims = linkedMapOf(
+            "firstName" to "FirstName",
+            "lastName" to "LastName",
+        )
+        sendCredentialOffer(issuer, holder, format, null, claims)
+        saveCredentialOffer(issuer, holder)
+    }
+
+    @When("{actor} offers a credential to {actor} with {} form using {} schema")
+    fun issuerOffersCredentialToHolderUsingSchema(
+        issuer: Actor,
+        holder: Actor,
+        format: String,
+        schema: CredentialSchema
+    ) {
+        val schemaGuid = issuer.recall<String>(schema.name)!!
+        val claims = linkedMapOf(
+            "name" to "Name",
+            "age" to 18
+        )
+        sendCredentialOffer(issuer, holder, format, schemaGuid, claims)
+        saveCredentialOffer(issuer, holder)
+    }
+
+    @When("{actor} offers a credential to {actor} with {} form DID with wrong claims structure using {} schema")
+    fun issuerOffersCredentialToHolderWithWrongClaimStructure(
+        issuer: Actor,
+        holder: Actor,
+        format: String,
+        schema: CredentialSchema
+    ) {
+        val schemaGuid = issuer.recall<String>(schema.name)!!
+        val claims = linkedMapOf(
+            "name" to "Name",
+            "surname" to "Surname"
+        )
+        sendCredentialOffer(issuer, holder, "short", schemaGuid, claims)
     }
 
     @When("{actor} creates anoncred schema")
@@ -158,10 +210,10 @@ class IssueCredentialsSteps {
                     it.data.thid == holder.recall<String>("thid")
                 }
                 credentialEvent != null &&
-                    credentialEvent!!.data.protocolState == IssueCredentialRecord.ProtocolState.OFFER_RECEIVED
+                        credentialEvent!!.data.protocolState == IssueCredentialRecord.ProtocolState.OFFER_RECEIVED
             },
             "Holder was unable to receive the credential offer from Issuer! " +
-                "Protocol state did not achieve ${IssueCredentialRecord.ProtocolState.OFFER_RECEIVED} state.",
+                    "Protocol state did not achieve ${IssueCredentialRecord.ProtocolState.OFFER_RECEIVED} state.",
         )
 
         val recordId = ListenToEvents.`as`(holder).credentialEvents.last().data.recordId
@@ -206,7 +258,7 @@ class IssueCredentialsSteps {
                     it.data.thid == issuer.recall<String>("thid")
                 }
                 credentialEvent != null &&
-                    credentialEvent!!.data.protocolState == IssueCredentialRecord.ProtocolState.REQUEST_RECEIVED
+                        credentialEvent!!.data.protocolState == IssueCredentialRecord.ProtocolState.REQUEST_RECEIVED
             },
             "Issuer was unable to receive the credential request from Holder! Protocol state did not achieve RequestReceived state.",
         )
@@ -224,10 +276,10 @@ class IssueCredentialsSteps {
                     it.data.thid == issuer.recall<String>("thid")
                 }
                 credentialEvent != null &&
-                    credentialEvent!!.data.protocolState == IssueCredentialRecord.ProtocolState.CREDENTIAL_SENT
+                        credentialEvent!!.data.protocolState == IssueCredentialRecord.ProtocolState.CREDENTIAL_SENT
             },
             "Issuer was unable to issue the credential! " +
-                "Protocol state did not achieve ${IssueCredentialRecord.ProtocolState.CREDENTIAL_SENT} state.",
+                    "Protocol state did not achieve ${IssueCredentialRecord.ProtocolState.CREDENTIAL_SENT} state.",
         )
     }
 
@@ -239,11 +291,18 @@ class IssueCredentialsSteps {
                     it.data.thid == holder.recall<String>("thid")
                 }
                 credentialEvent != null &&
-                    credentialEvent!!.data.protocolState == IssueCredentialRecord.ProtocolState.CREDENTIAL_RECEIVED
+                        credentialEvent!!.data.protocolState == IssueCredentialRecord.ProtocolState.CREDENTIAL_RECEIVED
             },
             "Holder was unable to receive the credential from Issuer! " +
-                "Protocol state did not achieve ${IssueCredentialRecord.ProtocolState.CREDENTIAL_RECEIVED} state.",
+                    "Protocol state did not achieve ${IssueCredentialRecord.ProtocolState.CREDENTIAL_RECEIVED} state.",
         )
         holder.remember("issuedCredential", ListenToEvents.`as`(holder).credentialEvents.last().data)
+    }
+
+    @Then("{actor} should see that credential issuance has failed")
+    fun issuerShouldSeeThatCredentialIssuanceHasFailed(issuer: Actor) {
+        issuer.attemptsTo(
+            Ensure.thatTheLastResponse().statusCode().isEqualTo(SC_BAD_REQUEST)
+        )
     }
 }

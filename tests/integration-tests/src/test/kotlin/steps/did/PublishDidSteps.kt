@@ -86,6 +86,31 @@ class PublishDidSteps {
             "shortFormDid",
             did.did,
         )
+        actor.forget<String>("hasPublishedDid")
+    }
+
+    @Given("{actor} has a published DID")
+    fun agentHasAPublishedDID(agent: Actor) {
+        if (agent.recallAll().containsKey("hasPublishedDid")) {
+            return
+        }
+        if (!agent.recallAll().containsKey("shortFormDid")
+            && !agent.recallAll().containsKey("longFormDid")) {
+            createsUnpublishedDid(agent)
+        }
+        hePublishesDidToLedger(agent)
+    }
+
+    @Given("{actor} has an unpublished DID")
+    fun agentHasAnUnpublishedDID(agent: Actor) {
+        if (agent.recallAll().containsKey("shortFormDid")
+            || agent.recallAll().containsKey("longFormDid")) {
+            // is not published
+            if (!agent.recallAll().containsKey("hasPublishedDid")) {
+                return
+            }
+        }
+        createsUnpublishedDid(agent)
     }
 
     @When("{actor} publishes DID to ledger")
@@ -122,6 +147,8 @@ class PublishDidSteps {
             Ensure.thatTheLastResponse().statusCode().isEqualTo(SC_OK),
             Ensure.that(didDocument.id).isEqualTo(actor.recall("shortFormDid")),
         )
+
+        actor.remember("hasPublishedDid", true)
     }
 
     @Then("{actor} resolves DID document corresponds to W3C standard")
