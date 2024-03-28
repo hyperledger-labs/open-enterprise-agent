@@ -46,9 +46,9 @@ The project structure is represented below:
     │   ├── abilities -> contains the abilities of the actors
     │   ├── common -> contains the common classes (test constants and helper functions)
     │   ├── config -> contains the configuration classes (Hoplite)
-    │   ├── features -> contains the features implementation steps
     │   ├── interactions -> contains the interactions of the actors
-    │   └── runners -> contains the test runners to execute the tests
+    │   ├── models -> contains the models
+    │   ├── steps -> contains the features implementation steps
     └── resources -> contains the test resources
         ├── configs -> contains the test configuration files
         ├── containers -> contains the Docker Compose files to start the test environment

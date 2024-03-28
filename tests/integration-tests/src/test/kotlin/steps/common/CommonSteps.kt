@@ -25,32 +25,18 @@ class CommonSteps {
 
     @Given("{actor} has an issued credential from {actor}")
     fun holderHasIssuedCredentialFromIssuer(holder: Actor, issuer: Actor) {
-        holder.attemptsTo(
-            Get.resource("/issue-credentials/records"),
-        )
-        holder.attemptsTo(
-            Ensure.thatTheLastResponse().statusCode().isEqualTo(HttpStatus.SC_OK),
-        )
-        val receivedCredential = SerenityRest.lastResponse().get<IssueCredentialRecordPage>().contents!!.findLast { credential ->
-            credential.protocolState == IssueCredentialRecord.ProtocolState.CREDENTIAL_RECEIVED &&
-                credential.credentialFormat == IssueCredentialRecord.CredentialFormat.JWT
-        }
+        actorsHaveExistingConnection(issuer, holder)
 
-        if (receivedCredential != null) {
-            holder.remember("issuedCredential", receivedCredential)
-        } else {
-            val publishDidSteps = PublishDidSteps()
-            val issueSteps = IssueCredentialsSteps()
-            actorsHaveExistingConnection(issuer, holder)
-            publishDidSteps.createsUnpublishedDid(holder)
-            publishDidSteps.createsUnpublishedDid(issuer)
-            publishDidSteps.hePublishesDidToLedger(issuer)
-            issueSteps.acmeOffersACredential(issuer, holder, "short")
-            issueSteps.holderReceivesCredentialOffer(holder)
-            issueSteps.holderAcceptsCredentialOfferForJwt(holder)
-            issueSteps.acmeIssuesTheCredential(issuer)
-            issueSteps.bobHasTheCredentialIssued(holder)
-        }
+        val publishDidSteps = PublishDidSteps()
+        publishDidSteps.createsUnpublishedDid(holder)
+        publishDidSteps.actorHavePublishedPrismDid(issuer)
+
+        val issueSteps = IssueCredentialsSteps()
+        issueSteps.acmeOffersACredential(issuer, holder, "short")
+        issueSteps.holderReceivesCredentialOffer(holder)
+        issueSteps.holderAcceptsCredentialOfferForJwt(holder)
+        issueSteps.acmeIssuesTheCredential(issuer)
+        issueSteps.bobHasTheCredentialIssued(holder)
     }
 
     @Given("{actor} and {actor} have an existing connection")
