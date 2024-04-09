@@ -18,3 +18,5 @@ final case class VcVerificationResult(
     failedChecks: List[VcVerification],
     failedAsWarningChecks: List[VcVerification]
 )
+
+final case class VcVerificationOutcome(verification: VcVerification, success: Boolean)

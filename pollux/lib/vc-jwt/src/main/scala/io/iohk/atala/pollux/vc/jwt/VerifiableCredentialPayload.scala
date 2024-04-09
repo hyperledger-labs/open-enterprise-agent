@@ -4,14 +4,14 @@ import io.circe
 import io.circe.generic.auto.*
 import io.circe.parser.decode
 import io.circe.syntax.*
-import io.circe.{CursorOp, Decoder, DecodingFailure, Encoder, HCursor, Json}
+import io.circe.*
 import io.iohk.atala.castor.core.model.did.VerificationRelationship
 import io.iohk.atala.pollux.vc.jwt.revocation.BitString
 import io.iohk.atala.pollux.vc.jwt.schema.{SchemaResolver, SchemaValidator}
 import io.iohk.atala.shared.http.UriResolver
 import pdi.jwt.*
-import zio.prelude.*
 import zio.*
+import zio.prelude.*
 
 import java.security.PublicKey
 import java.time.temporal.TemporalAmount
@@ -716,6 +716,20 @@ object JwtCredential {
       .flatMap(decode[JwtCredentialPayload](_).toTry)
   }
 
+  def decodeJwt(jwt: JWT): IO[String, JwtCredentialPayload] = {
+    val decodeJWT =
+      ZIO.fromTry(JwtCirce.decodeRawAll(jwt.value, JwtOptions(false, false, false))).mapError(_.getMessage)
+
+    val validatedDecodedClaim: IO[String, JwtCredentialPayload] =
+      for {
+        decodedJwtTask <- decodeJWT
+        (_, claim, _) = decodedJwtTask
+        decodedClaim <- ZIO.fromEither(decode[JwtCredentialPayload](claim).left.map(_.toString))
+      } yield decodedClaim
+
+    validatedDecodedClaim
+  }
+
   def validateEncodedJwt(jwt: JWT, publicKey: PublicKey): Boolean =
     JwtCirce.isValid(jwt.value, publicKey, JwtOptions(expiration = false, notBefore = false))
 
@@ -748,6 +762,20 @@ object JwtCredential {
         CredentialPayloadValidation.validateSchema(decodedClaim)(schemaResolver)(schemaToValidator)
       )
     )(_.replicateZIODiscard(1))
+  }
+
+  def validateExpiration(jwt: JWT): Validation[String, Unit] = {
+    Validation
+      .fromTry(JwtCirce.decodeRawAll(jwt.value, JwtOptions(false, true, false)))
+      .flatMap(_ => Validation.unit)
+      .mapError(_.getMessage)
+  }
+
+  def validateNotBefore(jwt: JWT): Validation[String, Unit] = {
+    Validation
+      .fromTry(JwtCirce.decodeRawAll(jwt.value, JwtOptions(false, false, true)))
+      .flatMap(_ => Validation.unit)
+      .mapError(_.getMessage)
   }
 
   def validateSchemaAndSignature(
