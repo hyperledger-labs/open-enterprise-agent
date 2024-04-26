@@ -122,8 +122,28 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    command: [
+      "-javaagent:/opt/docker/opentelemetry-javaagent.jar",
+      "-Dotel.service.name=identus-cloud-agent",
+      "-Dotel.traces.exporter=otlp",
+      "-Dotel.exporter.otlp.traces.protocol=grpc",
+      "-Dotel.exporter.otlp.endpoint=http://jaeger:4317",
+      "-Dotel.metrics.exporter=none",
+      "-Dotel.logs.exporter=none",
+      "-Dotel.instrumentation.common.default-enabled=true",
+      "-Dotel.instrumentation.zio.enabled=true",
+      "-Dotel.instrumentation.methods.enabled=true",
+      "-Dotel.instrumentation.netty.enabled=true"
+    ]
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.47
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - 16686:16686
 
   swagger-ui:
     image: swaggerapi/swagger-ui:v5.1.0

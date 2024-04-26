@@ -856,6 +856,13 @@ lazy val cloudAgentServer = project
     dockerExposedPorts := Seq(8080, 8085, 8090),
     // Official docker image for openjdk 21 with curl and bash
     dockerBaseImage := "openjdk:21-jdk",
+    dockerCommands ++= Seq(
+      com.typesafe.sbt.packager.docker.ExecCmd(
+        "ADD --chown=demiourgos728:root",
+        "'https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar'",
+        "opentelemetry-javaagent.jar"
+      )
+    ),
     buildInfoKeys := Seq[BuildInfoKey](name, version, scalaVersion, sbtVersion),
     buildInfoPackage := "org.hyperledger.identus.agent.server.buildinfo",
     Compile / packageDoc / publishArtifact := false
