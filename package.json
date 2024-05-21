@@ -25,7 +25,7 @@
       },
       {
         "name": "prerelease/*",
-        "prerelease": "snapshot"
+        "prerelease": "snapshot.${name.replace(\"prerelease/\", \"\")}"
       }
     ],
     "tagFormat": "cloud-agent-v${version}",
