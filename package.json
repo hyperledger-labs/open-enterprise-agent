@@ -1,6 +1,6 @@
 {
   "name": "identus-cloud-agent",
-  "version": "1.33.1",
+  "version": "1.33.2-snapshot.branch-lo-template.1",
   "engines": {
     "node": ">=16.13.0"
   },

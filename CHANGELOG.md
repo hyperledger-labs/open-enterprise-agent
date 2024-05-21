@@ -1,3 +1,10 @@
+## [1.33.2-snapshot.branch-lo-template.1](https://github.com/hyperledger/identus-cloud-agent/compare/cloud-agent-v1.33.1...cloud-agent-v1.33.2-snapshot.branch-lo-template.1) (2024-05-21)
+
+
+### Bug Fixes
+
+* dummy commit to trigger a release ([bb1dbab](https://github.com/hyperledger/identus-cloud-agent/commit/bb1dbab446613b53879391aeb404a88ac255e77c))
+
 ## [1.33.1](https://github.com/hyperledger/identus-cloud-agent/compare/cloud-agent-v1.33.0...cloud-agent-v1.33.1) (2024-05-21)
 
 
