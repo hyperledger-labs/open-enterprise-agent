@@ -1,7 +1,7 @@
 ingress:
   enabled: true
   applicationUrls:
-  - chart-base-prism-stack.atalaprism.io
+  - chart-base-stack.atalaprism.io
   platformIngressUrl: chart-base-platform-ingress.atalaprism.io
   cors:
     enabled: false
@@ -147,18 +147,18 @@ keycloak:
     user: keycloak-admin
     database: keycloak
   extraVolumes:
-  - name: prism-agent-realm-import-volume
+  - name: cloud-agent-realm-import-volume
     configMap:
-      name: prism-agent-realm-import
+      name: cloud-agent-realm-import
       items:
-        - key: prism-agent.json
-          path: prism-agent.json
+        - key: cloud-agent.json
+          path: cloud-agent.json
   extraVolumeMounts:
-  - name: prism-agent-realm-import-volume
+  - name: cloud-agent-realm-import-volume
     mountPath: /opt/bitnami/keycloak/data/import
     readOnly: true
 
-# It is configured for deployment and postgresql objects of prism-agent
+# It is configured for deployment and postgresql objects of cloud-agent
 affinity:
   nodeAffinity: {}
 #    requiredDuringSchedulingIgnoredDuringExecution:

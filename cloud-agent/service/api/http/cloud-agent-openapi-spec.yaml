@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Identus Cloud Agent API Reference
-  version: 1.33.1
+  version: 1.34.0
   description: |2
 
     The Identus Cloud Agent API facilitates the integration and management of self-sovereign identity capabilities within applications.
@@ -4327,7 +4327,7 @@ components:
           type: string
           description: The date and time when the issue credential record was created.
           format: date-time
-          example: '2024-05-21T08:47:16.194192960Z'
+          example: '2024-05-27T18:32:07.650296597Z'
         updatedAt:
           type: string
           description: The date and time when the issue credential record was last
@@ -4930,7 +4930,7 @@ components:
           type: string
           description: Issuance timestamp of status list credential
           format: date-time
-          example: '2024-05-21T08:47:16.232455416Z'
+          example: '2024-05-27T18:32:07.694793558Z'
         credentialSubject:
           $ref: '#/components/schemas/CredentialSubject'
         proof:

@@ -13,8 +13,8 @@ data:
     KEYCLOAK_ADMIN_USER=$KEYCLOAK_ADMIN_USER
     KEYCLOAK_ADMIN_PASSWORD=$KEYCLOAK_ADMIN_PASSWORD
     REALM_NAME=$REALM_NAME
-    PRISM_AGENT_CLIENT_ID=$PRISM_AGENT_CLIENT_ID
-    PRISM_AGENT_CLIENT_SECRET=$PRISM_AGENT_CLIENT_SECRET
+    CLOUD_AGENT_CLIENT_ID=$CLOUD_AGENT_CLIENT_ID
+    CLOUD_AGENT_CLIENT_SECRET=$CLOUD_AGENT_CLIENT_SECRET
 
     function get_admin_token() {
       local response=$(
@@ -68,10 +68,10 @@ data:
     echo "Getting admin access token ..."
     ADMIN_ACCESS_TOKEN=$(get_admin_token)
 
-    CLIENT_EXIST=$(is_client_exists $ADMIN_ACCESS_TOKEN $PRISM_AGENT_CLIENT_ID)
+    CLIENT_EXIST=$(is_client_exists $ADMIN_ACCESS_TOKEN $CLOUD_AGENT_CLIENT_ID)
     if [ $CLIENT_EXIST == "false" ]; then
-      echo "Creating a new $PRISM_AGENT_CLIENT_ID client ..."
-      create_client $ADMIN_ACCESS_TOKEN $PRISM_AGENT_CLIENT_ID $PRISM_AGENT_CLIENT_SECRET
+      echo "Creating a new $CLOUD_AGENT_CLIENT_ID client ..."
+      create_client $ADMIN_ACCESS_TOKEN $CLOUD_AGENT_CLIENT_ID $CLOUD_AGENT_CLIENT_SECRET
     fi
 
 {{- if .Values.keycloak.enabled }}
@@ -81,9 +81,9 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: prism-agent-realm-import
+  name: {{ .Chart.Name }}-realm-import
 data:
-  prism-agent.json: |
+  {{ .Chart.Name }}.json: |
     {
       "realm": {{ .Values.server.keycloak.realm | quote }},
       "enabled": true

@@ -2,14 +2,14 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: "prism-agent-base-path-cert"
+  name: "{{ .Chart.Name }}-base-path-cert"
   namespace: "{{ .Release.Namespace }}"
   labels:
     {{ template "labels.common" . }}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
-  secretName: "prism-agent-base-path-secret"
+  secretName: "{{ .Chart.Name }}-base-path-secret"
   duration: 2160h0m0s # 90d
   renewBefore: 360h0m0s # 15d
   issuerRef:

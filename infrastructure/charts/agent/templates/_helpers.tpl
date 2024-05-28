@@ -21,7 +21,7 @@
         {{- end }}
 {{- end -}}
 {{- define "labels.common" -}}
-app.kubernetes.io/part-of: prism-agent
+app.kubernetes.io/part-of: {{ .Chart.Name }}
 {{- end -}}
 {{- define "headers.security" }}
     - name: response-rewrite

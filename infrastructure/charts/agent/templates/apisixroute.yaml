@@ -16,7 +16,7 @@ spec:
       {{- end }}
       paths:
       - /prism-agent/*
-      - /cloud-agent/*
+      - /{{ .Chart.Name }}/*
     backends:
        - serviceName: agent-server-tapir-service
          servicePort: 8085
@@ -27,7 +27,7 @@ spec:
     - name: proxy-rewrite
       enable: true
       config:
-        regex_uri: ["^/(prism-agent|cloud-agent)/(.*)","/$2"]
+        regex_uri: ["^/(prism-agent|{{ .Chart.Name }})/(.*)","/$2"]
     - name: uri-blocker
       enable: true
       config:
@@ -57,7 +57,7 @@ spec:
       {{- end }}
       paths:
       - /prism-agent/didcomm*
-      - /cloud-agent/didcomm*
+      - /{{ .Chart.Name }}/didcomm*
     backends:
       - serviceName: agent-server-didcomm-service
         servicePort: 8090
@@ -65,7 +65,7 @@ spec:
     - name: proxy-rewrite
       enable: true
       config:
-        regex_uri: ["^/(prism-agent|cloud-agent)/didcomm(.*)", "/$2"]
+        regex_uri: ["^/(prism-agent|{{ .Chart.Name }})/didcomm(.*)", "/$2"]
     {{ template "cors" . }}
     {{ template "headers.requestId" . }}
     {{ template "headers.security" . }}
@@ -89,7 +89,7 @@ spec:
       {{- end }}
       paths:
       - /prism-agent/schema-registry/schemas/*
-      - /cloud-agent/schema-registry/schemas/*
+      - /{{ .Chart.Name }}/schema-registry/schemas/*
       methods:
       - GET
     backends:
@@ -99,7 +99,7 @@ spec:
     - name: proxy-rewrite
       enable: true
       config:
-        regex_uri: ["^/(prism-agent|cloud-agent)/schema-registry/schemas/(.*)", "/schema-registry/schemas/$2"]
+        regex_uri: ["^/(prism-agent|{{ .Chart.Name }})/schema-registry/schemas/(.*)", "/schema-registry/schemas/$2"]
     {{ template "cors" . }}
     {{ template "headers.requestId" . }}
     {{ template "headers.security" . }}
@@ -123,7 +123,7 @@ spec:
       {{- end }}
       paths:
         - /prism-agent/credential-definition-registry/definitions/*
-        - /cloud-agent/credential-definition-registry/definitions/*
+        - /{{ .Chart.Name }}/credential-definition-registry/definitions/*
       methods:
         - GET
     backends:
@@ -133,7 +133,7 @@ spec:
     - name: proxy-rewrite
       enable: true
       config:
-        regex_uri: ["^/(prism-agent|cloud-agent)/credential-definition-registry/definitions/(.*)", "/credential-definition-registry/definitions/$2"]
+        regex_uri: ["^/(prism-agent|{{ .Chart.Name }})/credential-definition-registry/definitions/(.*)", "/credential-definition-registry/definitions/$2"]
     {{ template "cors" . }}
     {{ template "headers.requestId" . }}
     {{ template "headers.security" . }}
@@ -157,7 +157,7 @@ spec:
       {{- end }}
       paths:
       - /prism-agent/docs/*
-      - /cloud-agent/docs/*
+      - /{{ .Chart.Name }}/docs/*
     backends:
       - serviceName: agent-server-tapir-service
         servicePort: 8085
@@ -165,7 +165,7 @@ spec:
     - name: proxy-rewrite
       enable: true
       config:
-        regex_uri: ["^/(prism-agent|cloud-agent)/docs/(.*)","/docs/$2"]
+        regex_uri: ["^/(prism-agent|{{ .Chart.Name }})/docs/(.*)","/docs/$2"]
     {{ template "cors" . }}
     {{ template "headers.requestId" . }}
     {{ template "headers.security" . }}

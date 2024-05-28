@@ -4,14 +4,14 @@ metadata:
   name: agent-server-tapir-service
   namespace: "{{ .Release.Namespace }}"
   labels:
-    app.kubernetes.io/name: prism-agent-server
-    app.kubernetes.io/service: prism-agent-server-main
+    app.kubernetes.io/name: {{ .Chart.Name }}-server
+    app.kubernetes.io/service: {{ .Chart.Name }}-server-main
     {{ template "labels.common" . }}
 spec:
   selector:
-    app.kubernetes.io/name: prism-agent-server
+    app.kubernetes.io/name: {{ .Chart.Name }}-server
   ports:
-    - name: prism-agent-server-main
+    - name: {{ .Chart.Name }}-server-main
       protocol: "TCP"
       port: 8085
       targetPort: 8085
@@ -25,14 +25,14 @@ metadata:
   name: agent-server-didcomm-service
   namespace: "{{ .Release.Namespace }}"
   labels:
-    app.kubernetes.io/name: prism-agent-server
-    app.kubernetes.io/service: prism-agent-server-didcomm
+    app.kubernetes.io/name: {{ .Chart.Name }}-server
+    app.kubernetes.io/service: {{ .Chart.Name }}-server-didcomm
     {{ template "labels.common" . }}
 spec:
   selector:
-    app.kubernetes.io/name: prism-agent-server
+    app.kubernetes.io/name: {{ .Chart.Name }}-server
   ports:
-    - name: prism-agent-server-didcomm
+    - name: {{ .Chart.Name }}-server-didcomm
       protocol: "TCP"
       port: 8090
       targetPort: 8090
@@ -49,7 +49,7 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/hostname: "{{ join ", " .Values.ingress.applicationUrls }}"
   labels:
-    app.kubernetes.io/name: prism-agent-server
+    app.kubernetes.io/name: {{ .Chart.Name }}-server
     app.kubernetes.io/service: agent-server-domain-name-fake
     {{ template "labels.common" . }}
 spec:

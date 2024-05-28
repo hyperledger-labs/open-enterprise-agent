@@ -2,7 +2,7 @@
 apiVersion: apisix.apache.org/v2
 kind: ApisixTls
 metadata:
-  name: "prism-agent-base-path-tls"
+  name: "{{ .Chart.Name }}-base-path-tls"
   namespace: "{{ .Release.Namespace }}"
   labels:
     {{ template "labels.common" . }}
@@ -12,6 +12,6 @@ spec:
     - {{ . }}
   {{- end }}
   secret:
-    name: "prism-agent-base-path-secret"
+    name: "{{ .Chart.Name }}-base-path-secret"
     namespace: "{{ .Release.Namespace }}"
 {{- end }}

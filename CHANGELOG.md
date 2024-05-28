@@ -1,3 +1,10 @@
+# [1.34.0](https://github.com/hyperledger/identus-cloud-agent/compare/cloud-agent-v1.33.1...cloud-agent-v1.34.0) (2024-05-27)
+
+
+### Features
+
+* Rename helm chart and its resources ([#1104](https://github.com/hyperledger/identus-cloud-agent/issues/1104)) ([84c5cea](https://github.com/hyperledger/identus-cloud-agent/commit/84c5ceaf97ee491ebcb07b12f2cc78a4da1e2dc1))
+
 ## [1.33.1](https://github.com/hyperledger/identus-cloud-agent/compare/cloud-agent-v1.33.0...cloud-agent-v1.33.1) (2024-05-21)
 
 
