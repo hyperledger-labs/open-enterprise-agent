@@ -103,7 +103,7 @@ class ConnectionServiceNotifier(
 
   override def reportProcessingFailure(
       recordId: UUID,
-      failReason: Option[String]
+      failReason: Option[org.hyperledger.identus.shared.models.Failure]
   ): URIO[WalletAccessContext, Unit] =
     svc.reportProcessingFailure(recordId, failReason)
 

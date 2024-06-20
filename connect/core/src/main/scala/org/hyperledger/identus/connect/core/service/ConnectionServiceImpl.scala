@@ -297,7 +297,7 @@ private class ConnectionServiceImpl(
 
   def reportProcessingFailure(
       recordId: UUID,
-      failReason: Option[String]
+      failReason: Option[org.hyperledger.identus.shared.models.Failure]
   ): URIO[WalletAccessContext, Unit] =
     connectionRepository.updateAfterFail(recordId, failReason)
 

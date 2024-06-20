@@ -42,7 +42,7 @@ case class ConnectionRecord(
     connectionResponse: Option[ConnectionResponse],
     metaRetries: Int,
     metaNextRetry: Option[Instant],
-    metaLastFailure: Option[String]
+    metaLastFailure: Option[org.hyperledger.identus.shared.models.Failure]
 ) {
   def withTruncatedTimestamp(unit: ChronoUnit = ChronoUnit.MICROS): ConnectionRecord = copy(
     createdAt = createdAt.truncatedTo(unit),

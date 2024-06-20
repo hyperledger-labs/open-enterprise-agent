@@ -67,7 +67,7 @@ trait ConnectionRepository {
 
   def updateAfterFail(
       recordId: UUID,
-      failReason: Option[String],
+      failReason: Option[org.hyperledger.identus.shared.models.Failure],
   ): URIO[WalletAccessContext, Unit]
 
 }

@@ -6,7 +6,7 @@ import sbtbuildinfo.BuildInfoPlugin.autoImport.*
 inThisBuild(
   Seq(
     organization := "org.hyperledger",
-    scalaVersion := "3.3.3",
+    scalaVersion := "3.4.0",
     fork := true,
     run / connectInput := true,
     releaseUseGlobalVersion := false,
@@ -34,7 +34,7 @@ inThisBuild(
       "-unchecked",
       "-Dquill.macro.log=false", // disable quill macro logs
       "-Wunused:all",
-      "-Wconf:any:warning" // TODO: change unused imports to errors, Wconf configuration string is different from scala 2, figure out how!
+      "-Wconf:any:warning", // TODO: change unused imports to errors, Wconf configuration string is different from scala 2, figure out how!
       // TODO "-feature",
       // TODO "-Xfatal-warnings",
       // TODO "-Yexplicit-nulls",
@@ -502,7 +502,8 @@ lazy val models = project
     ), // TODO try to remove this from this module
     // libraryDependencies += D.didScala
   )
-  .settings(libraryDependencies += D.nimbusJwt) //FIXME just for the DidAgent
+  .settings(libraryDependencies += D.nimbusJwt) // FIXME just for the DidAgent
+  .dependsOn(shared)
 
 /* TODO move code from agentDidcommx to here
 models implementation for didcommx () */
@@ -841,6 +842,17 @@ lazy val cloudAgentServer = project
   .settings(commonSetttings)
   .settings(
     name := "identus-cloud-agent",
+    scalacOptions ++= Seq(
+      "-Yno-deep-subtypes",
+      "-Yno-decode-stacktraces",
+      "-Yno-patmat-opt",
+      "-Yshow-print-errors",
+      "-Ydetailed-stats",
+      // "-Xshow-phases",
+      // "-Xprint:all",
+      // "-Ydebug",
+      "-Ylog:all",
+    ),
     fork := true,
     libraryDependencies ++= D_CloudAgent.serverDependencies,
     excludeDependencies ++= Seq(

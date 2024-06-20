@@ -6,6 +6,8 @@ trait Failure {
   val namespace: String
   val statusCode: StatusCode
   val userFacingMessage: String
+
+  def toUnmanagedFailureException = UnmanagedFailureException(this)
 }
 
 object Failure {
@@ -29,4 +31,6 @@ object StatusCode {
 
   val InternalServerError: StatusCode = StatusCode(500)
   val BadGateway: StatusCode = StatusCode(502)
+
+  val FixmeStatusCode: StatusCode = StatusCode(500) // FIXME TODO
 }

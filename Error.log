@@ -1,0 +1,825 @@
+[info] [log parser] forward reference to type State
+[error] -- [E008] Not Found Error: /home/fabio/workspace/atala-prism-building-blocks/cloud-agent/service/server/src/main/scala/org/hyperledger/identus/agent/server/CloudAgentApp.scala:90:34
+[error] 90 |      _ <- (ConnectBackgroundJobs.didCommExchanges @@ Metric
+[error]    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[error]    |value didCommExchanges is not a member of object org.hyperledger.identus.agent.server.jobs.ConnectBackgroundJobs
+[info] [log typer] !!! instantiated to Nothing: E1, constraint =  uninstantiated variables: T, T, T, T, T, T, T, T, T, T, T, T, R0, R0, E1, R1,
+[info]   R1
+[info]  constrained types:
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validateEach[T]
+[info]     ,
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validateEach[T]
+[info]     ,
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [R0]:
+[info]     zio.ZIO.ProvideSomeLayer[R0,
+[info]       org.hyperledger.identus.shared.models.WalletAdministrationContext &
+[info]         org.hyperledger.identus.agent.walletapi.service.WalletManagementService
+[info]         & org.hyperledger.identus.agent.walletapi.service.ManagedDIDService,
+[info]       Nothing, Unit]
+[info]   ,
+[info]   [R0]:
+[info]     zio.ZIO.ProvideSomeLayer[R0,
+[info]       org.hyperledger.identus.shared.models.WalletAdministrationContext &
+[info]         org.hyperledger.identus.agent.walletapi.service.WalletManagementService
+[info]         & org.hyperledger.identus.agent.walletapi.service.ManagedDIDService,
+[info]       Nothing, Unit]
+[info]   ,
+[info]   [E1, R1]
+[info]     (layer: => zio.ZLayer[R0, E1, R1])
+[info]       (implicit
+[info]         ev: (R0 & R1) <:< (
+[info]           org.hyperledger.identus.shared.models.WalletAdministrationContext &
+[info]           org.hyperledger.identus.agent.walletapi.service.
+[info]             WalletManagementService
+[info]          & org.hyperledger.identus.agent.walletapi.service.ManagedDIDService),
+[info]         tagged: izumi.reflect.Tag[R1], trace: zio.Trace): zio.ZIO[R0, E1, Unit]
+[info]     ,
+[info]   [E1, R1]
+[info]     (layer: => zio.ZLayer[R0, E1, R1])
+[info]       (implicit
+[info]         ev: (R0 & R1) <:< (
+[info]           org.hyperledger.identus.shared.models.WalletAdministrationContext &
+[info]           org.hyperledger.identus.agent.walletapi.service.
+[info]             WalletManagementService
+[info]          & org.hyperledger.identus.agent.walletapi.service.ManagedDIDService),
+[info]         tagged: izumi.reflect.Tag[R1], trace: zio.Trace): zio.ZIO[R0, E1, Unit]
+[info]  bounds:
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      R0
+[info]      R0
+[info]      >: org.hyperledger.identus.agent.walletapi.service.ManagedDIDService &
+[info]       org.hyperledger.identus.agent.walletapi.service.WalletManagementService
+[info]      E1
+[info]      R1
+[info]      E1 := Nothing
+[info]      R1
+[info]      >: org.hyperledger.identus.shared.models.WalletAdministrationContext.Admin
+[info]  ordering:
+[info]  co-deps:
+[info]  contra-deps:
+[info] [log typer] !!! instantiated to Nothing: TypeParamRef(E1), constraint =  uninstantiated variables: T, T, T, T, T, T, T, T, T, T, T, T, R0, R0, E1, R1,
+[info]   R1
+[info]  constrained types:
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validateEach[T]
+[info]     ,
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validateEach[T]
+[info]     ,
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [T](v: sttp.tapir.Validator[T]): sttp.tapir.Schema.annotations.validate[T],
+[info]   [R0]:
+[info]     zio.ZIO.ProvideSomeLayer[R0,
+[info]       org.hyperledger.identus.shared.models.WalletAdministrationContext &
+[info]         org.hyperledger.identus.agent.walletapi.service.WalletManagementService
+[info]         & org.hyperledger.identus.agent.walletapi.service.ManagedDIDService,
+[info]       Nothing, Unit]
+[info]   ,
+[info]   [R0]:
+[info]     zio.ZIO.ProvideSomeLayer[R0,
+[info]       org.hyperledger.identus.shared.models.WalletAdministrationContext &
+[info]         org.hyperledger.identus.agent.walletapi.service.WalletManagementService
+[info]         & org.hyperledger.identus.agent.walletapi.service.ManagedDIDService,
+[info]       Nothing, Unit]
+[info]   ,
+[info]   [E1, R1]
+[info]     (layer: => zio.ZLayer[R0, E1, R1])
+[info]       (implicit
+[info]         ev: (R0 & R1) <:< (
+[info]           org.hyperledger.identus.shared.models.WalletAdministrationContext &
+[info]           org.hyperledger.identus.agent.walletapi.service.
+[info]             WalletManagementService
+[info]          & org.hyperledger.identus.agent.walletapi.service.ManagedDIDService),
+[info]         tagged: izumi.reflect.Tag[R1], trace: zio.Trace): zio.ZIO[R0, E1, Unit]
+[info]     ,
+[info]   [E1, R1]
+[info]     (layer: => zio.ZLayer[R0, E1, R1])
+[info]       (implicit
+[info]         ev: (R0 & R1) <:< (
+[info]           org.hyperledger.identus.shared.models.WalletAdministrationContext &
+[info]           org.hyperledger.identus.agent.walletapi.service.
+[info]             WalletManagementService
+[info]          & org.hyperledger.identus.agent.walletapi.service.ManagedDIDService),
+[info]         tagged: izumi.reflect.Tag[R1], trace: zio.Trace): zio.ZIO[R0, E1, Unit]
+[info]  bounds:
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      T <: String
+[info]      R0
+[info]      R0
+[info]      >: org.hyperledger.identus.agent.walletapi.service.ManagedDIDService &
+[info]       org.hyperledger.identus.agent.walletapi.service.WalletManagementService
+[info]      E1
+[info]      R1
+[info]      E1 := Nothing
+[info]      R1
+[info]      >: org.hyperledger.identus.shared.models.WalletAdministrationContext.Admin
+[info]  ordering:
+[info]  co-deps:
+[info]  contra-deps:
+[info] [log typer] !!! instantiated to Nothing: E, constraint =  uninstantiated variables: E
+[info]  constrained types:
+[info]   [E]
+[info]     (layer: zio.ZLayer[?, E, ?]*):
+[info]       zio.ZLayer[
+[info]         org.hyperledger.identus.agent.server.config.AppConfig &
+[info]           org.hyperledger.identus.iam.authentication.apikey.
+[info]             AuthenticationRepository
+[info]          & (org.hyperledger.identus.agent.walletapi.service.EntityService &
+[info]           org.hyperledger.identus.agent.walletapi.service.
+[info]             WalletManagementService
+[info]         ),
+[info]       E, org.hyperledger.identus.iam.authentication.apikey.ApiKeyAuthenticator &
+[info]
+[info]         org.hyperledger.identus.iam.authentication.admin.
+[info]           AdminApiKeyAuthenticator
+[info]       ]
+[info]   ,
+[info]   [E]
+[info]     (layer: zio.ZLayer[?, E, ?]*):
+[info]       zio.ZLayer[
+[info]         org.hyperledger.identus.agent.server.config.AppConfig &
+[info]           org.hyperledger.identus.iam.authentication.apikey.
+[info]             AuthenticationRepository
+[info]          & (org.hyperledger.identus.agent.walletapi.service.EntityService &
+[info]           org.hyperledger.identus.agent.walletapi.service.
+[info]             WalletManagementService
+[info]         ),
+[info]       E, org.hyperledger.identus.iam.authentication.apikey.ApiKeyAuthenticator &
+[info]
+[info]         org.hyperledger.identus.iam.authentication.admin.
+[info]           AdminApiKeyAuthenticator
+[info]       ]
+[info]  bounds:
+[info]      E
+[info]      E := Nothing
+[info]  ordering:
+[info]  co-deps:
+[info]  contra-deps:
+[info] [log typer] !!! instantiated to Nothing: TypeParamRef(E), constraint =  uninstantiated variables: E
+[info]  constrained types:
+[info]   [E]
+[info]     (layer: zio.ZLayer[?, E, ?]*):
+[info]       zio.ZLayer[
+[info]         org.hyperledger.identus.agent.server.config.AppConfig &
+[info]           org.hyperledger.identus.iam.authentication.apikey.
+[info]             AuthenticationRepository
+[info]          & (org.hyperledger.identus.agent.walletapi.service.EntityService &
+[info]           org.hyperledger.identus.agent.walletapi.service.
+[info]             WalletManagementService
+[info]         ),
+[info]       E, org.hyperledger.identus.iam.authentication.apikey.ApiKeyAuthenticator &
+[info]
+[info]         org.hyperledger.identus.iam.authentication.admin.
+[info]           AdminApiKeyAuthenticator
+[info]       ]
+[info]   ,
+[info]   [E]
+[info]     (layer: zio.ZLayer[?, E, ?]*):
+[info]       zio.ZLayer[
+[info]         org.hyperledger.identus.agent.server.config.AppConfig &
+[info]           org.hyperledger.identus.iam.authentication.apikey.
+[info]             AuthenticationRepository
+[info]          & (org.hyperledger.identus.agent.walletapi.service.EntityService &
+[info]           org.hyperledger.identus.agent.walletapi.service.
+[info]             WalletManagementService
+[info]         ),
+[info]       E, org.hyperledger.identus.iam.authentication.apikey.ApiKeyAuthenticator &
+[info]
+[info]         org.hyperledger.identus.iam.authentication.admin.
+[info]           AdminApiKeyAuthenticator
+[info]       ]
+[info]  bounds:
+[info]      E
+[info]      E := Nothing
+[info]  ordering:
+[info]  co-deps:
+[info]  contra-deps:
+[info] [log parser] method makeLoggingEventBuilder in trait Logger is a java 8+ default method.
+[info] [log parser] method atLevel in trait Logger is a java 8+ default method.
+[info] [log parser] method isEnabledForLevel in trait Logger is a java 8+ default method.
+[info] [log parser] method atTrace in trait Logger is a java 8+ default method.
+[info] [log parser] method atDebug in trait Logger is a java 8+ default method.
+[info] [log parser] method atInfo in trait Logger is a java 8+ default method.
+[info] [log parser] method atWarn in trait Logger is a java 8+ default method.
+[info] [log parser] method atError in trait Logger is a java 8+ default method.
+[info] [log parser] method getParams in trait ECPrivateKey is a java 8+ default method.
+[info] [log parser] method getParams in trait ECPublicKey is a java 8+ default method.
+[info]
+[info]   exception occurred while typechecking /home/fabio/workspace/atala-prism-building-blocks/cloud-agent/service/server/src/main/scala/org/hyperledger/identus/agent/server/jobs/PresentBackgroundJobs.scala
+[info]
+[info]   An unhandled exception was thrown in the compiler.
+[info]   Please file a crash report here:
+[info]   https://github.com/lampepfl/dotty/issues/new/choose
+[info]   For non-enriched exceptions, compile with -Yno-enrich-error-messages.
+[info]
+[info]      while compiling: /home/fabio/workspace/atala-prism-building-blocks/cloud-agent/service/server/src/main/scala/org/hyperledger/identus/agent/server/jobs/PresentBackgroundJobs.scala
+[info]         during phase: typer
+[info]                 mode: Mode(ImplicitsEnabled)
+[info]      library version: version 2.13.12
+[info]     compiler version: version 3.4.0
+[info]             settings: -Dproperty=value List(quill.macro.log=false) -Wconf List(any:warning) -Wunused List(all) -Ydetailed-stats true -Ylog List(all) -Yno-decode-stacktraces true -Yno-deep-subtypes true -Yno-patmat-opt true -Yshow-print-errors true -classpath /home/fabio/workspace/atala-prism-building-blocks/cloud-agent/service/server/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/cloud-agent/service/wallet-api/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/agent-didcommx/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/agent/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/models/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/shared/core/target/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/resolver/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/protocol-coordinate-mediation/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/protocol-invitation/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/protocol-routing/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/protocol-mercury-mailbox/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/protocol-outofband-login/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/protocol-issue-credential/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/protocol-revocation-notification/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/protocol-present-proof/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/vc/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/protocol-connection/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/protocol-report-problem/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/mercury/protocol-trust-ping/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/castor/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/prism-node/client/scala-client/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/shared/crypto/target/classes:/home/fabio/workspace/atala-prism-building-blocks/event-notification/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/pollux/core/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/pollux/vc-jwt/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/pollux/anoncreds/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/pollux/sd-jwt/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/pollux/sql-doobie/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/connect/core/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/connect/sql-doobie/target/scala-3.4.0/classes:/home/fabio/workspace/atala-prism-building-blocks/pollux/anoncreds/anoncreds-jvm-1.0-SNAPSHOT.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala3-library_3/3.4.0/scala3-library_3-3.4.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio_3/2.0.22/zio_3-2.0.22.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-config_3/4.0.1/zio-config_3-4.0.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-config-magnolia_3/4.0.1/zio-config-magnolia_3-4.0.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-config-typesafe_3/4.0.1/zio-config-typesafe_3-4.0.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-json_3/0.6.2/zio-json_3-0.6.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-http_3/3.0.0-RC6/zio-http_3-3.0.0-RC6.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-metrics-connectors-micrometer_3/2.3.1/zio-metrics-connectors-micrometer_3-2.3.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-prometheus-metrics_3/1.6.4/tapir-prometheus-metrics_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/micrometer/micrometer-registry-prometheus/1.11.11/micrometer-registry-prometheus-1.11.11.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/micrometer/micrometer-core/1.11.11/micrometer-core-1.11.11.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-swagger-ui-bundle_3/1.6.4/tapir-swagger-ui-bundle_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-json-zio_3/1.6.4/tapir-json-zio_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-redoc-bundle_3/1.6.4/tapir-redoc-bundle_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-zio-http-server_3/1.6.4/tapir-zio-http-server_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-http4s-server-zio_3/1.6.4/tapir-http4s-server-zio_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/http4s/http4s-blaze-server_3/0.23.15/http4s-blaze-server_3-0.23.15.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/getquill/quill-doobie_3/4.8.4/quill-doobie_3-4.8.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/getquill/quill-jdbc-zio_3/4.8.4/quill-jdbc-zio_3-4.8.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/postgresql/postgresql/42.7.3/postgresql-42.7.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/flywaydb/flyway-core/9.22.3/flyway-core-9.22.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-interop-cats_3/23.0.0.8/zio-interop-cats_3-23.0.0.8.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-mock_3/1.0.0-RC12/zio-mock_3-1.0.0-RC12.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/tpolecat/doobie-postgres_3/1.0.0-RC5/doobie-postgres_3-1.0.0-RC5.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/tpolecat/doobie-postgres-circe_3/1.0.0-RC5/doobie-postgres-circe_3-1.0.0-RC5.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/tpolecat/doobie-hikari_3/1.0.0-RC5/doobie-hikari_3-1.0.0-RC5.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/github/jopenlibs/vault-java-driver/6.2.0/vault-java-driver-6.2.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/keycloak/keycloak-authz-client/23.0.7/keycloak-authz-client-23.0.7.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/jwt-scala/jwt-circe_3/9.4.6/jwt-circe_3-9.4.6.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-logging_3/2.1.17/zio-logging_3-2.1.17.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-logging-slf4j_3/2.1.17/zio-logging-slf4j_3-2.1.17.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/circe/circe-core_3/0.14.7/circe-core_3-0.14.7.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/circe/circe-generic_3/0.14.7/circe-generic_3-0.14.7.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/circe/circe-parser_3/0.14.7/circe-parser_3-0.14.7.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-concurrent_3/2.0.22/zio-concurrent_3-2.0.22.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.13/scala-library-2.13.13.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-internal-macros_3/2.0.22/zio-internal-macros_3-2.0.22.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-stacktracer_3/2.0.22/zio-stacktracer_3-2.0.22.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/izumi-reflect_3/2.3.8/izumi-reflect_3-2.3.8.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-collection-compat_3/2.12.0/scala-collection-compat_3-2.12.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-config-derivation_3/4.0.1/zio-config-derivation_3-4.0.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/typesafe/config/1.4.3/config-1.4.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-streams_3/2.0.22/zio-streams_3-2.0.22.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/magnolia1_3/magnolia_3/1.3.3/magnolia_3-1.3.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-schema_3/1.1.0/zio-schema_3-1.1.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-schema-json_3/1.1.0/zio-schema-json_3-1.1.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-schema-protobuf_3/1.1.0/zio-schema-protobuf_3-1.1.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-codec-http/4.1.101.Final/netty-codec-http-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-handler-proxy/4.1.101.Final/netty-handler-proxy-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-transport-native-epoll/4.1.101.Final/netty-transport-native-epoll-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-transport-native-epoll/4.1.101.Final/netty-transport-native-epoll-4.1.101.Final-linux-x86_64.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-transport-native-epoll/4.1.101.Final/netty-transport-native-epoll-4.1.101.Final-linux-aarch_64.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-transport-native-kqueue/4.1.101.Final/netty-transport-native-kqueue-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-transport-native-kqueue/4.1.101.Final/netty-transport-native-kqueue-4.1.101.Final-osx-x86_64.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-transport-native-kqueue/4.1.101.Final/netty-transport-native-kqueue-4.1.101.Final-osx-aarch_64.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/incubator/netty-incubator-transport-native-io_uring/0.0.24.Final/netty-incubator-transport-native-io_uring-0.0.24.Final-linux-x86_64.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-metrics-connectors_3/2.3.1/zio-metrics-connectors_3-2.3.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-server_3/1.6.4/tapir-server_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/prometheus/simpleclient_common/0.16.0/simpleclient_common-0.16.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/micrometer/micrometer-commons/1.11.11/micrometer-commons-1.11.11.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/micrometer/micrometer-observation/1.11.11/micrometer-observation-1.11.11.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/hdrhistogram/HdrHistogram/2.1.12/HdrHistogram-2.1.12.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-swagger-ui_3/1.6.4/tapir-swagger-ui_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-openapi-docs_3/1.6.4/tapir-openapi-docs_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/apispec/openapi-circe-yaml_3/0.6.0/openapi-circe-yaml_3-0.6.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-core_3/1.6.4/tapir-core_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-redoc_3/1.6.4/tapir-redoc_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-zio_3/1.6.4/tapir-zio_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-http4s-server_3/1.6.4/tapir-http4s-server_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/http4s/http4s-blaze-core_3/0.23.15/http4s-blaze-core_3-0.23.15.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/http4s/http4s-server_3/0.23.23/http4s-server_3-0.23.23.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/getquill/quill-jdbc_3/4.8.4/quill-jdbc_3-4.8.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/zaxxer/HikariCP/5.1.0/HikariCP-5.1.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/tpolecat/doobie-core_3/1.0.0-RC5/doobie-core_3-1.0.0-RC5.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/getquill/quill-zio_3/4.8.4/quill-zio_3-4.8.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/getquill/quill-sql_3/4.8.4/quill-sql_3-4.8.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/checkerframework/checker-qual/3.42.0/checker-qual-3.42.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-toml/2.15.2/jackson-dataformat-toml-2.15.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-interop-tracer_3/23.0.0.8/zio-interop-tracer_3-23.0.0.8.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-managed_3/2.0.13/zio-managed_3-2.0.13.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-effect-std_3/3.5.2/cats-effect-std_3-3.5.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-mtl_3/1.3.0/cats-mtl_3-1.3.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/co/fs2/fs2-core_3/3.9.3/fs2-core_3-3.9.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/co/fs2/fs2-io_3/3.9.3/fs2-io_3-3.9.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-test_3/2.0.19/zio-test_3-2.0.19.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/didcommx/didcomm/0.3.2/didcomm-0.3.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/iohk/atala/prism/apollo/apollo-jvm/1.3.4/apollo-jvm-1.3.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/nimbusds/nimbus-jose-jwt/9.37.3/nimbus-jose-jwt-9.37.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/keycloak/keycloak-core/23.0.7/keycloak-core-23.0.7.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jboss/logging/jboss-logging/3.5.1.Final/jboss-logging-3.5.1.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/httpcomponents/httpclient/4.5.14/httpclient-4.5.14.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/jwt-scala/jwt-json-common_3/9.4.6/jwt-json-common_3-9.4.6.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/circe/circe-jawn_3/0.14.7/circe-jawn_3-0.14.7.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/didcommx/peerdid/0.5.0/peerdid-0.5.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-parser_3/0.1.9/zio-parser_3-0.1.9.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/thesamet/scalapb/scalapb-runtime-grpc_3/0.11.17/scalapb-runtime-grpc_3-0.11.17.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/lemonlabs/scala-uri_3/4.0.3/scala-uri_3-4.0.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-prelude_3/1.0.0-RC24/zio-prelude_3-1.0.0-RC24.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/github/erdtman/java-json-canonicalization/1.1/java-json-canonicalization-1.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scodec/scodec-bits_3/1.1.38/scodec-bits_3-1.1.38.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/net/reactivecore/circe-json-schema_2.13/0.4.1/circe-json-schema_2.13-0.4.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/networknt/json-schema-validator/1.3.2/json-schema-validator-1.3.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/iohk/atala/sd-jwt-kmp-jvm/0.1.2/sd-jwt-kmp-jvm-0.1.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/thesamet/scalapb/scalapb-runtime_3/0.11.17/scalapb-runtime_3-0.11.17.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/grpc/grpc-okhttp/1.63.0/grpc-okhttp-1.63.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/circe/circe-numbers_3/0.14.7/circe-numbers_3-0.14.7.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-core_3/2.10.0/cats-core_3-2.10.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/izumi-reflect-thirdparty-boopickle-shaded_3/2.3.8/izumi-reflect-thirdparty-boopickle-shaded_3-2.3.8.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-schema-macros_3/1.1.0/zio-schema-macros_3-1.1.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-constraintless_3/0.3.2/zio-constraintless_3-0.3.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-schema-derivation_3/1.1.0/zio-schema-derivation_3-1.1.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-common/4.1.101.Final/netty-common-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-buffer/4.1.101.Final/netty-buffer-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-transport/4.1.101.Final/netty-transport-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-codec/4.1.101.Final/netty-codec-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-handler/4.1.101.Final/netty-handler-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-codec-socks/4.1.101.Final/netty-codec-socks-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-transport-native-unix-common/4.1.101.Final/netty-transport-native-unix-common-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-transport-classes-epoll/4.1.101.Final/netty-transport-classes-epoll-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-transport-classes-kqueue/4.1.101.Final/netty-transport-classes-kqueue-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/incubator/netty-incubator-transport-classes-io_uring/0.0.24.Final/netty-incubator-transport-classes-io_uring-0.0.24.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/prometheus/simpleclient/0.16.0/simpleclient-0.16.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-files_3/1.6.4/tapir-files_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/webjars/swagger-ui/5.1.3/swagger-ui-5.1.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-apispec-docs_3/1.6.4/tapir-apispec-docs_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/quicklens/quicklens_3/1.9.6/quicklens_3-1.9.6.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/apispec/openapi-model_3/0.6.0/openapi-model_3-0.6.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/apispec/openapi-circe_3/0.6.0/openapi-circe_3-0.6.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/circe/circe-yaml_3/0.14.2/circe-yaml_3-0.14.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/model/core_3/1.7.1/core_3-1.7.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/shared/core_3/1.3.15/core_3-1.3.15.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/shared/ws_3/1.3.15/ws_3-1.3.15.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/shared/zio_3/1.3.15/zio_3-1.3.15.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-cats_3/1.6.4/tapir-cats_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/tapir/tapir-cats-effect_3/1.6.4/tapir-cats-effect_3-1.6.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/shared/fs2_3/1.3.15/fs2_3-1.3.15.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/http4s/blaze-http_3/0.23.15/blaze-http_3-0.23.15.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/http4s/http4s-core_3/0.23.23/http4s-core_3-0.23.23.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/tpolecat/doobie-free_3/1.0.0-RC5/doobie-free_3-1.0.0-RC5.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/tpolecat/typename_3/1.1.0/typename_3-1.1.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/suzaku/boopickle_3/1.4.0/boopickle_3-1.4.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lihaoyi/pprint_3/0.9.0/pprint_3-0.9.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/getquill/quill-engine_3/4.8.4/quill-engine_3-4.8.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/getquill/quill-util_3/4.8.4/quill-util_3-4.8.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/typesafe/scala-logging/scala-logging_3/3.9.5/scala-logging_3-3.9.5.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.15.3/jackson-databind-2.15.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.15.3/jackson-core-2.15.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-effect-kernel_3/3.5.2/cats-effect-kernel_3-3.5.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-effect_3/3.5.2/cats-effect_3-3.5.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/comcast/ip4s-core_3/3.4.0/ip4s-core_3-3.4.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/portable-scala/portable-scala-reflect_2.13/1.1.2/portable-scala-reflect_2.13-1.1.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/crypto/tink/tink/1.6.1/tink-1.6.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/zmannotes/varint/1.0.0/varint-1.0.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/fr/acinq/secp256k1/secp256k1-kmp-jvm/0.14.0/secp256k1-kmp-jvm-0.14.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib/1.9.23/kotlin-stdlib-1.9.23.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/fr/acinq/secp256k1/secp256k1-kmp-jni-jvm/0.11.0/secp256k1-kmp-jni-jvm-0.11.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/guava/guava/32.1.3-android/guava-32.1.3-android.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15on/1.68/bcprov-jdk15on-1.68.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/bitcoinj/bitcoinj-core/0.16.2/bitcoinj-core-0.16.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/net/java/dev/jna/jna/5.13.0/jna-5.13.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-json-jvm/1.6.3/kotlinx-serialization-json-jvm-1.6.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/ionspin/kotlin/bignum-jvm/0.3.9/bignum-jvm-0.3.9.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/kotlincrypto/macs/hmac-sha2-jvm/0.3.0/hmac-sha2-jvm-0.3.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/kotlincrypto/hash/sha2-jvm/0.4.0/sha2-jvm-0.4.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/squareup/okio/okio-jvm/3.7.0/okio-jvm-3.7.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jetbrains/kotlinx/atomicfu-jvm/0.23.2/atomicfu-jvm-0.23.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/stephenc/jcip/jcip-annotations/1.0-1/jcip-annotations-1.0-1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/keycloak/keycloak-common/23.0.7/keycloak-common-23.0.7.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/eclipse/microprofile/openapi/microprofile-openapi-api/3.1.1/microprofile-openapi-api-3.1.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/commons-codec/commons-codec/1.11/commons-codec-1.11.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/jwt-scala/jwt-core_3/9.4.6/jwt-core_3-9.4.6.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/jawn-parser_3/1.5.1/jawn-parser_3-1.5.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.9.21/kotlin-stdlib-jdk8-1.9.21.jar:/home/fabio/.cache/coursier/v1/https/jitpack.io/com/github/multiformats/java-multibase/v1.1.0/java-multibase-v1.1.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/grpc/grpc-stub/1.62.2/grpc-stub-1.62.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/grpc/grpc-protobuf/1.62.2/grpc-protobuf-1.62.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-parse_3/0.3.10/cats-parse_3-0.3.10.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/dev/zio/zio-prelude-macros_3/1.0.0-RC24/zio-prelude-macros_3-1.0.0-RC24.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/ethlo/time/itu/1.8.0/itu-1.8.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.15.3/jackson-dataformat-yaml-2.15.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/thesamet/scalapb/lenses_3/0.11.17/lenses_3-0.11.17.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.25.1/protobuf-java-3.25.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/grpc/grpc-api/1.63.0/grpc-api-1.63.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/grpc/grpc-util/1.63.0/grpc-util-1.63.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/grpc/grpc-core/1.63.0/grpc-core-1.63.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/squareup/okio/okio/3.4.0/okio-3.4.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/perfmark/perfmark-api/0.26.0/perfmark-api-0.26.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-kernel_3/2.10.0/cats-kernel_3-2.10.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/netty/netty-resolver/4.1.101.Final/netty-resolver-4.1.101.Final.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/prometheus/simpleclient_tracer_otel/0.16.0/simpleclient_tracer_otel-0.16.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/prometheus/simpleclient_tracer_otel_agent/0.16.0/simpleclient_tracer_otel_agent-0.16.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/apispec/asyncapi-model_3/0.6.0/asyncapi-model_3-0.6.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/apispec/apispec-model_3/0.6.0/apispec-model_3-0.6.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/softwaremill/sttp/apispec/jsonschema-circe_3/0.6.0/jsonschema-circe_3-0.6.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/yaml/snakeyaml/2.1/snakeyaml-2.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/http4s/blaze-core_3/0.23.15/blaze-core_3-0.23.15.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/twitter/hpack/1.0.2/hpack-1.0.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/case-insensitive_3/1.4.0/case-insensitive_3-1.4.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/http4s/http4s-crypto_3/0.2.4/http4s-crypto_3-0.2.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/literally_3/1.1.0/literally_3-1.1.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/vault_3/3.5.0/vault_3-3.5.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/log4s/log4s_3/1.10.0/log4s_3-1.10.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/log4cats-slf4j_3/2.6.0/log4cats-slf4j_3-2.6.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/cats-free_3/2.10.0/cats-free_3-2.10.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lihaoyi/fansi_3/0.5.0/fansi_3-0.5.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/lihaoyi/sourcecode_3/0.4.0/sourcecode_3-0.4.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/takayahilton/sql-formatter_2.13/1.2.1/sql-formatter_2.13-1.2.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/github/ben-manes/caffeine/caffeine/3.1.8/caffeine-3.1.8.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/scalafmt-core_2.13/3.8.1/scalafmt-core_2.13-3.8.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_3/1.0.4/scala-parallel-collections_3-1.0.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.15.3/jackson-annotations-2.15.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jetbrains/annotations/13.0/annotations-13.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/fr/acinq/secp256k1/secp256k1-kmp-jni-jvm-darwin/0.11.0/secp256k1-kmp-jni-jvm-darwin-0.11.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/fr/acinq/secp256k1/secp256k1-kmp-jni-jvm-linux/0.11.0/secp256k1-kmp-jni-jvm-linux-0.11.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/fr/acinq/secp256k1/secp256k1-kmp-jni-jvm-mingw/0.11.0/secp256k1-kmp-jni-jvm-mingw-0.11.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/errorprone/error_prone_annotations/2.23.0/error_prone_annotations-2.23.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/j2objc/j2objc-annotations/2.8/j2objc-annotations-2.8.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/bouncycastle/bcprov-jdk15to18/1.69/bcprov-jdk15to18-1.69.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/squareup/okhttp3/okhttp/3.14.9/okhttp-3.14.9.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-common/1.9.22/kotlin-stdlib-common-1.9.22.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jetbrains/kotlinx/kotlinx-serialization-core-jvm/1.6.3/kotlinx-serialization-core-jvm-1.6.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/kotlincrypto/macs/hmac-jvm/0.3.0/hmac-jvm-0.3.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/kotlincrypto/core/digest-jvm/0.4.0/digest-jvm-0.4.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/jakarta/activation/jakarta.activation-api/2.1.2/jakarta.activation-api-2.1.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.9.21/kotlin-stdlib-jdk7-1.9.21.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/api/grpc/proto-google-common-protos/2.29.0/proto-google-common-protos-2.29.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/grpc/grpc-protobuf-lite/1.62.2/grpc-protobuf-lite-1.62.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/codehaus/mojo/animal-sniffer-annotations/1.23/animal-sniffer-annotations-1.23.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/google/android/annotations/4.1.1.4/annotations-4.1.1.4.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/grpc/grpc-context/1.63.0/grpc-context-1.63.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/prometheus/simpleclient_tracer_common/0.16.0/simpleclient_tracer_common-0.16.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/log4cats-core_3/2.6.0/log4cats-core_3-2.6.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/scalafmt-sysops_2.13/3.8.1/scalafmt-sysops_2.13-3.8.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/scalafmt-config_2.13/3.8.1/scalafmt-config_2.13-3.8.1.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/scalameta_2.13/4.9.3/scalameta_2.13-4.9.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/mdoc-parser_2.13/2.5.2/mdoc-parser_2.13-2.5.2.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-reflect/2.13.13/scala-reflect-2.13.13.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/fr/acinq/secp256k1/secp256k1-kmp-jni-jvm-extract/0.11.0/secp256k1-kmp-jni-jvm-extract-0.11.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/kotlincrypto/core/mac-jvm/0.3.0/mac-jvm-0.3.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/kotlincrypto/core/common-jvm/0.4.0/common-jvm-0.4.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/geirsson/metaconfig-core_2.13/0.12.0/metaconfig-core_2.13-0.12.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/geirsson/metaconfig-typesafe-config_2.13/0.12.0/metaconfig-typesafe-config_2.13-0.12.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/parsers_2.13/4.9.3/parsers_2.13-4.9.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scalap/2.13.13/scalap-2.13.13.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/fr/acinq/secp256k1/secp256k1-kmp-jni-common/0.11.0/secp256k1-kmp-jni-common-0.11.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/com/geirsson/metaconfig-pprint_2.13/0.12.0/metaconfig-pprint_2.13-0.12.0.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/typelevel/paiges-core_2.13/0.4.3/paiges-core_2.13-0.4.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/trees_2.13/4.9.3/trees_2.13-4.9.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-compiler/2.13.13/scala-compiler-2.13.13.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scalameta/common_2.13/4.9.3/common_2.13-4.9.3.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/io/github/java-diff-utils/java-diff-utils/4.12/java-diff-utils-4.12.jar:/home/fabio/.cache/coursier/v1/https/repo1.maven.org/maven2/org/jline/jline/3.24.1/jline-3.24.1.jar -d /home/fabio/workspace/atala-prism-building-blocks/cloud-agent/service/server/target/scala-3.4.0/classes -deprecation true -feature true
+[error] ## Exception when compiling 202 sources to /home/fabio/workspace/atala-prism-building-blocks/cloud-agent/service/server/target/scala-3.4.0/classes
+[error] java.lang.AssertionError: assertion failed
+[error] scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:11)
+[error] dotty.tools.dotc.core.TypeComparer.monitoredIsSubType$1(TypeComparer.scala:253)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.compareAppliedType2$1(TypeComparer.scala:1409)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:625)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:416)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1$$anonfun$1(TypeComparer.scala:786)
+[error] scala.Function0.apply$mcZ$sp(Function0.scala:42)
+[error] dotty.tools.dotc.core.TypeComparer.sufficientEither(TypeComparer.scala:1883)
+[error] dotty.tools.dotc.core.TypeComparer.either(TypeComparer.scala:1844)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:786)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$2(TypeComparer.scala:612)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:629)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:347)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:349)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$2(TypeComparer.scala:612)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:629)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:347)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:349)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$2(TypeComparer.scala:612)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:629)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:347)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:349)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1$$anonfun$2(TypeComparer.scala:786)
+[error] scala.Function0.apply$mcZ$sp(Function0.scala:42)
+[error] dotty.tools.dotc.core.TypeComparer.sufficientEither(TypeComparer.scala:1883)
+[error] dotty.tools.dotc.core.TypeComparer.either(TypeComparer.scala:1844)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:786)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1$$anonfun$2(TypeComparer.scala:786)
+[error] scala.Function0.apply$mcZ$sp(Function0.scala:42)
+[error] dotty.tools.dotc.core.TypeComparer.sufficientEither(TypeComparer.scala:1883)
+[error] dotty.tools.dotc.core.TypeComparer.either(TypeComparer.scala:1844)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:786)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1$$anonfun$1(TypeComparer.scala:786)
+[error] scala.Function0.apply$mcZ$sp(Function0.scala:42)
+[error] dotty.tools.dotc.core.TypeComparer.sufficientEither(TypeComparer.scala:1883)
+[error] dotty.tools.dotc.core.TypeComparer.either(TypeComparer.scala:1844)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:786)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:214)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:224)
+[error] dotty.tools.dotc.core.TypeComparer.isSub(TypeComparer.scala:226)
+[error] dotty.tools.dotc.core.ConstraintHandling.op$proxy3$1(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubTypeWhenFrozen(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$1(TypeComparer.scala:444)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:449)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:466)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:504)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:214)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:224)
+[error] dotty.tools.dotc.core.TypeComparer.isSub(TypeComparer.scala:226)
+[error] dotty.tools.dotc.core.ConstraintHandling.op$proxy3$1(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubTypeWhenFrozen(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubType(ConstraintHandling.scala:455)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubType$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer.mergeIfSuper(TypeComparer.scala:2495)
+[error] dotty.tools.dotc.core.TypeComparer.mergedLub$1(TypeComparer.scala:2384)
+[error] dotty.tools.dotc.core.TypeComparer.lub(TypeComparer.scala:2393)
+[error] dotty.tools.dotc.core.TypeComparer$.lub(TypeComparer.scala:3162)
+[error] dotty.tools.dotc.core.Types$OrType.computeWidenSingletons(Types.scala:3582)
+[error] dotty.tools.dotc.core.Types$OrType.ensureAtomsComputed(Types.scala:3587)
+[error] dotty.tools.dotc.core.Types$OrType.atoms(Types.scala:3591)
+[error] dotty.tools.dotc.core.TypeComparer.compareAtoms(TypeComparer.scala:1666)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:747)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$2(TypeComparer.scala:612)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:629)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:347)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:349)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1$$anonfun$1(TypeComparer.scala:786)
+[error] scala.Function0.apply$mcZ$sp(Function0.scala:42)
+[error] dotty.tools.dotc.core.TypeComparer.sufficientEither(TypeComparer.scala:1883)
+[error] dotty.tools.dotc.core.TypeComparer.either(TypeComparer.scala:1844)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:786)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:214)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:224)
+[error] dotty.tools.dotc.core.TypeComparer.isSub(TypeComparer.scala:226)
+[error] dotty.tools.dotc.core.ConstraintHandling.op$proxy3$1(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubTypeWhenFrozen(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$1(TypeComparer.scala:444)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:449)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:466)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:504)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:504)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:504)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:214)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:224)
+[error] dotty.tools.dotc.core.TypeComparer.isSub(TypeComparer.scala:226)
+[error] dotty.tools.dotc.core.ConstraintHandling.op$proxy3$1(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubTypeWhenFrozen(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubType(ConstraintHandling.scala:455)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubType$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer.mergeIfSuper(TypeComparer.scala:2495)
+[error] dotty.tools.dotc.core.TypeComparer.mergedLub$1(TypeComparer.scala:2381)
+[error] dotty.tools.dotc.core.TypeComparer.lub(TypeComparer.scala:2393)
+[error] dotty.tools.dotc.core.TypeComparer$.lub(TypeComparer.scala:3162)
+[error] dotty.tools.dotc.core.Types$OrType.computeWidenSingletons(Types.scala:3582)
+[error] dotty.tools.dotc.core.Types$OrType.ensureAtomsComputed(Types.scala:3587)
+[error] dotty.tools.dotc.core.Types$OrType.atoms(Types.scala:3591)
+[error] dotty.tools.dotc.core.TypeComparer.compareAtoms(TypeComparer.scala:1666)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:747)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$2(TypeComparer.scala:612)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:629)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:347)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:349)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1$$anonfun$1(TypeComparer.scala:786)
+[error] scala.Function0.apply$mcZ$sp(Function0.scala:42)
+[error] dotty.tools.dotc.core.TypeComparer.sufficientEither(TypeComparer.scala:1883)
+[error] dotty.tools.dotc.core.TypeComparer.either(TypeComparer.scala:1844)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:786)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1$$anonfun$2(TypeComparer.scala:786)
+[error] scala.Function0.apply$mcZ$sp(Function0.scala:42)
+[error] dotty.tools.dotc.core.TypeComparer.sufficientEither(TypeComparer.scala:1883)
+[error] dotty.tools.dotc.core.TypeComparer.either(TypeComparer.scala:1844)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:786)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:214)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:224)
+[error] dotty.tools.dotc.core.TypeComparer.isSub(TypeComparer.scala:226)
+[error] dotty.tools.dotc.core.ConstraintHandling.op$proxy3$1(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubTypeWhenFrozen(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$1(TypeComparer.scala:444)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:449)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:466)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:504)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:504)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:504)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:214)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:224)
+[error] dotty.tools.dotc.core.TypeComparer.isSub(TypeComparer.scala:226)
+[error] dotty.tools.dotc.core.ConstraintHandling.op$proxy3$1(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubTypeWhenFrozen(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubType(ConstraintHandling.scala:455)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubType$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer.mergeIfSuper(TypeComparer.scala:2495)
+[error] dotty.tools.dotc.core.TypeComparer.mergedLub$1(TypeComparer.scala:2384)
+[error] dotty.tools.dotc.core.TypeComparer.lub(TypeComparer.scala:2393)
+[error] dotty.tools.dotc.core.TypeComparer$.lub(TypeComparer.scala:3162)
+[error] dotty.tools.dotc.core.Types$OrType.computeWidenSingletons(Types.scala:3582)
+[error] dotty.tools.dotc.core.Types$OrType.ensureAtomsComputed(Types.scala:3587)
+[error] dotty.tools.dotc.core.Types$OrType.atoms(Types.scala:3591)
+[error] dotty.tools.dotc.core.TypeComparer.compareAtoms(TypeComparer.scala:1666)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:747)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$2(TypeComparer.scala:612)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:629)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:347)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:349)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1$$anonfun$1(TypeComparer.scala:786)
+[error] scala.Function0.apply$mcZ$sp(Function0.scala:42)
+[error] dotty.tools.dotc.core.TypeComparer.sufficientEither(TypeComparer.scala:1883)
+[error] dotty.tools.dotc.core.TypeComparer.either(TypeComparer.scala:1844)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:786)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1$$anonfun$2(TypeComparer.scala:786)
+[error] scala.Function0.apply$mcZ$sp(Function0.scala:42)
+[error] dotty.tools.dotc.core.TypeComparer.sufficientEither(TypeComparer.scala:1883)
+[error] dotty.tools.dotc.core.TypeComparer.either(TypeComparer.scala:1844)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:786)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:214)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:224)
+[error] dotty.tools.dotc.core.TypeComparer.isSub(TypeComparer.scala:226)
+[error] dotty.tools.dotc.core.ConstraintHandling.op$proxy3$1(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubTypeWhenFrozen(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$1(TypeComparer.scala:444)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:449)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:466)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:504)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:504)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:214)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:224)
+[error] dotty.tools.dotc.core.TypeComparer.isSub(TypeComparer.scala:226)
+[error] dotty.tools.dotc.core.ConstraintHandling.op$proxy3$1(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubTypeWhenFrozen(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubType(ConstraintHandling.scala:455)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubType$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer.mergeIfSuper(TypeComparer.scala:2495)
+[error] dotty.tools.dotc.core.TypeComparer.mergedLub$1(TypeComparer.scala:2384)
+[error] dotty.tools.dotc.core.TypeComparer.lub(TypeComparer.scala:2393)
+[error] dotty.tools.dotc.core.TypeComparer$.lub(TypeComparer.scala:3162)
+[error] dotty.tools.dotc.core.Types$OrType.computeWidenSingletons(Types.scala:3582)
+[error] dotty.tools.dotc.core.Types$OrType.ensureAtomsComputed(Types.scala:3587)
+[error] dotty.tools.dotc.core.Types$OrType.atoms(Types.scala:3591)
+[error] dotty.tools.dotc.core.TypeComparer.compareAtoms(TypeComparer.scala:1666)
+[error] dotty.tools.dotc.core.TypeComparer.thirdTry$1(TypeComparer.scala:747)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:428)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:214)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:224)
+[error] dotty.tools.dotc.core.TypeComparer.isSub(TypeComparer.scala:226)
+[error] dotty.tools.dotc.core.ConstraintHandling.op$proxy3$1(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubTypeWhenFrozen(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$1(TypeComparer.scala:444)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:449)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:466)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:504)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:504)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:390)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:214)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:224)
+[error] dotty.tools.dotc.core.TypeComparer.isSub(TypeComparer.scala:226)
+[error] dotty.tools.dotc.core.ConstraintHandling.op$proxy3$1(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen(ConstraintHandling.scala:471)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubTypeWhenFrozen$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubTypeWhenFrozen(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubType(ConstraintHandling.scala:455)
+[error] dotty.tools.dotc.core.ConstraintHandling.isSubType$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer.mergeIfSuper(TypeComparer.scala:2495)
+[error] dotty.tools.dotc.core.TypeComparer.mergedLub$1(TypeComparer.scala:2381)
+[error] dotty.tools.dotc.core.TypeComparer.lub(TypeComparer.scala:2393)
+[error] dotty.tools.dotc.core.TypeComparer$.lub(TypeComparer.scala:3162)
+[error] dotty.tools.dotc.core.Types$Type.$bar(Types.scala:1231)
+[error] dotty.tools.dotc.core.ConstraintHandling.op$proxy2$1(ConstraintHandling.scala:322)
+[error] dotty.tools.dotc.core.ConstraintHandling.addOneBound(ConstraintHandling.scala:322)
+[error] dotty.tools.dotc.core.ConstraintHandling.addOneBound$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.addOneBound(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.ConstraintHandling.$anonfun$3(ConstraintHandling.scala:394)
+[error] scala.collection.immutable.List.forall(List.scala:386)
+[error] dotty.tools.dotc.core.ConstraintHandling.addLess(ConstraintHandling.scala:394)
+[error] dotty.tools.dotc.core.ConstraintHandling.addLess$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.addLess(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.ConstraintHandling.addParamBound$1(ConstraintHandling.scala:836)
+[error] dotty.tools.dotc.core.ConstraintHandling.addConstraint(ConstraintHandling.scala:858)
+[error] dotty.tools.dotc.core.ConstraintHandling.addConstraint$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.addConstraint(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer.compareTypeParamRef$1(TypeComparer.scala:446)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:449)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:347)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.secondTry$1(TypeComparer.scala:466)
+[error] dotty.tools.dotc.core.TypeComparer.firstTry$1(TypeComparer.scala:347)
+[error] dotty.tools.dotc.core.TypeComparer.recur(TypeComparer.scala:1553)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:214)
+[error] dotty.tools.dotc.core.TypeComparer.isSubType(TypeComparer.scala:224)
+[error] dotty.tools.dotc.core.TypeComparer.topLevelSubType(TypeComparer.scala:132)
+[error] dotty.tools.dotc.core.TypeComparer$.topLevelSubType(TypeComparer.scala:3129)
+[error] dotty.tools.dotc.core.Types$Type.$less$colon$less(Types.scala:1094)
+[error] dotty.tools.dotc.core.ConstraintHandling.widenOr$1(ConstraintHandling.scala:654)
+[error] dotty.tools.dotc.core.ConstraintHandling.widenInferred(ConstraintHandling.scala:669)
+[error] dotty.tools.dotc.core.ConstraintHandling.widenInferred$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.widenInferred(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.ConstraintHandling.instanceType(ConstraintHandling.scala:708)
+[error] dotty.tools.dotc.core.ConstraintHandling.instanceType$(ConstraintHandling.scala:29)
+[error] dotty.tools.dotc.core.TypeComparer.instanceType(TypeComparer.scala:30)
+[error] dotty.tools.dotc.core.TypeComparer$.instanceType(TypeComparer.scala:3199)
+[error] dotty.tools.dotc.core.TypeOps$$anon$2.apply(TypeOps.scala:560)
+[error] dotty.tools.dotc.core.TypeOps$$anon$2.apply(TypeOps.scala:561)
+[error] dotty.tools.dotc.core.TypeOps$$anon$2.apply(TypeOps.scala:561)
+[error] dotty.tools.dotc.core.TypeOps$$anon$2.apply(TypeOps.scala:561)
+[error] dotty.tools.dotc.core.TypeOps$$anon$2.apply(TypeOps.scala:561)
+[error] dotty.tools.dotc.core.TypeOps$$anon$2.apply(TypeOps.scala:561)
+[error] dotty.tools.dotc.core.Types$TypeMap.op$proxy17$1(Types.scala:6019)
+[error] dotty.tools.dotc.core.Types$TypeMap.mapArg(Types.scala:6019)
+[error] dotty.tools.dotc.core.Types$TypeMap.mapArgs(Types.scala:6023)
+[error] dotty.tools.dotc.core.Types$TypeMap.mapArgs(Types.scala:6024)
+[error] dotty.tools.dotc.core.Types$TypeMap.mapOver(Types.scala:6060)
+[error] dotty.tools.dotc.core.Types$AvoidWildcardsMap.apply(Types.scala:6502)
+[error] dotty.tools.dotc.core.TypeOps$AvoidMap.apply(TypeOps.scala:491)
+[error] dotty.tools.dotc.core.TypeOps$$anon$2.apply(TypeOps.scala:564)
+[error] dotty.tools.dotc.core.TypeOps$.avoid(TypeOps.scala:568)
+[error] dotty.tools.dotc.typer.Namer.valOrDefDefSig(Namer.scala:1747)
+[error] dotty.tools.dotc.typer.Namer.defDefSig(Namer.scala:1812)
+[error] dotty.tools.dotc.typer.Namer$Completer.typeSig(Namer.scala:800)
+[error] dotty.tools.dotc.typer.Namer$Completer.completeInCreationContext(Namer.scala:943)
+[error] dotty.tools.dotc.typer.Namer$Completer.complete(Namer.scala:823)
+[error] dotty.tools.dotc.core.SymDenotations$SymDenotation.completeFrom(SymDenotations.scala:174)
+[error] dotty.tools.dotc.core.Denotations$Denotation.completeInfo$1(Denotations.scala:189)
+[error] dotty.tools.dotc.core.Denotations$Denotation.info(Denotations.scala:191)
+[error] dotty.tools.dotc.core.SymDenotations$SymDenotation.ensureCompleted(SymDenotations.scala:393)
+[error] dotty.tools.dotc.typer.Typer.retrieveSym(Typer.scala:3061)
+[error] dotty.tools.dotc.typer.Typer.typedNamed$1(Typer.scala:3086)
+[error] dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3197)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3275)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3279)
+[error] dotty.tools.dotc.typer.Typer.traverse$1(Typer.scala:3301)
+[error] dotty.tools.dotc.typer.Typer.typedStats(Typer.scala:3347)
+[error] dotty.tools.dotc.typer.Typer.typedBlockStats(Typer.scala:1193)
+[error] dotty.tools.dotc.typer.Typer.typedBlock(Typer.scala:1197)
+[error] dotty.tools.dotc.typer.Typer.typedUnnamed$1(Typer.scala:3122)
+[error] dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3198)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3275)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3279)
+[error] dotty.tools.dotc.typer.Typer.typedFunctionValue(Typer.scala:1676)
+[error] dotty.tools.dotc.typer.Typer.typedFunction(Typer.scala:1416)
+[error] dotty.tools.dotc.typer.Typer.typedUnnamed$1(Typer.scala:3124)
+[error] dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3198)
+[error] dotty.tools.dotc.typer.ProtoTypes$FunProto.$anonfun$7(ProtoTypes.scala:509)
+[error] dotty.tools.dotc.typer.ProtoTypes$FunProto.cacheTypedArg(ProtoTypes.scala:432)
+[error] dotty.tools.dotc.typer.ProtoTypes$FunProto.typedArg(ProtoTypes.scala:510)
+[error] dotty.tools.dotc.typer.Applications$ApplyToUntyped.typedArg(Applications.scala:912)
+[error] dotty.tools.dotc.typer.Applications$ApplyToUntyped.typedArg(Applications.scala:912)
+[error] dotty.tools.dotc.typer.Applications$Application.addTyped$1(Applications.scala:604)
+[error] dotty.tools.dotc.typer.Applications$Application.matchArgs(Applications.scala:668)
+[error] dotty.tools.dotc.typer.Applications$Application.init(Applications.scala:490)
+[error] dotty.tools.dotc.typer.Applications$TypedApply.<init>(Applications.scala:794)
+[error] dotty.tools.dotc.typer.Applications$ApplyToUntyped.<init>(Applications.scala:911)
+[error] dotty.tools.dotc.typer.Applications.ApplyTo(Applications.scala:1141)
+[error] dotty.tools.dotc.typer.Applications.ApplyTo$(Applications.scala:350)
+[error] dotty.tools.dotc.typer.Typer.ApplyTo(Typer.scala:120)
+[error] dotty.tools.dotc.typer.Applications.simpleApply$1(Applications.scala:984)
+[error] dotty.tools.dotc.typer.Applications.realApply$1$$anonfun$2(Applications.scala:1067)
+[error] dotty.tools.dotc.typer.Typer.tryEither(Typer.scala:3415)
+[error] dotty.tools.dotc.typer.Applications.realApply$1(Applications.scala:1078)
+[error] dotty.tools.dotc.typer.Applications.typedApply(Applications.scala:1116)
+[error] dotty.tools.dotc.typer.Applications.typedApply$(Applications.scala:350)
+[error] dotty.tools.dotc.typer.Typer.typedApply(Typer.scala:120)
+[error] dotty.tools.dotc.typer.Typer.typedUnnamed$1(Typer.scala:3114)
+[error] dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3198)
+[error] dotty.tools.dotc.typer.Typer.typedUnnamed$1(Typer.scala:3164)
+[error] dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3198)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3275)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3279)
+[error] dotty.tools.dotc.typer.Typer.typedExpr(Typer.scala:3391)
+[error] dotty.tools.dotc.typer.Namer.typedAheadExpr$$anonfun$1(Namer.scala:1670)
+[error] dotty.tools.dotc.typer.Namer.typedAhead(Namer.scala:1660)
+[error] dotty.tools.dotc.typer.Namer.typedAheadExpr(Namer.scala:1670)
+[error] dotty.tools.dotc.typer.Namer.typedAheadRhs$1$$anonfun$1(Namer.scala:1932)
+[error] dotty.tools.dotc.inlines.PrepareInlineable$.dropInlineIfError(PrepareInlineable.scala:256)
+[error] dotty.tools.dotc.typer.Namer.typedAheadRhs$1(Namer.scala:1932)
+[error] dotty.tools.dotc.typer.Namer.rhsType$1(Namer.scala:1940)
+[error] dotty.tools.dotc.typer.Namer.cookedRhsType$1(Namer.scala:1958)
+[error] dotty.tools.dotc.typer.Namer.lhsType$1(Namer.scala:1959)
+[error] dotty.tools.dotc.typer.Namer.inferredResultType(Namer.scala:1970)
+[error] dotty.tools.dotc.typer.Namer.inferredType$1(Namer.scala:1708)
+[error] dotty.tools.dotc.typer.Namer.valOrDefDefSig(Namer.scala:1714)
+[error] dotty.tools.dotc.typer.Namer$Completer.typeSig(Namer.scala:796)
+[error] dotty.tools.dotc.typer.Namer$Completer.completeInCreationContext(Namer.scala:943)
+[error] dotty.tools.dotc.typer.Namer$Completer.complete(Namer.scala:823)
+[error] dotty.tools.dotc.core.SymDenotations$SymDenotation.completeFrom(SymDenotations.scala:174)
+[error] dotty.tools.dotc.core.Denotations$Denotation.completeInfo$1(Denotations.scala:189)
+[error] dotty.tools.dotc.core.Denotations$Denotation.info(Denotations.scala:191)
+[error] dotty.tools.dotc.core.SymDenotations$SymDenotation.ensureCompleted(SymDenotations.scala:393)
+[error] dotty.tools.dotc.typer.Typer.retrieveSym(Typer.scala:3061)
+[error] dotty.tools.dotc.typer.Typer.typedNamed$1(Typer.scala:3086)
+[error] dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3197)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3275)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3279)
+[error] dotty.tools.dotc.typer.Typer.traverse$1(Typer.scala:3301)
+[error] dotty.tools.dotc.typer.Typer.typedStats(Typer.scala:3347)
+[error] dotty.tools.dotc.typer.Typer.typedBlockStats(Typer.scala:1193)
+[error] dotty.tools.dotc.typer.Typer.typedBlock(Typer.scala:1197)
+[error] dotty.tools.dotc.typer.Typer.typedUnnamed$1(Typer.scala:3122)
+[error] dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3198)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3275)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3279)
+[error] dotty.tools.dotc.typer.Typer.typedExpr(Typer.scala:3391)
+[error] dotty.tools.dotc.typer.Typer.$anonfun$62(Typer.scala:2602)
+[error] dotty.tools.dotc.inlines.PrepareInlineable$.dropInlineIfError(PrepareInlineable.scala:256)
+[error] dotty.tools.dotc.typer.Typer.typedDefDef(Typer.scala:2602)
+[error] dotty.tools.dotc.typer.Typer.typedNamed$1(Typer.scala:3096)
+[error] dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3197)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3275)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3279)
+[error] dotty.tools.dotc.typer.Typer.traverse$1(Typer.scala:3301)
+[error] dotty.tools.dotc.typer.Typer.typedStats(Typer.scala:3347)
+[error] dotty.tools.dotc.typer.Typer.typedClassDef(Typer.scala:2789)
+[error] dotty.tools.dotc.typer.Typer.typedTypeOrClassDef$1(Typer.scala:3102)
+[error] dotty.tools.dotc.typer.Typer.typedNamed$1(Typer.scala:3106)
+[error] dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3197)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3275)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3279)
+[error] dotty.tools.dotc.typer.Typer.traverse$1(Typer.scala:3301)
+[error] dotty.tools.dotc.typer.Typer.typedStats(Typer.scala:3347)
+[error] dotty.tools.dotc.typer.Typer.typedPackageDef(Typer.scala:2922)
+[error] dotty.tools.dotc.typer.Typer.typedUnnamed$1(Typer.scala:3148)
+[error] dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3198)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3275)
+[error] dotty.tools.dotc.typer.Typer.typed(Typer.scala:3279)
+[error] dotty.tools.dotc.typer.Typer.typedExpr(Typer.scala:3391)
+[error] dotty.tools.dotc.typer.TyperPhase.typeCheck$$anonfun$1(TyperPhase.scala:47)
+[error] scala.runtime.function.JProcedure1.apply(JProcedure1.java:15)
+[error] scala.runtime.function.JProcedure1.apply(JProcedure1.java:10)
+[error] dotty.tools.dotc.core.Phases$Phase.monitor(Phases.scala:477)
+[error] dotty.tools.dotc.typer.TyperPhase.typeCheck(TyperPhase.scala:53)
+[error] dotty.tools.dotc.typer.TyperPhase.$anonfun$4(TyperPhase.scala:99)
+[error] scala.collection.Iterator$$anon$6.hasNext(Iterator.scala:479)
+[error] scala.collection.Iterator$$anon$9.hasNext(Iterator.scala:583)
+[error] scala.collection.immutable.List.prependedAll(List.scala:155)
+[error] scala.collection.immutable.List$.from(List.scala:684)
+[error] scala.collection.immutable.List$.from(List.scala:681)
+[error] scala.collection.IterableOps$WithFilter.map(Iterable.scala:898)
+[error] dotty.tools.dotc.typer.TyperPhase.runOn(TyperPhase.scala:100)
+[error] dotty.tools.dotc.Run.runPhases$1$$anonfun$1(Run.scala:315)
+[error] scala.runtime.function.JProcedure1.apply(JProcedure1.java:15)
+[error] scala.runtime.function.JProcedure1.apply(JProcedure1.java:10)
+[error] scala.collection.ArrayOps$.foreach$extension(ArrayOps.scala:1323)
+[error] dotty.tools.dotc.Run.runPhases$1(Run.scala:337)
+[error] dotty.tools.dotc.Run.compileUnits$$anonfun$1(Run.scala:348)
+[error] dotty.tools.dotc.Run.compileUnits$$anonfun$adapted$1(Run.scala:357)
+[error] dotty.tools.dotc.util.Stats$.maybeMonitored(Stats.scala:64)
+[error] dotty.tools.dotc.Run.compileUnits(Run.scala:357)
+[error] dotty.tools.dotc.Run.compileSources(Run.scala:261)
+[error] dotty.tools.dotc.Run.compile(Run.scala:246)
+[error] dotty.tools.dotc.Driver.doCompile(Driver.scala:37)
+[error] dotty.tools.xsbt.CompilerBridgeDriver.run(CompilerBridgeDriver.java:141)
+[error] dotty.tools.xsbt.CompilerBridge.run(CompilerBridge.java:22)
+[error] sbt.internal.inc.AnalyzingCompiler.compile(AnalyzingCompiler.scala:91)
+[error] sbt.internal.inc.MixedAnalyzingCompiler.$anonfun$compile$7(MixedAnalyzingCompiler.scala:194)
+[error] scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.java:23)
+[error] sbt.internal.inc.MixedAnalyzingCompiler.timed(MixedAnalyzingCompiler.scala:249)
+[error] sbt.internal.inc.MixedAnalyzingCompiler.$anonfun$compile$4(MixedAnalyzingCompiler.scala:184)
+[error] sbt.internal.inc.MixedAnalyzingCompiler.$anonfun$compile$4$adapted(MixedAnalyzingCompiler.scala:164)
+[error] sbt.internal.inc.JarUtils$.withPreviousJar(JarUtils.scala:239)
+[error] sbt.internal.inc.MixedAnalyzingCompiler.compileScala$1(MixedAnalyzingCompiler.scala:164)
+[error] sbt.internal.inc.MixedAnalyzingCompiler.compile(MixedAnalyzingCompiler.scala:212)
+[error] sbt.internal.inc.IncrementalCompilerImpl.$anonfun$compileInternal$1(IncrementalCompilerImpl.scala:534)
+[error] sbt.internal.inc.IncrementalCompilerImpl.$anonfun$compileInternal$1$adapted(IncrementalCompilerImpl.scala:534)
+[error] sbt.internal.inc.Incremental$.$anonfun$apply$3(Incremental.scala:178)
+[error] sbt.internal.inc.Incremental$.$anonfun$apply$3$adapted(Incremental.scala:176)
+[error] sbt.internal.inc.Incremental$$anon$2.run(Incremental.scala:454)
+[error] sbt.internal.inc.IncrementalCommon$CycleState.next(IncrementalCommon.scala:117)
+[error] sbt.internal.inc.IncrementalCommon$$anon$1.next(IncrementalCommon.scala:56)
+[error] sbt.internal.inc.IncrementalCommon$$anon$1.next(IncrementalCommon.scala:52)
+[error] sbt.internal.inc.IncrementalCommon.cycle(IncrementalCommon.scala:265)
+[error] sbt.internal.inc.Incremental$.$anonfun$incrementalCompile$8(Incremental.scala:409)
+[error] sbt.internal.inc.Incremental$.withClassfileManager(Incremental.scala:496)
+[error] sbt.internal.inc.Incremental$.incrementalCompile(Incremental.scala:396)
+[error] sbt.internal.inc.Incremental$.apply(Incremental.scala:170)
+[error] sbt.internal.inc.IncrementalCompilerImpl.compileInternal(IncrementalCompilerImpl.scala:534)
+[error] sbt.internal.inc.IncrementalCompilerImpl.$anonfun$compileIncrementally$1(IncrementalCompilerImpl.scala:488)
+[error] sbt.internal.inc.IncrementalCompilerImpl.handleCompilationError(IncrementalCompilerImpl.scala:332)
+[error] sbt.internal.inc.IncrementalCompilerImpl.compileIncrementally(IncrementalCompilerImpl.scala:425)
+[error] sbt.internal.inc.IncrementalCompilerImpl.compile(IncrementalCompilerImpl.scala:137)
+[error] sbt.Defaults$.compileIncrementalTaskImpl(Defaults.scala:2427)
+[error] sbt.Defaults$.$anonfun$compileIncrementalTask$2(Defaults.scala:2377)
+[error] sbt.internal.server.BspCompileTask$.$anonfun$compute$1(BspCompileTask.scala:41)
+[error] sbt.internal.io.Retry$.apply(Retry.scala:47)
+[error] sbt.internal.io.Retry$.apply(Retry.scala:29)
+[error] sbt.internal.io.Retry$.apply(Retry.scala:24)
+[error] sbt.internal.server.BspCompileTask$.compute(BspCompileTask.scala:41)
+[error] sbt.Defaults$.$anonfun$compileIncrementalTask$1(Defaults.scala:2375)
+[error] scala.Function1.$anonfun$compose$1(Function1.scala:49)
+[error] sbt.internal.util.$tilde$greater.$anonfun$$u2219$1(TypeFunctions.scala:63)
+[error] sbt.std.Transform$$anon$4.work(Transform.scala:69)
+[error] sbt.Execute.$anonfun$submit$2(Execute.scala:283)
+[error] sbt.internal.util.ErrorHandling$.wideConvert(ErrorHandling.scala:24)
+[error] sbt.Execute.work(Execute.scala:292)
+[error] sbt.Execute.$anonfun$submit$1(Execute.scala:283)
+[error] sbt.ConcurrentRestrictions$$anon$4.$anonfun$submitValid$1(ConcurrentRestrictions.scala:265)
+[error] sbt.CompletionService$$anon$2.call(CompletionService.scala:65)
+[error] java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+[error] java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:572)
+[error] java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+[error] java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+[error] java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+[error] java.base/java.lang.Thread.run(Thread.java:1570)
+[error]
+[error] stack trace is suppressed; run last cloudAgentServer / Compile / compileIncremental for the full output
+[error] (cloudAgentServer / Compile / compileIncremental) java.lang.AssertionError: assertion failed
+[error] Total time: 464 s (07:44), completed Jun 19, 2024, 11:47:05 AM

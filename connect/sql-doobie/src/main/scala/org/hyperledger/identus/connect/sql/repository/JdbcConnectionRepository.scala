@@ -45,6 +45,9 @@ class JdbcConnectionRepository(xa: Transactor[ContextAwareTask], xb: Transactor[
   given connectionResponseGet: Get[ConnectionResponse] = Get[String].map(decode[ConnectionResponse](_).getOrElse(???))
   given connectionResponsePut: Put[ConnectionResponse] = Put[String].contramap(_.asJson.toString)
 
+  given failureGet: Get[org.hyperledger.identus.shared.models.Failure] = ???
+  given failurePut: Put[org.hyperledger.identus.shared.models.Failure] = ???
+
   override def create(record: ConnectionRecord): URIO[WalletAccessContext, Unit] = {
     val cxnIO = sql"""
         | INSERT INTO public.connection_records(
@@ -327,7 +330,7 @@ class JdbcConnectionRepository(xa: Transactor[ContextAwareTask], xb: Transactor[
 
   def updateAfterFail(
       recordId: UUID,
-      failReason: Option[String],
+      failReason: Option[org.hyperledger.identus.shared.models.Failure],
   ): URIO[WalletAccessContext, Unit] = {
     val cxnIO = sql"""
         | UPDATE public.connection_records
