@@ -18,15 +18,15 @@ If some example requires a different command, it should be provided in its own l
 
 ## Examples
 
-|example|description|
-|-|-|
-|`st`|single-tenant configuration without external services (except database)|
-|`st-multi`|3 instances of single-tenant configuration|
-|`st-vault`|single-tenant with Vault for secret storage|
-|`st-oid4vci`|single-tenant agent with Keycloak as external Issuer Authorization Server|
-|`mt`|multi-tenant configuration using built-in IAM|
-|`mt-keycloak`|multi-tenant configuration using Keycloak for IAM|
-|`mt-keycloak-vault`|multi-tenant configuration using Keycloak and Vault|
+| example             | description                                                               |
+|---------------------|---------------------------------------------------------------------------|
+| `st`                | single-tenant configuration without external services (except database)   |
+| `st-multi`          | 3 instances of single-tenant configuration                                |
+| `st-vault`          | single-tenant with Vault for secret storage                               |
+| `st-oid4vci`        | single-tenant agent with Keycloak as external Issuer Authorization Server |
+| `mt`                | multi-tenant configuration using built-in IAM                             |
+| `mt-keycloak`       | multi-tenant configuration using Keycloak for IAM                         |
+| `mt-keycloak-vault` | multi-tenant configuration using Keycloak and Vault                       |
 
 ## Testing examples
 
