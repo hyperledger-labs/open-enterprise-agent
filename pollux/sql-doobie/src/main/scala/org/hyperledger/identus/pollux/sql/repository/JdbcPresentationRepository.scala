@@ -489,10 +489,10 @@ class JdbcPresentationRepository(
       .ensureOneAffectedRowOrDie
   }
 
-  def updateAfterFail(
+  override def updateAfterFail(
       recordId: DidCommID,
       failReason: Option[Failure]
-  ): URIO[WalletAccessContext, Unit] = {
+  ): UIO[Unit] = {
     val cxnIO = sql"""
         | UPDATE public.presentation_records
         | SET
@@ -503,7 +503,7 @@ class JdbcPresentationRepository(
         |   id = $recordId
         """.stripMargin.update
     cxnIO.run
-      .transactWallet(xa)
+      .transactWithoutContext(xa)
       .orDie
       .ensureOneAffectedRowOrDie
   }

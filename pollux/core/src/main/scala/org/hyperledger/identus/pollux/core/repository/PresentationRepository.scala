@@ -74,5 +74,5 @@ trait PresentationRepository {
   def updateAfterFail(
       recordId: DidCommID,
       failReason: Option[Failure]
-  ): URIO[WalletAccessContext, Unit]
+  ): UIO[Unit]
 }
