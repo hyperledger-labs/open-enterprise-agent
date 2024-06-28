@@ -1,7 +1,7 @@
-import sbt.Logger
+import sbt.internal.librarymanagement.{IvyRetrieve, IvySbt}
 import sbt.librarymanagement._
 import sbt.librarymanagement.ivy._
-import sbt.internal.librarymanagement.{IvySbt, IvyRetrieve}
+import sbt.Logger
 
 // Since ivy fails to resolve project dependencies, customized version is used to ignore any failure.
 // This is OK as we only grab license information from the resolution metadata,

@@ -16,12 +16,12 @@ class IssueCredentialSpec extends ZSuite {
     val body = IssueCredential.Body(goal_code = Some("Issued Credential"))
     val attachmentDescriptor = AttachmentDescriptor.buildJsonAttachment[CredentialPreview](payload = credentialPreview)
     val attachmentDescriptorJson =
-      attachmentDescriptor
-        .asJson(AttachmentDescriptor.attachmentDescriptorEncoderV2)
-        .deepDropNullValues
-        .noSpaces
+    attachmentDescriptor
+      .asJson(AttachmentDescriptor.attachmentDescriptorEncoderV2)
+      .deepDropNullValues
+      .noSpaces
 
-      // FIXME !!! THIS WILL FAIL!
+    // FIXME !!! THIS WILL FAIL!
     val expectedProposalJson = parse(
       s"""{
          |  "id": "061bf917-2cbe-460b-8d12-b1a9609505c2",

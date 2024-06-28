@@ -34,87 +34,87 @@ object MessagingService {
     SendMessageError,
     MessageAndAddress
   ] =
-    for {
-      didCommService <- ZIO.service[DidOps]
-      resolver <- ZIO.service[DIDResolver]
-      sendToDID <- msg.to match {
-        case Seq() => // TODO support for anonymous message
-          ZIO.fail(
-            SendMessageError(
-              new RuntimeException("Missing the destination DID - TODO support for anonymous message")
-            )
+  for {
+    didCommService <- ZIO.service[DidOps]
+    resolver <- ZIO.service[DIDResolver]
+    sendToDID <- msg.to match {
+      case Seq() => // TODO support for anonymous message
+        ZIO.fail(
+          SendMessageError(
+            new RuntimeException("Missing the destination DID - TODO support for anonymous message")
           )
-        case Seq(value) =>
-          ZIO.succeed(value)
-        case head +: tail => // TODO support for multiple destinations
-          ZIO.fail(
-            SendMessageError(
-              new RuntimeException("TODO multiple destinations")
-            )
+        )
+      case Seq(value) =>
+        ZIO.succeed(value)
+      case head +: tail => // TODO support for multiple destinations
+        ZIO.fail(
+          SendMessageError(
+            new RuntimeException("TODO multiple destinations")
           )
-      }
+        )
+    }
 
-      serviceEndpoint <- resolver
-        .didCommServices(sendToDID) /* Seq[DIDCommService] */
-        .catchAll { case ex => ZIO.fail(SendMessageError(ex)) }
-        .flatMap {
-          case Seq() =>
-            ZIO.fail(
-              SendMessageError(
-                new RuntimeException("To send a Message you need a destination") // TODO ERROR
-              )
+    serviceEndpoint <- resolver
+      .didCommServices(sendToDID) /* Seq[DIDCommService] */
+      .catchAll { case ex => ZIO.fail(SendMessageError(ex)) }
+      .flatMap {
+        case Seq() =>
+          ZIO.fail(
+            SendMessageError(
+              new RuntimeException("To send a Message you need a destination") // TODO ERROR
             )
-          case Seq(v) =>
+          )
+        case Seq(v) =>
+          ZIO.succeed(
+            ServiceEndpoint(
+              uri = v.getServiceEndpoint(),
+              accept = Option(v.getAccept()).map(_.asScala.toSeq),
+              routingKeys = Option(v.getRoutingKeys()).map(_.asScala.toSeq)
+            )
+          )
+        case headDID +: tail =>
+          ZIO.logError("TODO multiple destinations") *>
             ZIO.succeed(
               ServiceEndpoint(
-                uri = v.getServiceEndpoint(),
-                accept = Option(v.getAccept()).map(_.asScala.toSeq),
-                routingKeys = Option(v.getRoutingKeys()).map(_.asScala.toSeq)
+                uri = headDID.getServiceEndpoint(),
+                accept = Option(headDID.getAccept()).map(_.asScala.toSeq),
+                routingKeys = Option(headDID.getRoutingKeys()).map(_.asScala.toSeq)
               )
             )
-          case headDID +: tail =>
-            ZIO.logError("TODO multiple destinations") *>
-              ZIO.succeed(
-                ServiceEndpoint(
-                  uri = headDID.getServiceEndpoint(),
-                  accept = Option(headDID.getAccept()).map(_.asScala.toSeq),
-                  routingKeys = Option(headDID.getRoutingKeys()).map(_.asScala.toSeq)
-                )
-              )
-        }
-
-      msgToSend <- serviceEndpoint match {
-        case ServiceEndpoint(url, _, None) if url.startsWith("http") =>
-          ZIO.log(s"No Forward Message needed. (send to $url)") *>
-            ZIO.succeed(MessageAndAddress(msg, url))
-        case ServiceEndpoint(url, _, Some(Seq())) if url.startsWith("http") =>
-          ZIO.log(s"No Forward Message needed. (send to $url)") *>
-            ZIO.succeed(MessageAndAddress(msg, url))
-        case ServiceEndpoint(did, _, _) if did.startsWith("did:") =>
-          for {
-            _ <- ZIO.log(s"Make Forward Message for Mediator '$did'")
-            mediator = DidId(did)
-            forwardMessage <- makeForwardMessage(message = msg, mediator = mediator)
-            finalMessage <- makeMessage(forwardMessage.asMessage) // Maybe it needs a double warping
-          } yield finalMessage
-        case ServiceEndpoint(uri, _, Some(routingKeys)) =>
-          ZIO.log(s"RoutingDID: $routingKeys") *>
-            ZIO.fail(
-              SendMessageError(
-                RuntimeException("routingKeys is not supported at the moment")
-              )
-            )
-        case s @ ServiceEndpoint(_, _, None) =>
-          ZIO.logError(s"Unxpected ServiceEndpoint $s") *> ZIO.fail(
-            SendMessageError(new RuntimeException(s"Unxpected ServiceEndpoint $s"))
-          )
       }
-    } yield (msgToSend)
 
-    /** Encrypt and send a Message via HTTP
-      *
-      * TODO Move this method to another model
-      */
+    msgToSend <- serviceEndpoint match {
+      case ServiceEndpoint(url, _, None) if url.startsWith("http") =>
+        ZIO.log(s"No Forward Message needed. (send to $url)") *>
+          ZIO.succeed(MessageAndAddress(msg, url))
+      case ServiceEndpoint(url, _, Some(Seq())) if url.startsWith("http") =>
+        ZIO.log(s"No Forward Message needed. (send to $url)") *>
+          ZIO.succeed(MessageAndAddress(msg, url))
+      case ServiceEndpoint(did, _, _) if did.startsWith("did:") =>
+        for {
+          _ <- ZIO.log(s"Make Forward Message for Mediator '$did'")
+          mediator = DidId(did)
+          forwardMessage <- makeForwardMessage(message = msg, mediator = mediator)
+          finalMessage <- makeMessage(forwardMessage.asMessage) // Maybe it needs a double warping
+        } yield finalMessage
+      case ServiceEndpoint(uri, _, Some(routingKeys)) =>
+        ZIO.log(s"RoutingDID: $routingKeys") *>
+          ZIO.fail(
+            SendMessageError(
+              RuntimeException("routingKeys is not supported at the moment")
+            )
+          )
+      case s @ ServiceEndpoint(_, _, None) =>
+        ZIO.logError(s"Unxpected ServiceEndpoint $s") *> ZIO.fail(
+          SendMessageError(new RuntimeException(s"Unxpected ServiceEndpoint $s"))
+        )
+    }
+  } yield (msgToSend)
+
+  /** Encrypt and send a Message via HTTP
+    *
+    * TODO Move this method to another model
+    */
   def send(msg: Message): ZIO[DidOps & DidAgent & DIDResolver & HttpClient, SendMessageError, HttpResponse] =
     ZIO.logAnnotate("msgId", msg.id) {
       for {
