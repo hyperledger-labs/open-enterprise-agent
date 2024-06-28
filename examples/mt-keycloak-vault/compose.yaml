@@ -53,7 +53,7 @@ services:
       SECRET_STORAGE_BACKEND: vault
       VAULT_ADDR: http://vault-default:8200
       VAULT_TOKEN: admin
-    image: ghcr.io/hyperledger/identus-cloud-agent:1.36.1-SNAPSHOT
+    image: ghcr.io/hyperledger/identus-cloud-agent:1.36.1
     restart: always
   caddy-default:
     configs:

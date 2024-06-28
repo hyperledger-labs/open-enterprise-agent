@@ -76,7 +76,7 @@ services:
       PRISM_NODE_PORT: '50053'
       REST_SERVICE_URL: http://caddy-holder:8081/prism-agent
       SECRET_STORAGE_BACKEND: postgres
-    image: ghcr.io/hyperledger/identus-cloud-agent:1.36.1-SNAPSHOT
+    image: ghcr.io/hyperledger/identus-cloud-agent:1.36.1
     restart: always
   agent-issuer:
     depends_on:
@@ -106,7 +106,7 @@ services:
       PRISM_NODE_PORT: '50053'
       REST_SERVICE_URL: http://caddy-issuer:8080/prism-agent
       SECRET_STORAGE_BACKEND: postgres
-    image: ghcr.io/hyperledger/identus-cloud-agent:1.36.1-SNAPSHOT
+    image: ghcr.io/hyperledger/identus-cloud-agent:1.36.1
     restart: always
   agent-verifier:
     depends_on:
@@ -136,7 +136,7 @@ services:
       PRISM_NODE_PORT: '50053'
       REST_SERVICE_URL: http://caddy-verifier:8082/prism-agent
       SECRET_STORAGE_BACKEND: postgres
-    image: ghcr.io/hyperledger/identus-cloud-agent:1.36.1-SNAPSHOT
+    image: ghcr.io/hyperledger/identus-cloud-agent:1.36.1
     restart: always
   caddy-holder:
     configs:
