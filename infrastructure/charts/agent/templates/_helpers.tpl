@@ -50,10 +50,13 @@ app.kubernetes.io/part-of: {{ include "cloud-agent.fullname" . }}
     {{- if .Values.ingress.cors.enabled }}
     - name: cors
       enable: true
-      {{- if .Values.ingress.cors.allow_origins }}
       config:
-        allow_origins: {{ .Values.ingress.cors.allow_origins | quote }}
-      {{- end }}
+        allow_origins:
+        {{- if .Values.ingress.cors.allow_origins }}
+          {{ .Values.ingress.cors.allow_origins | quote }}
+        {{- else }}
+          {{ printf "https://%s" (index .Values.ingress.applicationUrls 0) | quote }}
+        {{- end }}
     {{- end }}
 {{- end -}}
 

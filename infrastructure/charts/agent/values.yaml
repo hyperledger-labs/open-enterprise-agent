@@ -7,7 +7,8 @@ ingress:
   platformIngressUrl: chart-base-platform-ingress.atalaprism.io
   cors:
     enabled: false
-    allow_origins: ""
+    # defaults to first .Values.ingress.applicationUrls
+    # allow_origins: "*"
   auth:
     enable: true
     consumer_restriction: true
