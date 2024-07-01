@@ -11,11 +11,6 @@ import org.hyperledger.identus.agent.walletapi.service.{
   WalletManagementService,
   WalletManagementServiceImpl
 }
-import org.hyperledger.identus.agent.walletapi.service.ManagedDIDServiceSpec.{
-  contextAwareTransactorLayer,
-  jdbcSecretStorageLayer,
-  pgContainerLayer
-}
 import org.hyperledger.identus.agent.walletapi.sql.{
   JdbcDIDNonSecretStorage,
   JdbcDIDSecretStorage,
@@ -75,7 +70,6 @@ import org.hyperledger.identus.sharedtest.containers.{
 }
 import org.hyperledger.identus.test.container.DBTestUtils
 import org.keycloak.authorization.client.AuthzClient
-import zio.{IO, RIO, Ref, Task, UIO, URIO, ZIO, ZLayer}
 import zio.{mock, *}
 import zio.http.Client
 import zio.mock.*
@@ -155,10 +149,9 @@ object CredentialIssuerControllerSpec
   )
 
   private val applicationLayers =
-    ZLayer.makeSome[
-      KeycloakConfig & KeycloakAdminClient & PostgreSQLContainer,
-      KeycloakConfig & WalletManagementController & KeycloakClient & AuthzClient & DIDRegistrarController &
-        KeycloakAuthenticator
+    ZLayer.make[
+      WalletManagementController & KeycloakClient & AuthzClient & DIDRegistrarController & KeycloakAuthenticator &
+        KeycloakConfig & KeycloakAdminClient & PostgreSQLContainer
     ](
       WalletManagementServiceImpl.layer,
       WalletManagementControllerImpl.layer,
@@ -179,7 +172,9 @@ object CredentialIssuerControllerSpec
       JdbcDIDSecretStorage.layer,
       JdbcDIDNonSecretStorage.layer,
       testDIDServiceLayer,
-      apolloLayer
+      apolloLayer,
+      pgContainerLayer,
+      keycloakInfrastructureLayers
     )
 
   val didTemplate = ManagedDIDTemplate(
@@ -190,10 +185,10 @@ object CredentialIssuerControllerSpec
 
   override def spec = (suite("CredentialIssuerController")(
     // authorizationCodeFlowSpec1a,
-    autorizationCodeFlowSpec1b.provideSomeLayerShared(applicationLayers)
+    autorizationCodeFlowSpec1b
     // preAutorizedCodeFlowSpec,
   ) @@ bootstrapKeycloakRealmAspect @@ TestAspect.beforeAll(DBTestUtils.runMigrationAgentDB))
-    .provideLayerShared(keycloakInfrastructureLayers ++ pgContainerLayer)
+    .provideLayerShared(applicationLayers)
 
   val authorizationCodeFlowSpec1a = suite("Authorization Code Flow 1a")(
     test(
