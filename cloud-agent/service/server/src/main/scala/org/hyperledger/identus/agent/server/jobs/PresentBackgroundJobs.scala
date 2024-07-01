@@ -55,7 +55,7 @@ object PresentBackgroundJobs extends BackgroundJobsHelper {
   private type MESSAGING_RESOURCES = DidOps & DIDResolver & HttpClient
 
   val presentProofExchanges: ZIO[RESOURCES, Throwable, Unit] = {
-    val presentProofDidComExchange = for {
+    for {
       presentationService <- ZIO.service[PresentationService]
       config <- ZIO.service[AppConfig]
       records <- presentationService
@@ -72,7 +72,6 @@ object PresentBackgroundJobs extends BackgroundJobsHelper {
         .foreachPar(records)(performPresentProofExchange)
         .withParallelism(config.pollux.presentationBgJobProcessingParallelism)
     } yield ()
-    presentProofDidComExchange
   }
 
   private def counterMetric(key: String) = Metric
@@ -81,16 +80,19 @@ object PresentBackgroundJobs extends BackgroundJobsHelper {
 
   private def performPresentProofExchange(record: PresentationRecord): URIO[RESOURCES, Unit] =
     aux(record)
-      .tapError({
-        (error: PresentationError | DIDSecretStorageError | BackgroundJobError | CredentialServiceError |
-          CastorDIDResolutionError | GetManagedDIDError | Failure) =>
-          ZIO.logErrorCause(
-            s"Present Proof - Error processing record: ${record.id}",
-            Cause.fail(error)
-          )
-      })
-      .catchAll(e => ZIO.logErrorCause(s"Present Proof - Error processing record: ${record.id} ", Cause.fail(e)))
-      .catchAllDefect(d => ZIO.logErrorCause(s"Present Proof - Defect processing record: ${record.id}", Cause.fail(d)))
+      .catchAll {
+        case ex: Failure =>
+          ZIO
+            .service[PresentationService]
+            .flatMap(_.reportProcessingFailure(record.id, Some(ex)))
+            .catchAll(ex =>
+              ZIO.logErrorCause(s"PresentBackgroundJobs - Fail to recover from ${record.id}", Cause.fail(ex))
+            )
+        case ex => ZIO.logErrorCause(s"PresentBackgroundJobs - Error processing record: ${record.id}", Cause.fail(ex))
+      }
+      .catchAllDefect(d =>
+        ZIO.logErrorCause(s"PresentBackgroundJobs - Defect processing record: ${record.id}", Cause.fail(d))
+      )
 
   private def aux(record: PresentationRecord): ZIO[RESOURCES, ERROR, Unit] = {
     import org.hyperledger.identus.pollux.core.model.PresentationRecord.ProtocolState.*

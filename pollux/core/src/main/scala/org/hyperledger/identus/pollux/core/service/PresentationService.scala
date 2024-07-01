@@ -169,6 +169,6 @@ trait PresentationService {
   def reportProcessingFailure(
       recordId: DidCommID,
       failReason: Option[Failure]
-  ): ZIO[WalletAccessContext, PresentationError, Unit]
+  ): IO[PresentationError, Unit]
 
 }

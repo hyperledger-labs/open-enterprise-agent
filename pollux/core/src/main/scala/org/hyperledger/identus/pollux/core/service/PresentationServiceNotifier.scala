@@ -281,7 +281,7 @@ class PresentationServiceNotifier(
   override def reportProcessingFailure(
       recordId: DidCommID,
       failReason: Option[Failure]
-  ): ZIO[WalletAccessContext, PresentationError, Unit] = svc.reportProcessingFailure(recordId, failReason)
+  ): IO[PresentationError, Unit] = svc.reportProcessingFailure(recordId, failReason)
 }
 
 object PresentationServiceNotifier {

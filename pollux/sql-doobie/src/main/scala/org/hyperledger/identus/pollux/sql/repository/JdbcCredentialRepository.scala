@@ -548,7 +548,7 @@ class JdbcCredentialRepository(xa: Transactor[ContextAwareTask], xb: Transactor[
       .ensureOneAffectedRowOrDie
   }
 
-  def updateAfterFail(
+  override def updateAfterFail(
       recordId: DidCommID,
       failReason: Option[Failure]
   ): URIO[WalletAccessContext, Unit] = {

@@ -1,3 +1,4 @@
+/*
 package org.hyperledger.identus.pollux.core.repository
 
 import org.hyperledger.identus.mercury.protocol.presentproof.*
@@ -363,3 +364,4 @@ object PresentationRepositoryInMemory {
       .map(PresentationRepositoryInMemory(_, maxRetries))
   )
 }
+ */
