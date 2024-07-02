@@ -74,14 +74,14 @@ lazy val V = new {
 
   val doobie = "1.0.0-RC5"
   val quill = "4.8.4"
-  val flyway = "9.22.3"
+  val flyway = "10.13.0"
   val postgresDriver = "42.7.3"
-  val logback = "1.4.14"
+  val logback = "1.5.6"
   val slf4j = "2.0.13"
 
   val scalaUri = "4.0.3"
 
-  val jwtCirceVersion = "9.4.6"
+  val jwtCirceVersion = "10.0.1"
   val zioPreludeVersion = "1.0.0-RC24"
 
   val apollo = "1.3.4"
@@ -90,7 +90,7 @@ lazy val V = new {
   // [error] 	org.hyperledger.identus.pollux.core.model.schema.CredentialSchemaSpec
 
   val vaultDriver = "6.2.0"
-  val micrometer = "1.11.11"
+  val micrometer = "1.11.12"
 
   val nimbusJwt = "9.37.3"
   val keycloak = "23.0.7" // scala-steward:off //TODO 24.0.3 // update all quay.io/keycloak/keycloak
@@ -125,7 +125,7 @@ lazy val D = new {
   val titaniumJsonLd: ModuleID = "com.apicatalog" % "titanium-json-ld" % "1.4.0"
   val jakartaJson: ModuleID = "org.glassfish" % "jakarta.json" % "2.0.1"
   val ironVC: ModuleID = "com.apicatalog" % "iron-verifiable-credentials" % "0.14.0"
-  val scodecBits: ModuleID = "org.scodec" %% "scodec-bits" % "1.1.38"
+  val scodecBits: ModuleID = "org.scodec" %% "scodec-bits" % "1.2.0"
 
   // https://mvnrepository.com/artifact/org.didcommx/didcomm/0.3.2
   val didcommx: ModuleID = "org.didcommx" % "didcomm" % "0.3.2"
@@ -319,6 +319,7 @@ lazy val D_Pollux_VC_JWT = new {
   val zioTest = "dev.zio" %% "zio-test" % V.zio % Test
   val zioTestSbt = "dev.zio" %% "zio-test-sbt" % V.zio % Test
   val zioTestMagnolia = "dev.zio" %% "zio-test-magnolia" % V.zio % Test
+  val scalaTest = "org.scalatest" %% "scalatest" % "3.2.18" % Test
 
   // Dependency Modules
   val zioDependencies: Seq[ModuleID] = Seq(zio, zioPrelude, zioTest, zioTestSbt, zioTestMagnolia)
@@ -358,7 +359,7 @@ lazy val D_CloudAgent = new {
 
   val tapirSttpStubServer =
     "com.softwaremill.sttp.tapir" %% "tapir-sttp-stub-server" % V.tapir % Test
-  val sttpClient3ZioJson = "com.softwaremill.sttp.client3" %% "zio-json" % "3.8.16" % Test
+  val sttpClient3ZioJson = "com.softwaremill.sttp.client3" %% "zio-json" % "3.9.7" % Test
 
   val quillDoobie =
     "io.getquill" %% "quill-doobie" % V.quill exclude ("org.scala-lang.modules", "scala-java8-compat_3")
