@@ -31,7 +31,7 @@ jobs:
       DOCKER_API_VERSION: "1.44"
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
         with:
           egress-policy: audit
 
@@ -85,7 +85,7 @@ jobs:
       - name: Set up sbt
         uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7 # v1.1.18 pinned
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v4.4.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v4.4.0
         with:
           node-version: 22
 
@@ -182,7 +182,7 @@ jobs:
 
       - name: Upload serenity report (neoprism)
         if: github.ref_name == 'main' || failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: integration-tests-result
           path: ${{ env.REPORTS_DIR }}
@@ -190,7 +190,7 @@ jobs:
 
       - name: Upload logs (neoprism)
         if: github.ref_name == 'main' || failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: docker-logs
           path: ${{ env.LOGS_DIR }}
@@ -210,7 +210,7 @@ jobs:
           SLACK_USERNAME: circleci
           SLACK_WEBHOOK: ${{ secrets.E2E_TESTS_SLACK_WEBHOOK }}
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v4.4.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v4.4.0
         with:
           node-version: 20
 
@@ -242,7 +242,7 @@ jobs:
       DOCKER_API_VERSION: "1.44"
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
         with:
           egress-policy: audit
 
@@ -295,7 +295,7 @@ jobs:
       - name: Set up sbt
         uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7 # v1.1.18 pinned
 
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v4.4.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v4.4.0
         with:
           node-version: 22
 
@@ -361,7 +361,7 @@ jobs:
 
       - name: Upload serenity report (prism-node)
         if: github.ref_name == 'main' || failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: integration-tests-result-prism-node
           path: ${{ env.REPORTS_DIR }}
@@ -369,7 +369,7 @@ jobs:
 
       - name: Upload logs (prism-node)
         if: github.ref_name == 'main' || failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: docker-logs-prism-node
           path: ${{ env.LOGS_DIR }}
