@@ -5,15 +5,15 @@ object V {
   val munitZio = "0.4.0"
 
   // https://mvnrepository.com/artifact/dev.zio/zio
-  val zio = "2.1.24"
-  val zioConfig = "4.0.6"
-  val zioLogging = "2.5.2"
+  val zio = "2.1.26"
+  val zioConfig = "4.0.8"
+  val zioLogging = "2.5.3"
   val zioJson = "0.7.45"
   val zioHttp = "3.7.4"
   val zioCatsInterop = "3.3.0" // TODO "23.1.0.2" // https://mvnrepository.com/artifact/dev.zio/zio-interop-cats
-  val zioMetricsConnector = "2.5.5"
+  val zioMetricsConnector = "2.5.8"
   val zioMock = "1.0.0-RC12"
-  val zioKafka = "3.2.0"
+  val zioKafka = "3.7.1"
   val mockito = "3.2.18.0"
   val monocle = "3.3.0"
 
@@ -38,7 +38,7 @@ object V {
   val scalaUri = "4.2.0"
 
   val jwtZioVersion = "11.0.2"
-  val zioPreludeVersion = "1.0.0-RC44"
+  val zioPreludeVersion = "1.0.0-RC48"
 
   val apollo = "1.8.8"
 

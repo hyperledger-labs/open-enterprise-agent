@@ -1,6 +1,7 @@
 package org.hyperledger.identus.shared.db
 
 import cats.data.NonEmptyList
+import cats.effect.Async
 import cats.Show
 import doobie.*
 import doobie.postgres.implicits.*
@@ -15,8 +16,14 @@ import zio.json.ast.Json
 
 import java.util.UUID
 
-trait ContextAware
-type ContextAwareTask[T] = Task[T] & ContextAware
+/** Distinguishes the wallet transactor from the system transactor in ZIO environments. The runtime representation is
+  * Task, not a ZIO value mixed with a marker trait.
+  */
+opaque type ContextAwareTask[T] <: Task[T] = Task[T]
+
+object ContextAwareTask {
+  given Async[ContextAwareTask] = zio.interop.catz.asyncInstance[Any]
+}
 
 object Errors {
   final case class UnexpectedAffectedRow(count: Long) extends RuntimeException(s"Unexpected affected row count: $count")
