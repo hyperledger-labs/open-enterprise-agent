@@ -31,7 +31,7 @@ object V {
   val doobie = "1.0.0-RC5" // scala-steward:off
   val quill = "4.8.6"
   val flyway = "9.22.3" // scala-steward:off
-  val postgresDriver = "42.7.13"
+  val postgresDriver = "42.7.14"
   val logback = "1.5.18"
   val slf4j = "2.0.17"
 

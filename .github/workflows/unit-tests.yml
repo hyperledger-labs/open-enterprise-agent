@@ -28,7 +28,7 @@ jobs:
       TESTCONTAINERS_RYUK_DISABLED: true
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
         with:
           egress-policy: audit
 
@@ -54,7 +54,7 @@ jobs:
           cache: sbt
 
       - name: Set up sbt
-        uses: sbt/setup-sbt@82da71df4e122282484a99a8d70096bc2369dbd8 # v1.1.18 pinned
+        uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7 # v1.1.18 pinned
 
       - name: Download dependencies
         run: sbt +update
