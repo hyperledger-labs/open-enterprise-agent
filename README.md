@@ -52,7 +52,7 @@ As a result, you can concentrate on crafting self-sovereign identity solutions u
 
 ## User documentation
 
-All documentation, tutorials and API references for the Identus ecosystem can be found at [https://hyperledger-identus.github.io/docs/](https://hyperledger-identus.github.io/docs/)
+All documentation, tutorials and API references for the Identus ecosystem can be found at [https://identus.io/](https://identus.io/)
 
 ## Features
 
@@ -80,7 +80,7 @@ All documentation, tutorials and API references for the Identus ecosystem can be
 
 Before starting to use the Cloud Agent, it is important to understand the basic concepts of self-sovereign identity (SSI). The following resources provide a good introduction to SSI:
 
-* [Identus SSI introduction](https://hyperledger-identus.github.io/docs/home/category/concepts)
+* [Identus SSI introduction](https://identus.io/documentation/learn/)
 * [Linux Foundation Course: Getting Started with SSI](https://www.edx.org/learn/computer-programming/the-linux-foundation-getting-started-with-self-sovereign-identity)
 
 ### Architecture
@@ -145,14 +145,14 @@ System requirements can vary depending on the use case. The following are the mi
 
 #### Running locally in demo mode
 
-To run Identus locally you should follow the instructions in the [Quickstart guide](https://hyperledger-identus.github.io/docs/home/quick-start)
+To run Identus locally you should follow the instructions in the [Quickstart guide](https://identus.io/documentation/develop/quick-start/)
 
 If the Cloud Agent is started successfully, all the running containers should achieve `Healthy` state, and Cloud Agent Rest API should be available at the specified port, for example:
 
 * `http://localhost:8080/cloud-agent` for the `issuer` instance
 * `http://localhost:8090/cloud-agent` for the `holder` instance
 
-You can check the status of the running containers using the [health endpoint](https://hyperledger.github.io/identus-docs/agent-api/#tag/System/operation/systemHealth):
+You can check the status of the running containers using the [health endpoint](https://identus.io/documentation/reference/Cloud%20Agent%20API/system-health/):
 
 ```bash
 $ curl http://localhost:8080/cloud-agent/_system/health
@@ -184,10 +184,10 @@ There could be some incompatibilities between the most latest versions of Cloud 
 
 The following tutorials will help you get started with the Cloud Agent and issue your first credentials:
 
-* [Creating, updating and deactivating Decentralized Identifiers (DIDs)](https://hyperledger-identus.github.io/docs/tutorials/category/dids)
-* [Setting up connections between agents using out-of-band (OOB) protocol](https://hyperledger.github.io/identus-docs/tutorials/connections/connection)
-* [Issuing verifiable credentials (VCs)](https://hyperledger.github.io/identus-docs/tutorials/credentials/didcomm/issue)
-* [Presenting VC proofs](https://hyperledger.github.io/identus-docs/tutorials/credentials/didcomm/present-proof)
+* [Creating, updating and deactivating Decentralized Identifiers (DIDs)](https://identus.io/category/dids/)
+* [Setting up connections between agents using out-of-band (OOB) protocol](https://identus.io/cloud-agent/docs/docusaurus/connections/connection/)
+* [Issuing verifiable credentials (VCs)](https://identus.io/cloud-agent/docs/docusaurus/credentials/didcomm/issue/)
+* [Presenting VC proofs](https://identus.io/cloud-agent/docs/docusaurus/credentials/didcomm/present-proof/)
 
 ## Contributing
 

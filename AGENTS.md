@@ -194,8 +194,8 @@ setReleaseVersion → Docker/stage → setNextVersion
 - **Breaking change detection**: `.github/workflows/oasdiff.yml` — runs `oasdiff` on PRs to detect API breaking changes
 - **Client libraries**: auto-generated from the OpenAPI spec (kotlin, python clients in `client/`)
 - **Health endpoint**: `GET /cloud-agent/_system/health`
-- **Online docs**: [hyperledger-identus.github.io/docs/](https://hyperledger-identus.github.io/docs/)
-- **API reference**: [hyperledger.github.io/identus-docs/agent-api/](https://hyperledger.github.io/identus-docs/agent-api/)
+- **Online docs**: [identus.io/](https://identus.io/)
+- **API reference**: [Cloud Agent API reference](https://identus.io/documentation/reference/Cloud%20Agent%20API/identus-cloud-agent-api-reference/)
 
 ## Scala 3-Specific Patterns
 

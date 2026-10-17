@@ -26,15 +26,15 @@ object WalletManagementEndpoints {
   private val tagName = "Wallet Management"
   private val tagDescription =
     s"""
-       |The __${tagName}__ endpoints enable both users and administrators to manage [wallets](https://hyperledger-identus.github.io/docs/documentation/learn/advanced-explainers/cloud-agent/multi-tenancy#wallet).
+       |The __${tagName}__ endpoints enable both users and administrators to manage [wallets](https://identus.io/documentation/learn/advanced-explainers/cloud-agent/multi-tenancy/#wallet).
        |
        |In a multitenant agent, a wallet is a container for various resources (e.g. Connections, DIDs) and it isolates the access based on the authorization settings.
-       |[Administrators](https://hyperledger-identus.github.io/docs/documentation/learn/glossary#administrator) can utilize the endpoints to manage and onboard [tenants](https://hyperledger-identus.github.io/docs/documentation/learn/glossary#tenant).
-       |See [this example](https://hyperledger-identus.github.io/docs/cloud-agent/docs/docusaurus/multitenancy/tenant-onboarding-ext-iam) for instructions on how to utilize the endpoints as an administrator.
+       |[Administrators](https://identus.io/documentation/learn/glossary/#administrator) can utilize the endpoints to manage and onboard [tenants](https://identus.io/documentation/learn/glossary/#tenant).
+       |See [this example](https://identus.io/cloud-agent/docs/docusaurus/multitenancy/tenant-onboarding/-ext-iam) for instructions on how to utilize the endpoints as an administrator.
        |Tenants can also manage and onboard their own wallets using these endpoints depending on the configuration.
-       |See [this document](https://hyperledger-identus.github.io/docs/cloud-agent/docs/docusaurus/multitenancy/tenant-onboarding-self-service) for a detailed example of self-service tenant onboarding.
+       |See [this document](https://identus.io/cloud-agent/docs/docusaurus/multitenancy/tenant-onboarding/-self-service) for a detailed example of self-service tenant onboarding.
        |
-       |Wallet permissions are controlled by [UMA](https://hyperledger-identus.github.io/docs/documentation/learn/glossary#uma) configuration which the agent
+       |Wallet permissions are controlled by [UMA](https://identus.io/documentation/learn/glossary/#uma) configuration which the agent
        |exposes endpoints to easily configure wallet access using `uma-permissions` resource.
        |The permissions can also be configured out-of-band directly on the external IAM provider that supports the UMA standard.
        |""".stripMargin

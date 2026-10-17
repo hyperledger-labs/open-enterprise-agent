@@ -35,7 +35,7 @@ tags:
 
     Most endpoints are secured by __apiKeyAuth__ or __jwtAuth__ authentication; some are public and require no authentication.
   externalDocs:
-    url: https://hyperledger-identus.github.io/docs/category/credential-definition/
+    url: https://identus.io/category/credential-definition/
     description: Credential Definition documentation
 - name: DID
   description: |2
@@ -50,12 +50,12 @@ tags:
 
     The __DID Registrar__ endpoints facilitate the management of [PRISM DIDs](https://github.com/input-output-hk/prism-did-method-spec) hosted in the cloud agent.
 
-    Implementation of [DID management](https://hyperledger-identus.github.io/docs/documentation/develop/cloud-agent/did-management/) in the cloud agent.
+    Implementation of [DID management](https://identus.io/documentation/develop/cloud-agent/did-management/) in the cloud agent.
     The agent securely manages and stores DIDs along with their keys in its secret storage.
     These endpoints allow users to create, read, update, deactivate, and publish without direct exposure to the key material.
     These DIDs can be utilized for various operations during issuance and verification processes.
 
-    More examples and tutorials can be found in the [Identus documentation](https://hyperledger-identus.github.io/docs/documentation/develop/).
+    More examples and tutorials can be found in the [Identus documentation](https://identus.io/documentation/develop/).
 - name: Events
   description: |
     The __Events__ endpoints enable users to manage event-related resources, such as webhook notifications.
@@ -66,11 +66,11 @@ tags:
     - Issuance protocol notifications
     - Presentation protocol notifications
 
-    For more detailed information regarding event notifications, please refer to the [documentation](https://hyperledger-identus.github.io/docs/cloud-agent/docs/docusaurus/webhooks/webhook).
+    For more detailed information regarding event notifications, please refer to the [documentation](https://identus.io/cloud-agent/docs/docusaurus/webhooks/webhook/).
 - name: Identity and Access Management
   description: |2
 
-    The __Identity and Access Management__ endpoints allow [agent administrators](https://hyperledger-identus.github.io/docs/documentation/learn/glossary/#administrator)
+    The __Identity and Access Management__ endpoints allow [agent administrators](https://identus.io/documentation/learn/glossary/#administrator)
     to manage identity and access management for the agent's tenants.
     It provides basic built-in IAM capabilities as an alternative to more feature rich external IAM solutions.
 
@@ -80,7 +80,7 @@ tags:
     Additionally, the administrator can create API keys for entities and provide them to the tenants out-of-band.
     These API keys can then be used for authorization to access specific wallets.
 
-    For more detailed information related to the agent IAM and its usage, please refer to this [documentation](https://hyperledger-identus.github.io/docs/cloud-agent/docs/docusaurus/multitenancy/tenant-onboarding).
+    For more detailed information related to the agent IAM and its usage, please refer to this [documentation](https://identus.io/cloud-agent/docs/docusaurus/multitenancy/tenant-onboarding/).
 - name: Issue Credentials Protocol
   description: |2
 
@@ -121,7 +121,7 @@ tags:
 
     Endpoints are secured by __apiKeyAuth__ or __jwtAuth__ authentication.
   externalDocs:
-    url: https://hyperledger-identus.github.io/docs/cloud-agent/docs/docusaurus/schemas/credential-schema
+    url: https://identus.io/cloud-agent/docs/docusaurus/schemas/credential-schema/
     description: Credential Schema documentation
 - name: System
   description: |2
@@ -154,15 +154,15 @@ tags:
 - name: Wallet Management
   description: |2
 
-    The __Wallet Management__ endpoints enable both users and administrators to manage [wallets](https://hyperledger-identus.github.io/docs/documentation/learn/advanced-explainers/cloud-agent/multi-tenancy#wallet).
+    The __Wallet Management__ endpoints enable both users and administrators to manage [wallets](https://identus.io/documentation/learn/advanced-explainers/cloud-agent/multi-tenancy/#wallet).
 
     In a multitenant agent, a wallet is a container for various resources (e.g. Connections, DIDs) and it isolates the access based on the authorization settings.
-    [Administrators](https://hyperledger-identus.github.io/docs/documentation/learn/glossary#administrator) can utilize the endpoints to manage and onboard [tenants](https://hyperledger-identus.github.io/docs/documentation/learn/glossary#tenant).
-    See [this example](https://hyperledger-identus.github.io/docs/cloud-agent/docs/docusaurus/multitenancy/tenant-onboarding-ext-iam) for instructions on how to utilize the endpoints as an administrator.
+    [Administrators](https://identus.io/documentation/learn/glossary/#administrator) can utilize the endpoints to manage and onboard [tenants](https://identus.io/documentation/learn/glossary/#tenant).
+    See [this example](https://identus.io/cloud-agent/docs/docusaurus/multitenancy/tenant-onboarding/-ext-iam) for instructions on how to utilize the endpoints as an administrator.
     Tenants can also manage and onboard their own wallets using these endpoints depending on the configuration.
-    See [this document](https://hyperledger-identus.github.io/docs/cloud-agent/docs/docusaurus/multitenancy/tenant-onboarding-self-service) for a detailed example of self-service tenant onboarding.
+    See [this document](https://identus.io/cloud-agent/docs/docusaurus/multitenancy/tenant-onboarding/-self-service) for a detailed example of self-service tenant onboarding.
 
-    Wallet permissions are controlled by [UMA](https://hyperledger-identus.github.io/docs/documentation/learn/glossary#uma) configuration which the agent
+    Wallet permissions are controlled by [UMA](https://identus.io/documentation/learn/glossary/#uma) configuration which the agent
     exposes endpoints to easily configure wallet access using `uma-permissions` resource.
     The permissions can also be configured out-of-band directly on the external IAM provider that supports the UMA standard.
 servers:

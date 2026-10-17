@@ -48,7 +48,7 @@ object CredentialDefinitionRegistryEndpoints {
       |""".stripMargin
 
   private val tagExternalDocumentation = ExternalDocumentation(
-    url = "https://hyperledger-identus.github.io/docs/category/credential-definition/",
+    url = "https://identus.io/category/credential-definition/",
     description = Some("Credential Definition documentation")
   )
 
