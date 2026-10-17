@@ -1,13 +1,10 @@
 plugins {
     `java-library`
     id("org.jetbrains.kotlin.jvm") version "1.9.23"
-    id("maven-publish")
-    id("signing")
-    id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
+    id("com.vanniktech.maven.publish") version "0.34.0"
 }
 
-val publishedMavenId: String = "org.hyperledger.identus"
-group = publishedMavenId
+group = "org.hyperledger.identus"
 
 repositories {
     mavenLocal()
@@ -22,91 +19,43 @@ dependencies {
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
 kotlin {
     jvmToolchain(11)
 }
 
-publishing {
-    publications {
-        create<MavenPublication>(rootProject.name) {
-            groupId = publishedMavenId
-            artifactId = project.name
-            version = project.version.toString()
-            from(components["java"])
-            pom {
-                name.set("Hyperledger Identus Cloud Agent HTTP Client")
-                description.set("The HTTP client stub for the Hyperledger Identus Cloud Agent generated based on OpenAPI specification")
-                url.set("https://hyperledger-identus.github.io/docs/")
-                organization {
-                    name.set("Hyperledger")
-                    url.set("https://www.hyperledger.org/")
-                }
-                issueManagement {
-                    system.set("Github")
-                    url.set("https://github.com/hyperledger-identus/cloud-agent")
-                }
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("FabioPinheiro")
-                        name.set("Fabio Pinheiro")
-                        email.set("fabio.pinheiro@iohk.io")
-                        organization.set("IOG")
-                        roles.add("developer")
-                    }
-                    developer {
-                        id.set("amagyar-iohk")
-                        name.set("Allain Magyar")
-                        email.set("allain.magyar@iohk.io")
-                        organization.set("IOG")
-                        roles.add("developer")
-                    }
-                    developer {
-                        id.set("yshyn-iohk")
-                        name.set("Yurii Shynbuiev")
-                        email.set("yurii.shynbuiev@iohk.io")
-                        organization.set("IOG")
-                        roles.add("developer")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/hyperledger-identus/cloud-agent.git")
-                    developerConnection.set("scm:git:ssh://github.com/hyperledger-identus/cloud-agent.git")
-                    url.set("https://github.com/hyperledger-identus/cloud-agent")
-                }
+mavenPublishing {
+    publishToMavenCentral(automaticRelease = true)
+    signAllPublications()
+    coordinates(group.toString(), project.name, project.version.toString())
+    pom {
+        name.set("Hyperledger Identus Cloud Agent HTTP Client")
+        description.set("The HTTP client for the Hyperledger Identus Cloud Agent generated from OpenAPI specification")
+        url.set("https://hyperledger-identus.github.io/docs/")
+        organization {
+            name.set("Hyperledger")
+            url.set("https://hyperledger.org/")
+        }
+        issueManagement {
+            system.set("Github")
+            url.set("https://github.com/hyperledger-identus/cloud-agent")
+        }
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
             }
         }
-    }
-}
-
-if (System.getenv().containsKey("GPG_PRIVATE") && System.getenv().containsKey("GPG_PASSWORD")) {
-    signing {
-        useInMemoryPgpKeys(
-            project.findProperty("signing.signingSecretKey") as String? ?: System.getenv("GPG_PRIVATE"),
-            project.findProperty("signing.signingSecretKeyPassword") as String? ?: System.getenv("GPG_PASSWORD"),
-        )
-        sign(publishing.publications)
-    }
-}
-
-nexusPublishing {
-    repositories {
-        // see https://central.sonatype.org/publish/publish-portal-ossrh-staging-api/#configuration
-        sonatype {
-            nexusUrl.set(uri("https://ossrh-staging-api.central.sonatype.com/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://central.sonatype.com/repository/maven-snapshots/"))
-            username.set(System.getenv("OSSRH_USERNAME"))
-            password.set(System.getenv("OSSRH_PASSWORD"))
+        developers {
+            developer {
+                id.set("hyperledger-identus")
+                name.set("Hyperledger Identus contributors")
+                url.set("https://github.com/hyperledger-identus/cloud-agent/graphs/contributors")
+            }
+        }
+        scm {
+            connection.set("scm:git:git://github.com/hyperledger-identus/cloud-agent.git")
+            developerConnection.set("scm:git:ssh://github.com/hyperledger-identus/cloud-agent.git")
+            url.set("https://github.com/hyperledger-identus/cloud-agent")
         }
     }
 }

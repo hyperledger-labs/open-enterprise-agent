@@ -71,11 +71,11 @@ jobs:
           COMMIT_HASH="${GITHUB_SHA::7}"
           BUILD_NUMBER="${GITHUB_RUN_NUMBER}"
           VERSION=$(grep -Eo 'version := "[^"]+"' version.sbt | sed 's/version := "//; s/"//; s/-SNAPSHOT//')
-          REVISION_VERSION=${VERSION}-$COMMIT_HASH # Revision version is used for the OAS file name and client libraries
-          BUILD_VERSION=${VERSION}-$BUILD_NUMBER-$COMMIT_HASH # Build version is used for the Docker image tag
+          REVISION_VERSION=${VERSION}-${COMMIT_HASH} # Revision version is used for the OAS file name and client libraries
+          BUILD_VERSION=${VERSION}-${BUILD_NUMBER}-${COMMIT_HASH} # Build version is used for the Docker image tag
 
-          echo "REVISION_VERSION=$REVISION_VERSION" >> "$GITHUB_OUTPUT"
-          echo "BUILD_VERSION=$BUILD_VERSION" >> "$GITHUB_OUTPUT"
+          echo "REVISION_VERSION=${REVISION_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "BUILD_VERSION=${BUILD_VERSION}" >> "$GITHUB_OUTPUT"
 
       - name: Build Docker Image
         run: |
@@ -111,17 +111,17 @@ jobs:
       - name: Build Cloud-Agent Open API Specification
         id: build-oas
         run: |
-          sbt "cloudAgentServer / Test / runMain org.hyperledger.identus.api.util.Tapir2StaticOAS ../../../cloud-agent-openapi-spec-${{ steps.revision.outputs.REVISION_VERSION}}.yaml revision"
-          checksum=$(sha256sum ./cloud-agent-openapi-spec-${{ steps.revision.outputs.REVISION_VERSION }}.yaml | awk '{ print $1 }')
+          sbt "cloudAgentServer / Test / runMain org.hyperledger.identus.api.util.Tapir2StaticOAS $(pwd)/cloud-agent/service/api/http/cloud-agent-openapi-spec.yaml ${{ steps.revision.outputs.REVISION_VERSION }}"
+          checksum=$(sha256sum ./cloud-agent/service/api/http/cloud-agent-openapi-spec.yaml | awk '{ print $1 }')
           OAS_CHECKSUM=${checksum:0:8}
-          echo "OAS_CHECKSUM=OAS_CHECKSUM" >> "$GITHUB_OUTPUT"
+          echo "OAS_CHECKSUM=${OAS_CHECKSUM}" >> "$GITHUB_OUTPUT"
 
       - name: Publish Cloud-Agent Open API Specification
         id: upload-oas
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: cloud-agent-openapi-spec-${{ steps.build-oas.outputs.OAS_CHECKSUM}}
-          path: ./cloud-agent-openapi-spec-${{ steps.revision.outputs.REVISION_VERSION}}.yaml
+          path: ./cloud-agent/service/api/http/cloud-agent-openapi-spec.yaml
           overwrite: true
           compression-level: 0
 
@@ -143,11 +143,17 @@ jobs:
     needs: build
     permissions:
       contents: read
-      packages: write
+      actions: read
       id-token: write
-    if: needs.build.outputs.OAS_PUBLISHED
+    if: needs.build.outputs.OAS_PUBLISHED == 'true'
     uses: ./.github/workflows/release-clients.yml
-    secrets: inherit
+    secrets:
+      HYP_BOT_GPG_PRIVATE: ${{ secrets.HYP_BOT_GPG_PRIVATE }}
+      HYP_BOT_GPG_PASSWORD: ${{ secrets.HYP_BOT_GPG_PASSWORD }}
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
     with:
+      release: false
+      source_run_id: ${{ github.run_id }}
       revision: ${{ needs.build.outputs.REVISION_VERSION }}
       check_sum: ${{ needs.build.outputs.OAS_CHECKSUM }}

@@ -15,6 +15,3 @@ yarn openapi-generator-cli generate \
 	-i ../../service/api/http/cloud-agent-openapi-spec.yaml \
 	-o ../typescript \
 	--ignore-file-override ../typescript/.openapi-generator-ignore
-
-# generate python models
-# yarn openapi-generator-cli generate -g python -i oas.yml --skip-validate-spec -o ../python --ignore-file-override ../python/.openapi-generator-ignore

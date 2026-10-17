@@ -43,3 +43,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+# Generated clients
+kotlin/
+typescript/

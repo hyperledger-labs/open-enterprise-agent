@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+    outputs:
+      RELEASE_VERSION: ${{ steps.version.outputs.RELEASE_VERSION }}
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
@@ -32,7 +34,6 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ secrets.IDENTUS_CI }}
-          ref: ${{ github.event.inputs.release-branch }}
           fetch-depth: 0
 
       - name: Set up JDK 21 (Temurin) with sbt cache
@@ -95,3 +96,19 @@ jobs:
           repository: hyperledger-identus/integration
           event-type: integration
           client-payload: '{"component": "cloud-agent", "version": "${{ steps.version.outputs.RELEASE_VERSION }}"}'
+
+  build-and-publish-clients:
+    needs: release
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    uses: ./.github/workflows/release-clients.yml
+    secrets:
+      HYP_BOT_GPG_PRIVATE: ${{ secrets.HYP_BOT_GPG_PRIVATE }}
+      HYP_BOT_GPG_PASSWORD: ${{ secrets.HYP_BOT_GPG_PASSWORD }}
+      OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+      OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+    with:
+      release: true
+      revision: ${{ needs.release.outputs.RELEASE_VERSION }}
