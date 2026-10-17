@@ -50,6 +50,7 @@ class PublicationTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         npm = [call for call in calls if call[0] == "npm"]
         self.assertEqual(len(npm), 4)
+        self.assertEqual(npm[0][2], ["ci", "--ignore-scripts"])
         self.assertTrue(all(call[1] == str(self.root / "typescript") for call in npm))
         self.assertEqual(npm[1][2], ["run", "build"])
         self.assertEqual(npm[2][2], ["version", version, "--no-git-tag-version"])

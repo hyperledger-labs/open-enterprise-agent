@@ -35,7 +35,7 @@ if [[ "$VERSION_TAG" == *-* ]]; then
     echo "Publishing TypeScript client snapshot"
     (
       cd ../typescript
-      npm install --ignore-scripts
+      npm ci --ignore-scripts
       npm run build
       npm version "${VERSION_TAG}" --no-git-tag-version
       npm publish --ignore-scripts --provenance --access public --tag snapshot
@@ -53,7 +53,7 @@ else
     echo "Publishing TypeScript client release"
     (
       cd ../typescript
-      npm install --ignore-scripts
+      npm ci --ignore-scripts
       npm run build
       npm version "${VERSION_TAG}" --no-git-tag-version
       npm publish --ignore-scripts --provenance --access public --tag latest

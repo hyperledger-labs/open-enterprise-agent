@@ -58,7 +58,7 @@ jobs:
       - name: Compile and pack TypeScript client
         working-directory: cloud-agent/client/typescript
         run: |
-          npm install --ignore-scripts
+          npm ci --ignore-scripts
           npm run build
           npm pack --ignore-scripts --dry-run --json > package-contents.json
           node -e 'const p = require("./package-contents.json")[0]; for (const path of ["dist/index.js", "dist/index.d.ts"]) { if (!p.files.some(f => f.path === path)) throw new Error("Missing " + path); }'
