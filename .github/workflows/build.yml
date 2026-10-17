@@ -154,5 +154,6 @@ jobs:
       OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
     with:
       release: false
+      source_run_id: ${{ github.run_id }}
       revision: ${{ needs.build.outputs.REVISION_VERSION }}
       check_sum: ${{ needs.build.outputs.OAS_CHECKSUM }}

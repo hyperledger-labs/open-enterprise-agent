@@ -11,6 +11,15 @@ echo "Publishing ${VERSION_TAG}"
 PUBLISH_KOTLIN="${PUBLISH_KOTLIN:-true}"
 PUBLISH_TS="${PUBLISH_TS:-true}"
 
+if [[ ! "$PUBLISH_KOTLIN" =~ ^(true|false)$ || ! "$PUBLISH_TS" =~ ^(true|false)$ ]]; then
+  echo "Client selection flags must be true or false" >&2
+  exit 1
+fi
+if [[ "$PUBLISH_KOTLIN" == "false" && "$PUBLISH_TS" == "false" ]]; then
+  echo "Select at least one client to publish" >&2
+  exit 1
+fi
+
 # install generator dependencies
 yarn install --frozen-lockfile
 

@@ -1,0 +1,75 @@
+name: Client validation
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/client-validation.yml'
+      - '.github/workflows/build.yml'
+      - '.github/workflows/release*.yml'
+      - 'cloud-agent/client/**'
+      - 'cloud-agent/service/api/http/cloud-agent-openapi-spec.yaml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: client-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Generate and compile clients
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Harden the runner
+        uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v4.4.0
+        with:
+          node-version: '22.16.0'
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v5.2.0
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@ac2d340dc04d9e1113182899e983b5400c17cda1 # v3.5.0
+        with:
+          gradle-version: '8.12.1'
+
+      - name: Test publication routing
+        run: python3 cloud-agent/client/generator/test_publish_clients.py
+
+      - name: Generate clients
+        working-directory: cloud-agent/client/generator
+        run: |
+          yarn install --frozen-lockfile
+          yarn generate:all
+
+      - name: Compile and pack TypeScript client
+        working-directory: cloud-agent/client/typescript
+        run: |
+          npm install
+          npm pack --dry-run --json > package-contents.json
+          node -e 'const p = require("./package-contents.json")[0]; for (const path of ["dist/index.js", "dist/index.d.ts"]) { if (!p.files.some(f => f.path === path)) throw new Error("Missing " + path); }'
+          node -e 'require("./dist/index.js")'
+
+      - name: Compile Kotlin client and validate release metadata
+        run: gradle -p cloud-agent/client/kotlin compileKotlin generatePomFileForMavenPublication -Pversion=2.2.1 --console=plain
+
+      - name: Validate snapshot publication task graph
+        run: >-
+          gradle -p cloud-agent/client/kotlin publishToMavenCentral
+          -Pversion=2.2.1-validation-SNAPSHOT
+          -PmavenCentralUsername=dry-run-placeholder
+          -PmavenCentralPassword=dry-run-placeholder
+          --dry-run --console=plain
