@@ -31,28 +31,28 @@ jobs:
       DOCKER_API_VERSION: "1.44"
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
         with:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up JDK 21 (Temurin) with sbt cache
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0 pinned
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v5.2.0 pinned
         with:
           distribution: temurin
           java-version: 21
           cache: sbt
 
       - name: Set up sbt
-        uses: sbt/setup-sbt@508b753e53cb6095967669e0911487d2b9bc9f41 # v1.1.18 pinned
+        uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7 # v1.1.18 pinned
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@ac2d340dc04d9e1113182899e983b5400c17cda1 # v3.5.0
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: hyperledger-bot
@@ -71,19 +71,38 @@ jobs:
           GITHUB_ACTOR: hyperledger-bot
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          sbt docker:publishLocal
+          sbt "cloudAgentServer / Docker / publishLocal"
           echo "agent_version=$(cut -d'=' -f2 version.sbt | tr -d '" ')" >> "${GITHUB_OUTPUT}"
           echo "prism_node_version=$(grep PRISM_NODE_VERSION infrastructure/local/.env | cut -d'=' -f2 | tr -d ' ')" >> "${GITHUB_OUTPUT}"
           echo "neoprism_version=$(grep NEOPRISM_VERSION infrastructure/local/.env | cut -d'=' -f2 | tr -d ' ')" >> "${GITHUB_OUTPUT}"
 
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0 pinned
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v5.2.0 pinned
         with:
           distribution: "zulu"
           java-version: "21"
           cache: "sbt"
 
       - name: Set up sbt
-        uses: sbt/setup-sbt@508b753e53cb6095967669e0911487d2b9bc9f41 # v1.1.18 pinned
+        uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7 # v1.1.18 pinned
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v4.4.0
+        with:
+          node-version: 22
+
+      - name: Generate cloud-agent-client and publish it to mavenLocal
+        working-directory: cloud-agent/client/generator
+        env:
+          AGENT_CLIENT_VERSION: ${{ steps.build_local_cloud_agent.outputs.agent_version }}
+        run: |
+          yarn install --ignore-scripts
+          yarn openapi-generator-cli generate \
+            -g kotlin \
+            -i ../../service/api/http/cloud-agent-openapi-spec.yaml \
+            -o ../kotlin \
+            --ignore-file-override ../kotlin/.openapi-generator-ignore \
+            --additional-properties=packageName=org.hyperledger.identus.client,serializationLibrary=gson,enumPropertyNaming=UPPERCASE
+          cd ../kotlin
+          ./gradlew -Pversion="$AGENT_CLIENT_VERSION" publishToMavenLocal
 
       - name: Run integration tests (neoprism)
         working-directory: "tests/integration-tests"
@@ -96,6 +115,7 @@ jobs:
           TESTS_CONFIG: /configs/basic_neoprism.conf
           VDR_MEMORY_DRIVER_ENABLED: "true"
           VDR_DATABASE_DRIVER_ENABLED: "true"
+          ORG_GRADLE_PROJECT_agentClientVersion: ${{ steps.build_local_cloud_agent.outputs.agent_version }}
         #        continue-on-error: true
         run: |
           export DOCKER_API_VERSION=1.44
@@ -114,6 +134,7 @@ jobs:
           TESTS_CONFIG: /configs/basic_neoprism.conf
           VDR_MEMORY_DRIVER_ENABLED: "true"
           VDR_DATABASE_DRIVER_ENABLED: "true"
+          ORG_GRADLE_PROJECT_agentClientVersion: ${{ steps.build_local_cloud_agent.outputs.agent_version }}
         run: |
           export DOCKER_API_VERSION=1.44
           export DOCKER_HOST=unix:///var/run/docker.sock
@@ -153,7 +174,7 @@ jobs:
 
       - name: Publish e2e test Results (neoprism)
         id: publish-unit-tests
-        uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
         with:
           junit_files: "${{ env.REPORTS_DIR }}/SERENITY-JUNIT-*.xml"
           comment_title: "Integration Test Results"
@@ -161,7 +182,7 @@ jobs:
 
       - name: Upload serenity report (neoprism)
         if: github.ref_name == 'main' || failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: integration-tests-result
           path: ${{ env.REPORTS_DIR }}
@@ -169,7 +190,7 @@ jobs:
 
       - name: Upload logs (neoprism)
         if: github.ref_name == 'main' || failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: docker-logs
           path: ${{ env.LOGS_DIR }}
@@ -177,7 +198,7 @@ jobs:
 
       - name: Slack Notification (neoprism)
         if: github.ref_name == 'main' && failure()
-        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661 # v2.3.3
+        uses: rtCamp/action-slack-notify@33ca3be66c6f378fe1610fd1d5258632dbed5e58 # v2.4.0
         env:
           SLACK_COLOR: ${{ steps.analyze_test_results.outputs.conclusion }}
           SLACK_MESSAGE: |
@@ -189,7 +210,7 @@ jobs:
           SLACK_USERNAME: circleci
           SLACK_WEBHOOK: ${{ secrets.E2E_TESTS_SLACK_WEBHOOK }}
 
-      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v4.4.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v4.4.0
         with:
           node-version: 20
 
@@ -199,7 +220,12 @@ jobs:
           AGENT_VERSION: ${{ steps.build_local_cloud_agent.outputs.agent_version }}
         run: |
           ./docker/run.sh "$AGENT_VERSION"
-          npm i
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install --package-lock-only
+            npm ci
+          fi
           npm test
           ./docker/stop.sh
 
@@ -216,28 +242,28 @@ jobs:
       DOCKER_API_VERSION: "1.44"
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
         with:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up JDK 21 (Temurin) with sbt cache
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0 pinned
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v5.2.0 pinned
         with:
           distribution: temurin
           java-version: 21
           cache: sbt
 
       - name: Set up sbt
-        uses: sbt/setup-sbt@508b753e53cb6095967669e0911487d2b9bc9f41 # v1.1.18 pinned
+        uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7 # v1.1.18 pinned
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@ac2d340dc04d9e1113182899e983b5400c17cda1 # v3.5.0
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: hyperledger-bot
@@ -256,18 +282,37 @@ jobs:
           GITHUB_ACTOR: hyperledger-bot
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          sbt docker:publishLocal
+          sbt "cloudAgentServer / Docker / publishLocal"
           echo "agent_version=$(cut -d'=' -f2 version.sbt | tr -d '\" ')" >> "${GITHUB_OUTPUT}"
           echo "prism_node_version=$(grep PRISM_NODE_VERSION infrastructure/local/.env | cut -d'=' -f2 | tr -d ' ')" >> "${GITHUB_OUTPUT}"
 
-      - uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0 pinned
+      - uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v5.2.0 pinned
         with:
           distribution: "zulu"
           java-version: "21"
           cache: "sbt"
 
       - name: Set up sbt
-        uses: sbt/setup-sbt@508b753e53cb6095967669e0911487d2b9bc9f41 # v1.1.18 pinned
+        uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7 # v1.1.18 pinned
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v4.4.0
+        with:
+          node-version: 22
+
+      - name: Generate cloud-agent-client and publish it to mavenLocal
+        working-directory: cloud-agent/client/generator
+        env:
+          AGENT_CLIENT_VERSION: ${{ steps.build_local_cloud_agent_prism.outputs.agent_version }}
+        run: |
+          yarn install --ignore-scripts
+          yarn openapi-generator-cli generate \
+            -g kotlin \
+            -i ../../service/api/http/cloud-agent-openapi-spec.yaml \
+            -o ../kotlin \
+            --ignore-file-override ../kotlin/.openapi-generator-ignore \
+            --additional-properties=packageName=org.hyperledger.identus.client,serializationLibrary=gson,enumPropertyNaming=UPPERCASE
+          cd ../kotlin
+          ./gradlew -Pversion="$AGENT_CLIENT_VERSION" publishToMavenLocal
 
       - name: Run integration tests (prism-node)
         working-directory: "tests/integration-tests"
@@ -281,6 +326,7 @@ jobs:
           VDR_PRISM_NODE_DRIVER_ENABLED: "true"
           VDR_MEMORY_DRIVER_ENABLED: "true"
           VDR_DATABASE_DRIVER_ENABLED: "true"
+          ORG_GRADLE_PROJECT_agentClientVersion: ${{ steps.build_local_cloud_agent_prism.outputs.agent_version }}
         run: |
           export DOCKER_API_VERSION=1.44
           export DOCKER_HOST=unix:///var/run/docker.sock
@@ -299,6 +345,7 @@ jobs:
           VDR_PRISM_NODE_DRIVER_ENABLED: "true"
           VDR_MEMORY_DRIVER_ENABLED: "true"
           VDR_DATABASE_DRIVER_ENABLED: "true"
+          ORG_GRADLE_PROJECT_agentClientVersion: ${{ steps.build_local_cloud_agent_prism.outputs.agent_version }}
         run: |
           export DOCKER_API_VERSION=1.44
           export DOCKER_HOST=unix:///var/run/docker.sock
@@ -306,7 +353,7 @@ jobs:
 
       - name: Publish e2e test Results (prism-node)
         id: publish-unit-tests-prism
-        uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
         with:
           junit_files: "${{ env.REPORTS_DIR }}/SERENITY-JUNIT-*.xml"
           comment_title: "Integration Test Results (prism-node)"
@@ -314,7 +361,7 @@ jobs:
 
       - name: Upload serenity report (prism-node)
         if: github.ref_name == 'main' || failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: integration-tests-result-prism-node
           path: ${{ env.REPORTS_DIR }}
@@ -322,7 +369,7 @@ jobs:
 
       - name: Upload logs (prism-node)
         if: github.ref_name == 'main' || failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: docker-logs-prism-node
           path: ${{ env.LOGS_DIR }}

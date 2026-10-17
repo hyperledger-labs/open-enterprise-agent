@@ -1,3 +1,28 @@
+## [2.2.0](https://github.com/hyperledger-identus/cloud-agent/compare/v2.1.0...v2.2.0) (2026-06-09)
+
+### Features
+
+* add PRISM VDR driver integration ([#1671](https://github.com/hyperledger-identus/cloud-agent/issues/1671)) ([f48add8](https://github.com/hyperledger-identus/cloud-agent/commit/f48add8b8acd28460ab89c6f9a6cb03f441484e1))
+* add VDR capabilities to the cloud-agent using the prism-node ([#1685](https://github.com/hyperledger-identus/cloud-agent/issues/1685)) ([9931f22](https://github.com/hyperledger-identus/cloud-agent/commit/9931f22ecfc5faa1c9025ac14317572d233f0cdd))
+* support NeoPRISM as node backend ([#1693](https://github.com/hyperledger-identus/cloud-agent/issues/1693)) ([e1a5af2](https://github.com/hyperledger-identus/cloud-agent/commit/e1a5af208644e95fc3b4e1e9c8f0d35e3d5876d4))
+* token permissions and remove codeql ([#1665](https://github.com/hyperledger-identus/cloud-agent/issues/1665)) ([2f2f1ca](https://github.com/hyperledger-identus/cloud-agent/commit/2f2f1ca69a175a4003d6014788e48c8ed6a5ab10))
+* VDR driver leftovers and improvements ([#1712](https://github.com/hyperledger-identus/cloud-agent/issues/1712)) ([679e1b8](https://github.com/hyperledger-identus/cloud-agent/commit/679e1b84fa9982596c15a813914791d6f3ecd78b))
+* **vdr:** add NeoPrism REST API as VDR backend ([#1728](https://github.com/hyperledger-identus/cloud-agent/issues/1728)) ([e7bddd3](https://github.com/hyperledger-identus/cloud-agent/commit/e7bddd3ee4aa4c1dd9f29c37367b2777c58fcf17))
+
+### Bug Fixes
+
+* add allstar exception for thr binaries ([#1683](https://github.com/hyperledger-identus/cloud-agent/issues/1683)) ([c5980cb](https://github.com/hyperledger-identus/cloud-agent/commit/c5980cb67023a5ec99d02e21757b8d8c7966b9eb))
+* **ci:** update neoprism version and fix VDR cucumber tag ([#1729](https://github.com/hyperledger-identus/cloud-agent/issues/1729)) ([1224017](https://github.com/hyperledger-identus/cloud-agent/commit/122401756b3f3dbd449086a417738bd8a7c0db19))
+* correct typos, API endpoint documentation and error responses ([#1768](https://github.com/hyperledger-identus/cloud-agent/issues/1768)) ([18761bd](https://github.com/hyperledger-identus/cloud-agent/commit/18761bd7bcd5f93a6887dae1fef6ec7ca9c8c5c4))
+* docker image ([#1639](https://github.com/hyperledger-identus/cloud-agent/issues/1639)) ([7a19081](https://github.com/hyperledger-identus/cloud-agent/commit/7a190813b3d805ed8794278afc254d16fa7bb9e1))
+* **docs:** correct glossary link paths in connectionless present-proof ([#1796](https://github.com/hyperledger-identus/cloud-agent/issues/1796)) ([e1e8be1](https://github.com/hyperledger-identus/cloud-agent/commit/e1e8be1e244eb9dbf8cc00650d29e63e3274491f))
+* **docs:** correct relative link path in VDR manage tutorial ([#1737](https://github.com/hyperledger-identus/cloud-agent/issues/1737)) ([55a5e4e](https://github.com/hyperledger-identus/cloud-agent/commit/55a5e4ef71bdad37b1181400b392bc5b2106a327))
+* pipeline script ([#1676](https://github.com/hyperledger-identus/cloud-agent/issues/1676)) ([86ac86f](https://github.com/hyperledger-identus/cloud-agent/commit/86ac86fa0316c268ad73e4db3ec4d0c6acc51127))
+* remove checksum bypass and pin java-multibase to v1.1.1 ([#1769](https://github.com/hyperledger-identus/cloud-agent/issues/1769)) ([dddf7fb](https://github.com/hyperledger-identus/cloud-agent/commit/dddf7fb613271e77d88a002665099ef0214477e3))
+* **tests:** pin published snapshot and drop invalid github packages repo ([#1805](https://github.com/hyperledger-identus/cloud-agent/issues/1805)) ([81d2cb3](https://github.com/hyperledger-identus/cloud-agent/commit/81d2cb38f3ab8a27c3ba0dd74769b39903050e03))
+* token permissions ([#1666](https://github.com/hyperledger-identus/cloud-agent/issues/1666)) ([518c094](https://github.com/hyperledger-identus/cloud-agent/commit/518c094c5c74a53e9ee2b2a7a9db1a26de06ff8a))
+* Token-Permissions  ([#1678](https://github.com/hyperledger-identus/cloud-agent/issues/1678)) ([adc81b1](https://github.com/hyperledger-identus/cloud-agent/commit/adc81b1d2a1a10b3c6e6b778944f2c5fca4c0673))
+
 ## [2.1.0](https://github.com/hyperledger-identus/cloud-agent/compare/v2.0.0...v2.1.0) (2025-10-28)
 
 ### Features

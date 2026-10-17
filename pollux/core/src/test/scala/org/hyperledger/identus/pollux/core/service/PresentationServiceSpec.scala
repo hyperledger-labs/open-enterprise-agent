@@ -24,7 +24,7 @@ import zio.test.*
 import zio.test.Assertion.*
 
 import java.nio.charset.StandardCharsets
-import java.nio.file.{Files, Path, Paths}
+import java.nio.file.{Files, Path}
 import java.time.{Instant, OffsetDateTime}
 import java.util.{Base64 as JBase64, UUID}
 
@@ -940,10 +940,18 @@ object PresentationServiceSpec extends ZIOSpecDefault with PresentationServiceSp
     )
 
   def createTempJsonFile(jsonContent: String, fileName: String): Path = {
-    val resourceURI = this.getClass.getResource("/").toURI
-    val resourcePath = Paths.get(resourceURI)
+    // NOTE: under sbt 2.0.8 `getResource("/")` resolves to sbt's own worker jar, so
+    // the test-classpath root is derived from this class file's location instead.
+    val classFile =
+      Path.of(this.getClass.getResource(this.getClass.getSimpleName + ".class").toURI)
+    var root = classFile.getParent
+    while (root != null && root.getFileName.toString != "test-classes") root = root.getParent
+    if root == null then throw new IllegalStateException("could not locate test-classes directory")
 
-    val filePath = resourcePath.resolve(fileName + ".json")
+    // A unique name per call avoids races between tests writing to the same
+    // file when tests run concurrently (parallel test execution).
+    val uniqueFileName = s"$fileName-${UUID.randomUUID}"
+    val filePath = root.resolve(uniqueFileName + ".json")
 
     Files.write(filePath, jsonContent.getBytes(StandardCharsets.UTF_8))
 

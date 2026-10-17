@@ -32,34 +32,34 @@ jobs:
     if: ${{ !contains(github.event.pull_request.title, '[skip ci]') }}
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
         with:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up JDK 21 (Temurin) with sbt cache
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0 pinned
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v5.2.0 pinned
         with:
           distribution: temurin
           java-version: 21
           cache: sbt
 
       - name: Set up sbt
-        uses: sbt/setup-sbt@508b753e53cb6095967669e0911487d2b9bc9f41 # v1.1.18 pinned
+        uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7 # v1.1.18 pinned
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@ac2d340dc04d9e1113182899e983b5400c17cda1 # v3.5.0
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
         with:
           registry: ghcr.io
           username: ${{ env.GITHUB_ACTOR }}
           password: ${{ env.GITHUB_TOKEN }}
 
-      - uses: KengoTODA/actions-setup-docker-compose@477353946803dd64eaa44008b865b6bfc88cab4e # v1.2.4
+      - uses: KengoTODA/actions-setup-docker-compose@3365b3ff2fc7b4e5ffa2d9ddbb3c2bd73727d443 # v1.2.10
         name: Install `docker-compose`
         with:
           version: "2.27.1"
@@ -68,7 +68,7 @@ jobs:
         env:
           ENV_FILE: "infrastructure/local/.env"
         run: |
-          sbt docker:publishLocal
+          sbt "cloudAgentServer / Docker / publishLocal"
           AGENT_VERSION=$(cut version.sbt -d '=' -f2 | tr -d '" ')
           sed -i.bak "s/AGENT_VERSION=.*/AGENT_VERSION=${AGENT_VERSION}/" "${ENV_FILE}" && rm -f "${ENV_FILE}.bak"
           cat "${ENV_FILE}"
@@ -88,7 +88,7 @@ jobs:
           NODE_REFRESH_AND_SUBMIT_PERIOD: 1s
           NODE_MOVE_SCHEDULED_TO_PENDING_PERIOD: 1s
           NODE_WALLET_MAX_TPS: 1000
-        uses: hoverkraft-tech/compose-action@d2bee4f07e8ca410d6b196d00f90c12e7d48c33a # v2.6.0
+        uses: hoverkraft-tech/compose-action@b659c744ee9bed25aea2307c017ad849bd104433 # v3.2.0
         with:
           compose-file: "./infrastructure/shared/docker-compose-combined.yml"
           compose-flags: "--env-file ./infrastructure/local/.env"
@@ -96,23 +96,21 @@ jobs:
           down-flags: "--volumes"
 
       - name: Setup Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v4.4.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v4.4.0
         with:
-          node-version: 16.x
+          node-version: 22.x
           registry-url: "https://npm.pkg.github.com"
           scope: "input-output-hk"
+          cache: yarn
+          cache-dependency-path: ${{ env.BENCHMARKING_DIR }}/yarn.lock
 
       - name: Install dependencies
-        uses: borales/actions-yarn@3766bb1335b98fb13c60eaf358fe20811b730a88 # v5.0.0
-        with:
-          cmd: install
-          dir: ${{ env.BENCHMARKING_DIR }}
+        working-directory: ${{ env.BENCHMARKING_DIR }}
+        run: yarn install --frozen-lockfile --ignore-scripts
 
       - name: Compile tests to JS
-        uses: borales/actions-yarn@3766bb1335b98fb13c60eaf358fe20811b730a88 # v5.0.0
-        with:
-          cmd: webpack
-          dir: ${{ env.BENCHMARKING_DIR }}
+        working-directory: ${{ env.BENCHMARKING_DIR }}
+        run: yarn webpack
 
       - name: All Smoke Tests
         env:

@@ -28,18 +28,18 @@ jobs:
       TESTCONTAINERS_RYUK_DISABLED: true
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
         with:
           egress-policy: audit
 
       - name: Git checkout (merge)
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         if: github.event_name != 'pull_request'
         with:
           fetch-depth: 0
 
       - name: Git checkout (PR)
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         if: github.event_name == 'pull_request'
         with:
           fetch-depth: 0
@@ -47,14 +47,14 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Set up JDK 21 (Temurin) with sbt cache
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0 pinned
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v5.2.0 pinned
         with:
           distribution: temurin
           java-version: 21
           cache: sbt
 
       - name: Set up sbt
-        uses: sbt/setup-sbt@508b753e53cb6095967669e0911487d2b9bc9f41 # v1.1.18 pinned
+        uses: sbt/setup-sbt@6158cb0903b8ceeae04f830055f3155e1b6a5ad7 # v1.1.18 pinned
 
       - name: Download dependencies
         run: sbt +update
@@ -65,13 +65,23 @@ jobs:
       - name: Run unit tests
         env:
           HOME: /root
+        # NOTE: under sbt 2.x the scoverage `coverage` command must be separated from the following
+        # commands with `;` (not spaces), otherwise sbt joins them and the `coverage` command's
+        # internal `set` consumes the next command ("value test is not a member of Boolean").
         run: |
-          sbt -v coverage test coverageAggregate
+          sbt -v "coverage; test; coverageAggregate"
 
       - name: Upload coverage to Coveralls
+        continue-on-error: true # coverage upload is a metric, not a gate; don't fail the build on a flaky aggregation
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: sbt coveralls
+        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          format: cobertura
+          path-to-lcov: target/out/jvm/scala-3.3.5/root/coverage/coverage-report/cobertura.xml
+          flag-name: unit
+          allow-empty: true
 
       - name: Aggregate test reports
         if: always()
@@ -79,7 +89,7 @@ jobs:
 
       - name: Publish test results
         if: always()
-        uses: EnricoMi/publish-unit-test-result-action@c950f6fb443cb5af20a377fd0dfaa78838901040 # v2.23.0
+        uses: EnricoMi/publish-unit-test-result-action@d0a4676d0e0b938bc201470d88276b7c74c712b3 # v2.24.0
         with:
           junit_files: "./target/test-reports/**/TEST-*.xml"
           comment_title: "Unit Test Results"

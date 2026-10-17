@@ -47,7 +47,7 @@ in
             |> std.record.remove "image"
           )
           & {
-            image = "ghcr.io/hyperledger/identus-keycloak-plugins:%{V.identusKeycloak}",
+            image = "ghcr.io/hyperledger-identus/keycloak-plugins:%{V.identusKeycloak}",
             ports = ["%{std.to_string args.port}:8080"],
             environment = args.extraEnvs
           },

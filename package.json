@@ -1,20 +1,20 @@
 {
   "name": "identus-cloud-agent",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "engines": {
     "node": ">=16.13.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.7.1",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/exec": "^7.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "conventional-changelog-conventionalcommits": "^8.0.0",
-    "gradle-semantic-release-plugin": "^1.10.1",
-    "husky": "^9.0.11",
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.0.2",
+    "@semantic-release/changelog": "^7.0.0",
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/git": "^11.0.1",
+    "conventional-changelog-conventionalcommits": "^10.4.1",
+    "gradle-semantic-release-plugin": "^1.10.3",
+    "husky": "^9.1.7",
     "pinst": "^3.0.0",
-    "prettier": "^3.2.5",
-    "semantic-release": "^24.2.1"
+    "prettier": "^3.9.10",
+    "semantic-release": "^25.0.9"
   }
 }

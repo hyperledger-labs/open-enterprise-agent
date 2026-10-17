@@ -1,8 +1,8 @@
-import { Options } from 'k6/options'
+import type { Options } from 'k6/options'
 import { Issuer, Holder, Verifier } from '../../actors'
 import { CredentialSchemaResponse } from '@hyperledger/identus-cloud-agent-client'
 import { defaultOptions } from '../../scenarios/default'
-import merge from 'ts-deepmerge'
+import { merge } from 'ts-deepmerge'
 import { describe } from '../../k6chaijs.js'
 
 export const localOptions: Options = {

@@ -1,7 +1,7 @@
 plugins {
     `java-library`
     id("org.jetbrains.kotlin.jvm") version "1.9.23"
-    id("com.vanniktech.maven.publish") version "0.30.0"
+    id("com.vanniktech.maven.publish") version "0.34.0"
 }
 
 group = "org.hyperledger.identus"
@@ -45,9 +45,16 @@ mavenPublishing {
                 url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
             }
         }
+        developers {
+            developer {
+                id.set("hyperledger-identus")
+                name.set("Hyperledger Identus contributors")
+                url.set("https://github.com/hyperledger-identus/cloud-agent/graphs/contributors")
+            }
+        }
         scm {
-            connection.set("scm:git:git://hyperledger-identus/cloud-agent.git")
-            developerConnection.set("scm:git:ssh://hyperledger-identus/cloud-agent.git")
+            connection.set("scm:git:git://github.com/hyperledger-identus/cloud-agent.git")
+            developerConnection.set("scm:git:ssh://github.com/hyperledger-identus/cloud-agent.git")
             url.set("https://github.com/hyperledger-identus/cloud-agent")
         }
     }

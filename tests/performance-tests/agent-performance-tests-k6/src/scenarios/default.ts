@@ -1,6 +1,6 @@
 /* global __ENV */
 
-import { Options } from 'k6/options'
+import type { Options } from 'k6/options'
 
 export const defaultOptions: Options = {
   setupTimeout: '120s',

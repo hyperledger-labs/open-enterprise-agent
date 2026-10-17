@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.21"
+    kotlin("jvm") version "2.1.20"
     idea
     java
     id("net.serenity-bdd.serenity-gradle-plugin") version "4.0.46"
@@ -21,31 +21,25 @@ repositories {
     mavenCentral()
 
     maven {
-        url = uri("https://maven.pkg.github.com/hyperledger/identus-cloud-agent/")
-        credentials {
-            username = System.getenv("GITHUB_ACTOR")
-            password = System.getenv("GITHUB_TOKEN")
-        }
-    }
-    maven {
-        url = uri("https://oss.sonatype.org/content/repositories/snapshots/")
-    }
-    maven {
-        url = uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-    }
-    maven {
         url = uri("https://central.sonatype.com/repository/maven-snapshots/")
     }
 }
+
+// Cloud-agent REST API client version.
+// CI: the integration-tests workflow generates the client from the current OpenAPI
+// specification, publishes it to mavenLocal, and passes it via -PagentClientVersion
+// (ORG_GRADLE_PROJECT_agentClientVersion).
+// Local dev: publish it yourself from cloud-agent/client/kotlin
+// (`./gradlew publishToMavenLocal` publishes the default 0.0.1-SNAPSHOT).
+val agentClientVersion =
+    project.findProperty("agentClientVersion") as String? ?: "0.0.1-SNAPSHOT"
 
 dependencies {
     // HTTP listener
     testImplementation("io.ktor:ktor-server-netty:2.3.0")
     testImplementation("io.ktor:ktor-client-apache:2.3.0")
     // RestAPI client
-    // locally published from cloud-agent/client/kotlin
-    //testImplementation("org.hyperledger.identus:cloud-agent-client:0.0.1-SNAPSHOT")
-    testImplementation("org.hyperledger.identus:cloud-agent-client:2.1.1-0dfbcd7-SNAPSHOT")
+    testImplementation("org.hyperledger.identus:cloud-agent-client:$agentClientVersion")
     // Test helpers library
     testImplementation("io.iohk.atala:atala-automation:0.4.0")
     // Hoplite for configuration
@@ -55,9 +49,9 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers:2.0.3")
     // Crypto
     testImplementation("com.nimbusds:nimbus-jose-jwt:9.40")
-    testImplementation("org.bouncycastle:bcprov-jdk18on:1.78.1")
+    testImplementation("org.bouncycastle:bcprov-jdk18on:1.80")
     testImplementation("com.google.crypto.tink:tink:1.13.0")
-    testImplementation("io.iohk.atala.prism.apollo:apollo-jvm:1.3.4")
+    testImplementation("org.hyperledger.identus:apollo-jvm:1.8.8")
     // OID4VCI
     testImplementation("org.htmlunit:htmlunit:4.3.0")
     testImplementation("eu.europa.ec.eudi:eudi-lib-jvm-openid4vci-kt:0.4.1")
@@ -77,6 +71,9 @@ tasks.test {
     finalizedBy("aggregate", "reports")
     jvmArgs("-Dlog4j2.disable.jmx=true")
     testLogging.showStandardStreams = true
+    systemProperty("AGENT_VERSION", System.getenv("AGENT_VERSION") ?: "")
+    systemProperty("PRISM_NODE_VERSION", System.getenv("PRISM_NODE_VERSION") ?: "")
+    systemProperty("NEOPRISM_VERSION", System.getenv("NEOPRISM_VERSION") ?: "")
     systemProperty("cucumber.filter.tags", System.getProperty("cucumber.filter.tags"))
     // Since the test runs on host and system-unter-test runs in containers,
     // We need to make the test on host resolves host.docker.internal same as the containerized services,

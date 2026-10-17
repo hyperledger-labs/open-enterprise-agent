@@ -178,7 +178,7 @@ curl -X 'POST' \
     -H "apikey: $API_KEY" \
     -d '{
           "connectionId": "9d075518-f97e-4f11-9d10-d7348a7a0fda",
-          "credentialFormat": "JWT"
+          "credentialFormat": "JWT",
           "jwtVcPropertiesV1": {
             "claims": {
                "emailAddress": "alice@wonderland.com",
@@ -190,7 +190,7 @@ curl -X 'POST' \
              },
              "issuingDID": "did:prism:9f847f8bbb66c112f71d08ab39930d468ccbfe1e0e1d002be53d46c431212c26",
              "credentialSchema": {
-                "id: "http://localhost:8080/cloud-agent/schema-registry/schemas/3f86a73f-5b78-39c7-af77-0c16123fa9c2",
+                "id": "http://localhost:8080/cloud-agent/schema-registry/schemas/3f86a73f-5b78-39c7-af77-0c16123fa9c2",
                 "type": "JsonSchemaValidator2018"
              }
           }
@@ -367,7 +367,7 @@ curl -X 'POST' \
              },
              "issuingDID": "did:prism:9f847f8bbb66c112f71d08ab39930d468ccbfe1e0e1d002be53d46c431212c26",
              "credentialSchema": {
-                "id: "http://localhost:8080/cloud-agent/schema-registry/schemas/3f86a73f-5b78-39c7-af77-0c16123fa9c2",
+                "id": "http://localhost:8080/cloud-agent/schema-registry/schemas/3f86a73f-5b78-39c7-af77-0c16123fa9c2",
                 "type": "JsonSchemaValidator2018"
              }
           }

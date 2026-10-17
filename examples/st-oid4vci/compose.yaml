@@ -107,7 +107,7 @@ services:
       IDENTUS_URL: http://caddy-issuer:8080/cloud-agent
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-    image: ghcr.io/hyperledger/identus-keycloak-plugins:0.2.0
+    image: ghcr.io/hyperledger-identus/keycloak-plugins:0.2.1
     ports:
     - 9980:8080
     restart: always

@@ -17,7 +17,6 @@ updates:
     directories:
       - "/"
       - "/cloud-agent/client/generator"
-      - "/cloud-agent/client/typescript"
       - "/prism-node/client/scala-client/api/grpc"
     schedule:
       interval: "weekly"

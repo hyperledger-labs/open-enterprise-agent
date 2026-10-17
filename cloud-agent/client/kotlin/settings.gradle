@@ -1,1 +1,7 @@
+plugins {
+    // Auto-provision the JDK toolchain required by the build when it is not installed
+    // (e.g. publishing the client to mavenLocal from a fresh CI runner).
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+}
+
 rootProject.name = 'cloud-agent-client'

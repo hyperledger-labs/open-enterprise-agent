@@ -1,6 +1,6 @@
 services:
   keycloak:
-    image: ghcr.io/hyperledger/identus-keycloak-plugins:0.2.0
+    image: ghcr.io/hyperledger-identus/keycloak-plugins:0.2.1
     pull_policy: if_not_present
     ports:
       - "${KEYCLOAK_HTTP_PORT}:8080"

@@ -1,34 +1,30 @@
-addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.13.1")
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.0")
-addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.14.3")
-addSbtPlugin("com.github.sbt" % "sbt-release" % "1.4.0")
-addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.11.7")
+addSbtPlugin("com.eed3si9n" % "sbt-buildinfo" % "0.13.2")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.2")
+addSbtPlugin("ch.epfl.scala" % "sbt-scalafix" % "0.14.7")
+addSbtPlugin("com.github.sbt" % "sbt-release" % "1.5.0")
+addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.12.0")
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "2.4.4")
-addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.3.15")
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.8")
-addSbtPlugin("com.github.sbt" % "sbt-license-report" % "1.9.0")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.1.0-RC2")
+addSbtPlugin("com.github.sbt" % "sbt-license-report" % "1.10.0")
 
-// In order to import proper version of com.google.protobuf.ByteString we need to add this dependency
-libraryDependencies ++= Seq("com.thesamet.scalapb" %% "compilerplugin" % "0.11.20")
+// scalapb 1.0.0-alpha.x is required for sbt 2.x: the 0.11.x _3 POM hardcodes _2.13 transitive deps
+// (protoc-gen, protoc-cache-coursier) which pull protoc-bridge_2.13 and conflict with sbt-protoc's
+// protoc-bridge_3. See https://github.com/scalapb/ScalaPB/releases/tag/v1.0.0-alpha.5
+// ("Fix compilerplugin artifact for sbt 2")
+libraryDependencies ++= Seq("com.thesamet.scalapb" %% "compilerplugin" % "1.0.0-alpha.6")
 
-// Github Packages
-if (sys.env.get("GITHUB_TOKEN").isDefined) {
-  println(s"Enable plugin sbt-dependency-tree since env GITHUB_TOKEN is defined.")
-  // The reason for this is that the plugin needs the variable to be defined. We don't want to have that requirement.
-  libraryDependencies += {
-    val dependency = "com.codecommit" % "sbt-github-packages" % "0.5.3"
-    val sbtV = (pluginCrossBuild / sbtBinaryVersion).value
-    val scalaV = (update / scalaBinaryVersion).value
-    Defaults.sbtPluginExtra(dependency, sbtV, scalaV)
-  }
-} else libraryDependencies ++= Seq[ModuleID]()
+// NOTE: `sbt-coveralls` (org.scoverage) was removed: it has no published artifact for sbt 2.x
+// (`_sbt2_3`) and the project is unmaintained. Coverage is now uploaded via the
+// `coverallsapp/github-action` (cobertura format) in .github/workflows/unit-tests.yml.
+// NOTE: `sbt-github-packages` (com.codecommit) was removed: it has no sbt 2.x artifact and was only
+// referenced by a commented-out resolver in build.sbt.
 
 // See file in .github/workflows/sbt-dependency-submission.yml
 if (sys.env.get("DEPEDABOT").isDefined) {
   println(s"Adding plugin sbt-github-dependency-submission since env DEPEDABOT is defined.")
   // The reason for this is that the plugin needs the variable to be defined. We don't want to have that requirement.
   libraryDependencies += {
-    val dependency = "ch.epfl.scala" % "sbt-github-dependency-submission" % "3.1.0"
+    val dependency = "ch.epfl.scala" % "sbt-github-dependency-submission" % "3.2.3"
     val sbtV = (pluginCrossBuild / sbtBinaryVersion).value
     val scalaV = (update / scalaBinaryVersion).value
     Defaults.sbtPluginExtra(dependency, sbtV, scalaV)

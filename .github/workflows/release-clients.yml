@@ -9,7 +9,14 @@ on:
         description: "Release to build and publish clients"
         required: true
         type: boolean
-        default: false
+      kotlin:
+        description: 'Publish Kotlin client'
+        type: boolean
+        default: true
+      ts:
+        description: 'Publish TypeScript client'
+        type: boolean
+        default: true
       revision:
         description: "Revision to build and publish clients"
         required: true
@@ -52,6 +59,10 @@ on:
         description: "Checksum of the OAS specification"
         required: false
         type: string
+      source_run_id:
+        description: 'Build run containing the revision OAS artifact (required for manual snapshots)'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -61,7 +72,8 @@ jobs:
     name: "Build and publish Identus Cloud Agent clients"
     runs-on: ubuntu-latest
     permissions:
-      packages: write
+      contents: read
+      actions: read
       id-token: write
     env:
       GITHUB_ACTOR: "hyperledger-bot"
@@ -69,26 +81,52 @@ jobs:
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@8d3c67de8e2fe68ef647c8db1e6a09f647780f40 # v2.19.0
+        uses: step-security/harden-runner@ccd8616d44fd3846e67624a50d5aad6d37bf2d25 # v2.22.1
         with:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Setup Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v4.4.0
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v4.4.0
         with:
-          node-version: "lts/*"
+          node-version: "22.16.0"
           registry-url: "https://registry.npmjs.org"
           scope: "@hyperledger"
 
       # Ensure npm version ≥ 11.5.1 for Trusted Publishing
       - name: Upgrade npm
-        run: npm install -g npm@^11.5.1
+        run: |
+          URL="https://registry.npmjs.org/npm/-/npm-11.5.1.tgz"
+          EXPECTED_HASH="f4c82fbff74154f73bd5ce5a2b749700d55eaddebda97b16076bf7033040de34"
+          curl -sSfL "$URL" -o npm.tgz
+          echo "$EXPECTED_HASH npm.tgz" | sha256sum -c -
+          npm install -g npm.tgz
+          rm npm.tgz
 
       - name: Setup Gradle
         uses: gradle/gradle-build-action@ac2d340dc04d9e1113182899e983b5400c17cda1 # v3.5.0
+
+      - name: Validate publication inputs
+        env:
+          REVISION: ${{ inputs.revision }}
+          RELEASE: ${{ inputs.release }}
+          CHECK_SUM: ${{ inputs.check_sum }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+        run: |
+          if [[ ! "$REVISION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9]+([.-][A-Za-z0-9]+)*)?$ ]]; then
+            echo "Revision must be a semantic version" >&2
+            exit 1
+          fi
+          if [[ "$RELEASE" != "true" && -z "$CHECK_SUM" ]]; then
+            echo "Revision publication requires an OAS checksum" >&2
+            exit 1
+          fi
+          if [[ "$RELEASE" != "true" && "$GITHUB_EVENT_NAME" == "workflow_dispatch" && -z "$SOURCE_RUN_ID" ]]; then
+            echo "Manual revision publication requires source_run_id" >&2
+            exit 1
+          fi
 
       - name: Download release OAS
         if: ${{ inputs.release }}
@@ -99,16 +137,24 @@ jobs:
             -o ./cloud-agent/service/api/http/cloud-agent-openapi-spec.yaml
 
       - name: Download OpenAPI specification
-        if: ${{ !inputs.releaseTag }}
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        if: ${{ !inputs.release }}
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ inputs.source_run_id || github.run_id }}
           name: cloud-agent-openapi-spec-${{ inputs.check_sum }}
           path: ./cloud-agent/service/api/http
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v5.2.0
+        with:
+          java-version: 21
+          distribution: temurin
 
       - name: Generator
         working-directory: cloud-agent/client/generator
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           yarn generate:all
 
       # The npm publish step uses Trusted Publisher via OIDC

@@ -20,7 +20,7 @@ services:
 
   # Open Enterprise Agent
   identus-cloud-agent:
-    image: docker.io/hyperledgeridentus/identus-cloud-agent:2.1.1-SNAPSHOT
+    image: docker.io/hyperledgeridentus/identus-cloud-agent:${AGENT_VERSION:-2.1.1-SNAPSHOT}
     pull_policy: if_not_present
     environment:
       API_KEY_ENABLED: true

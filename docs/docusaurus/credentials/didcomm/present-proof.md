@@ -89,13 +89,14 @@ curl -X 'POST' 'http://localhost:8070/cloud-agent/present-proof/presentations' \
  -H "apikey: $API_KEY" \
   -d '{
         "connectionId": "872ddfa9-4115-46c2-8a1b-22c24c7431d7",
+        "proofs": [],
         "anoncredPresentationRequest": {
           "requested_attributes": {
             "attribute1": {
               "name": "Attribute 1",
               "restrictions": [
                 {
-                  "cred_def_id": "credential_definition_id_of_attribute1"
+                  "cred_def_id": "http://localhost:8070/cloud-agent/credential-definition-registry/definitions/<credential-definition-guid>/definition"
                 }
               ],
               "non_revoked": {
@@ -111,7 +112,7 @@ curl -X 'POST' 'http://localhost:8070/cloud-agent/present-proof/presentations' \
               "p_value": 18,
               "restrictions": [
                 {
-                  "schema_id": "schema_id_of_predicate1"
+                  "schema_id": "http://localhost:8070/cloud-agent/schema-registry/schemas/<schema-guid>/schema"
                 }
               ],
               "non_revoked": {
