@@ -137,7 +137,7 @@ jobs:
         env:
           REVISION: ${{ inputs.revision }}
         run: |
-          curl -fSL "https://raw.githubusercontent.com/hyperledger-identus/cloud-agent/refs/tags/v${REVISION}/cloud-agent/service/api/http/cloud-agent-openapi-spec.yaml" \
+          curl --proto '=https' --proto-redir '=https' -fSL "https://raw.githubusercontent.com/hyperledger-identus/cloud-agent/refs/tags/v${REVISION}/cloud-agent/service/api/http/cloud-agent-openapi-spec.yaml" \
             -o ./cloud-agent/service/api/http/cloud-agent-openapi-spec.yaml
 
       - name: Download OpenAPI specification
@@ -166,7 +166,7 @@ jobs:
       - name: Generator
         working-directory: cloud-agent/client/generator
         run: |
-          yarn install --frozen-lockfile
+          YARN_ENABLE_SCRIPTS=false yarn install --frozen-lockfile --ignore-scripts
           yarn generate:all
 
       # The npm publish step uses Trusted Publisher via OIDC

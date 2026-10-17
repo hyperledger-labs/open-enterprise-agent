@@ -49,10 +49,11 @@ class PublicationTests(unittest.TestCase):
         result, calls = self.publish(version)
         self.assertEqual(result.returncode, 0, result.stderr)
         npm = [call for call in calls if call[0] == "npm"]
-        self.assertEqual(len(npm), 3)
+        self.assertEqual(len(npm), 4)
         self.assertTrue(all(call[1] == str(self.root / "typescript") for call in npm))
-        self.assertEqual(npm[1][2], ["version", version, "--no-git-tag-version"])
-        self.assertEqual(npm[2][2], ["publish", "--provenance", "--access", "public", "--tag", tag])
+        self.assertEqual(npm[1][2], ["run", "build"])
+        self.assertEqual(npm[2][2], ["version", version, "--no-git-tag-version"])
+        self.assertEqual(npm[3][2], ["publish", "--ignore-scripts", "--provenance", "--access", "public", "--tag", tag])
         gradle = [call for call in calls if call[0] == "gradle"]
         self.assertEqual(len(gradle), 1)
         self.assertEqual(gradle[0][2], ["-p", "../kotlin", f"-Pversion={maven_version}", "publishToMavenCentral"])

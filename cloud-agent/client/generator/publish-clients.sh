@@ -21,7 +21,7 @@ if [[ "$PUBLISH_KOTLIN" == "false" && "$PUBLISH_TS" == "false" ]]; then
 fi
 
 # install generator dependencies
-yarn install --frozen-lockfile
+YARN_ENABLE_SCRIPTS=false yarn install --frozen-lockfile --ignore-scripts
 
 # Determine if the version is a snapshot or a release
 if [[ "$VERSION_TAG" == *-* ]]; then
@@ -35,9 +35,10 @@ if [[ "$VERSION_TAG" == *-* ]]; then
     echo "Publishing TypeScript client snapshot"
     (
       cd ../typescript
-      npm install
+      npm install --ignore-scripts
+      npm run build
       npm version "${VERSION_TAG}" --no-git-tag-version
-      npm publish --provenance --access public --tag snapshot
+      npm publish --ignore-scripts --provenance --access public --tag snapshot
     )
   fi
 else
@@ -52,9 +53,10 @@ else
     echo "Publishing TypeScript client release"
     (
       cd ../typescript
-      npm install
+      npm install --ignore-scripts
+      npm run build
       npm version "${VERSION_TAG}" --no-git-tag-version
-      npm publish --provenance --access public --tag latest
+      npm publish --ignore-scripts --provenance --access public --tag latest
     )
   fi
 fi
