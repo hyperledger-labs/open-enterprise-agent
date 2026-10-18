@@ -52,7 +52,7 @@ object SchemaRegistryEndpoints {
       |""".stripMargin
 
   private val tagExternalDocumentation = ExternalDocumentation(
-    url = "https://hyperledger-identus.github.io/docs/cloud-agent/docs/docusaurus/schemas/credential-schema",
+    url = "https://identus.io/cloud-agent/docs/docusaurus/schemas/credential-schema/",
     description = Some("Credential Schema documentation")
   )
 

@@ -30,7 +30,7 @@ mavenPublishing {
     pom {
         name.set("Hyperledger Identus Cloud Agent HTTP Client")
         description.set("The HTTP client for the Hyperledger Identus Cloud Agent generated from OpenAPI specification")
-        url.set("https://hyperledger-identus.github.io/docs/")
+        url.set("https://identus.io/")
         organization {
             name.set("Hyperledger")
             url.set("https://hyperledger.org/")

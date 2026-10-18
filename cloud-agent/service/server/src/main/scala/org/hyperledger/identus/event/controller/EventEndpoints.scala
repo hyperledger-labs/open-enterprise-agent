@@ -30,7 +30,7 @@ object EventEndpoints {
        |- Issuance protocol notifications
        |- Presentation protocol notifications
        |
-       |For more detailed information regarding event notifications, please refer to the [documentation](https://hyperledger-identus.github.io/docs/cloud-agent/docs/docusaurus/webhooks/webhook).
+       |For more detailed information regarding event notifications, please refer to the [documentation](https://identus.io/cloud-agent/docs/docusaurus/webhooks/webhook/).
        |""".stripMargin
 
   val tag = Tag(tagName, Some(tagDescription))

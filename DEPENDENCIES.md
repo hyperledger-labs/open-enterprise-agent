@@ -280,14 +280,14 @@ Apache | [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0.html) | [org.x
 Apache | [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0.html) | [org.xerial.snappy # snappy-java # 1.1.10.8](https://github.com/xerial/snappy-java) | <notextile></notextile>
 Apache | [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt) | [com.ionspin.kotlin # bignum-jvm # 0.3.9](https://github.com/ionspin/kotlin-multiplatform-bignum) | <notextile></notextile>
 Apache | [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt) | [com.zmannotes # varint # 1.0.0](https://github.com/zman2013/varint) | <notextile></notextile>
-Apache | [The Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt) | [io.iohk.atala # sd-jwt-kmp-jvm # 0.1.2](https://docs.atalaprism.io/) | <notextile></notextile>
-Apache | [The Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt) | [io.iohk.atala.prism.apollo # apollo-jvm # 1.3.5](https://docs.atalaprism.io/) | <notextile></notextile>
+Apache | [The Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt) | [io.iohk.atala # sd-jwt-kmp-jvm # 0.1.2](https://identus.io/) | <notextile></notextile>
+Apache | [The Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt) | [io.iohk.atala.prism.apollo # apollo-jvm # 1.3.5](https://identus.io/) | <notextile></notextile>
 Apache | [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt) | [io.setl # rdf-urdna # 1.1](https://github.com/setl/rdf-urdna) | <notextile></notextile>
 Apache | [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt) | [org.apache.kafka # kafka-clients # 4.1.1](https://kafka.apache.org) | <notextile></notextile>
 Apache | [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt) | [org.didcommx # didcomm # 0.3.2](https://github.com/sicpa-dlab/didcomm-jvm) | <notextile></notextile>
 Apache | [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt) | [org.didcommx # peerdid # 0.5.0](https://github.com/sicpa-dlab/peer-did-jvm) | <notextile></notextile>
-Apache | [The Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt) | [org.hyperledger.identus # apollo-jvm # 1.8.0](https://hyperledger-identus.github.io/docs/) | <notextile></notextile>
-Apache | [The Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt) | [org.hyperledger.identus # bip32-ed25519-jvm # 1.8.0](https://hyperledger-identus.github.io/docs/) | <notextile></notextile>
+Apache | [The Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt) | [org.hyperledger.identus # apollo-jvm # 1.8.0](https://identus.io/) | <notextile></notextile>
+Apache | [The Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt) | [org.hyperledger.identus # bip32-ed25519-jvm # 1.8.0](https://identus.io/) | <notextile></notextile>
 Apache | [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt) | [org.jetbrains.kotlin # kotlin-stdlib # 1.8.22](https://kotlinlang.org/) | <notextile></notextile>
 Apache | [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt) | [org.jetbrains.kotlin # kotlin-stdlib # 1.9.23](https://kotlinlang.org/) | <notextile></notextile>
 Apache | [The Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt) | [org.jetbrains.kotlin # kotlin-stdlib # 2.2.0](https://kotlinlang.org/) | <notextile></notextile>
