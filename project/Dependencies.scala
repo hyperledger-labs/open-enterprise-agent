@@ -5,7 +5,7 @@ object V {
   val munitZio = "0.4.0"
 
   // https://mvnrepository.com/artifact/dev.zio/zio
-  val zio = "2.1.26"
+  val zio = "2.1.27"
   val zioConfig = "4.0.8"
   val zioLogging = "2.5.3"
   val zioJson = "0.7.45"
