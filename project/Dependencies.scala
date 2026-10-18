@@ -11,7 +11,7 @@ object V {
   val zioJson = "0.10.0"
   val zioHttp = "3.11.6"
   val zioCatsInterop = "3.3.0" // TODO "23.1.0.2" // https://mvnrepository.com/artifact/dev.zio/zio-interop-cats
-  val zioMetricsConnector = "2.5.8"
+  val zioMetricsConnector = "2.6.0"
   val zioMock = "1.0.0-RC12"
   val zioKafka = "3.8.0"
   val mockito = "3.2.18.0"
