@@ -6,7 +6,7 @@ object V {
 
   // https://mvnrepository.com/artifact/dev.zio/zio
   val zio = "2.1.27"
-  val zioConfig = "4.0.8"
+  val zioConfig = "4.1.0"
   val zioLogging = "2.5.3"
   val zioJson = "0.7.45"
   val zioHttp = "3.7.4"
