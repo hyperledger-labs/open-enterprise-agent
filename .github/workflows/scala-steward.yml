@@ -36,7 +36,7 @@ jobs:
           echo "email:       ${{ steps.import_gpg.outputs.email }}"
 
       - name: Launch Scala Steward
-        uses: scala-steward-org/scala-steward-action@6162b21b93d4be314a61ce0462fd026630132fee # v2.96.0
+        uses: scala-steward-org/scala-steward-action@3e5cae868160200afda12b57c150e56cede989ab # v2.97.0
         with:
           github-token: ${{ secrets.HYP_BOT_STEWARD_GITHUB_TOKEN }}
           sign-commits: true
